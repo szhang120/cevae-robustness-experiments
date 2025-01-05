@@ -1,1 +1,1 @@
-![Project Poster](cs229_poster.png)
+![Project Poster](cs229_poster2.png)
