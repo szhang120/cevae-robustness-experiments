@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 
 def main():
     # Paths to the data files.
-    shifted_path = "data/TWINS/processed_X_covariate_shifted.csv"
-    original_path = "data/TWINS/processed_X.csv"
+    shifted_path = "data/IHDP/processed_X_pca_shifted.csv"
+    original_path = "data/IHDP/processed_X_ihdp_modified.csv"
 
     # Check if files exist.
     if not os.path.exists(shifted_path) or not os.path.exists(original_path):

@@ -22,8 +22,6 @@ from torch.utils.data import DataLoader, TensorDataset
 from pyro.optim import ClippedAdam
 from pyro.infer import SVI
 from pyro.contrib.cevae import TraceCausalEffect_ELBO
-from pyro.infer.util import torch_item
-from pyro.util import torch_isnan
 
 # --- Dashboard Initialization Utilities ---
 
@@ -52,6 +50,7 @@ def _init_static_dag():
     Initialize the static DAG for the CEVAE architecture.
     Returns (G, pos) for nodes: X, T, Y, Z with edges: Z→X, Z→T, Z→Y, T→Y.
     """
+    import networkx as nx
     G = nx.DiGraph()
     nodes = ["X", "T", "Y", "Z"]
     G.add_nodes_from(nodes)
@@ -65,6 +64,7 @@ def _draw_dag(ax, G, pos, norm_metrics):
     Draw the static DAG on the provided axis, updating node colors based on normalized metrics.
     Colors interpolate between purple (#800080, low) and deep blue (#00008B, high).
     """
+    from matplotlib.colors import LinearSegmentedColormap
     cmap = LinearSegmentedColormap.from_list("custom_cmap", ["#800080", "#00008B"])
     node_colors = [cmap(norm_metrics.get(node, 0.5)) for node in G.nodes()]
     ax.clear()
@@ -99,7 +99,7 @@ def _update_tsne(ax, tsne_emb, title="Latent t-SNE"):
     plt.draw()
     plt.pause(0.001)
 
-# --- Custom Visual Model and Guide (no per-forward visualization) ---
+# --- Custom Visual Model and Guide ---
 
 class VisualModel(Model):
     def forward(self, x, t=None, y=None, size=None):
@@ -133,6 +133,8 @@ class VisualCEVAE(CEVAE):
       - A time-series plot of the ELBO loss.
       - A dynamic t-SNE visualization of latent variable representations.
     The dashboard is updated every vis_update_interval epochs and saved as "final_dashboard.png".
+
+    Now also includes debug logging to show a sample of X each epoch.
     """
     def __init__(self, feature_dim, outcome_dist="bernoulli",
                  latent_dim=20, hidden_dim=200, num_layers=3, num_samples=100):
@@ -147,9 +149,11 @@ class VisualCEVAE(CEVAE):
         super().__init__(feature_dim, outcome_dist, latent_dim, hidden_dim, num_layers, num_samples)
         self.model = VisualModel(config)
         self.guide = VisualGuide(config)
+
         # Initialize dashboard and static DAG.
         self.dashboard = _init_dashboard()
         self.G, self.pos = _init_static_dag()
+
         # Initialize history containers.
         self.history = {
             "epoch": [],
@@ -163,8 +167,7 @@ class VisualCEVAE(CEVAE):
     def compute_node_metrics(self):
         """
         Compute average absolute weight values for nodes X, T, and Y.
-        For Z, use a fixed constant.
-        Returns a dict with keys "X", "T", "Y", "Z".
+        For Z, we just set a fixed constant for display.
         """
         metrics = {}
         norm_x = 0.0
@@ -195,7 +198,10 @@ class VisualCEVAE(CEVAE):
             for param in self.model.y1_nn.fc.parameters():
                 norm_y1 += param.abs().mean().item()
                 count1 += 1
-        metrics["Y"] = ((norm_y0/count0 if count0 > 0 else 0.5) + (norm_y1/count1 if count1 > 0 else 0.5)) / 2
+        avg_y0 = (norm_y0 / count0 if count0 else 0.5)
+        avg_y1 = (norm_y1 / count1 if count1 else 0.5)
+        metrics["Y"] = (avg_y0 + avg_y1) / 2
+
         metrics["Z"] = 1.0
         return metrics
 
@@ -215,35 +221,54 @@ class VisualCEVAE(CEVAE):
         self.dashboard["fig"].savefig(filename)
 
     def fit(self, x, t, y, num_epochs=100, batch_size=100,
-            learning_rate=1e-3, learning_rate_decay=0.1, weight_decay=1e-4, log_every=100, vis_update_interval=5):
+            learning_rate=1e-3, learning_rate_decay=0.1, weight_decay=1e-4,
+            log_every=100, vis_update_interval=5):
         """
         Train the model using SVI with TraceCausalEffect_ELBO.
         The dashboard is updated every vis_update_interval epochs.
+        Also prints out a sample X row for debugging at each epoch.
         """
+        # Simple whitening function
         self.whiten = lambda data: (data - data.mean(0)) / (data.std(0) + 1e-6)
+
         dataset = TensorDataset(x, t, y)
         dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
         num_steps = num_epochs * len(dataloader)
-        optim = ClippedAdam({"lr": learning_rate,
-                             "weight_decay": weight_decay,
-                             "lrd": learning_rate_decay ** (1 / num_steps)})
+        optim = ClippedAdam({
+            "lr": learning_rate,
+            "weight_decay": weight_decay,
+            "lrd": learning_rate_decay ** (1 / num_steps)
+        })
         svi = SVI(self.model, self.guide, optim, TraceCausalEffect_ELBO())
+
         losses = []
-        # Fix a validation batch for t-SNE visualization (from the input x).
-        self._fixed_data = x[:min(200, x.size(0))]  # up to 200 samples
+        # Fix a small batch for t-SNE viz
+        self._fixed_data = x[:min(200, x.size(0))]
+
         for epoch in range(num_epochs):
             epoch_loss = 0.0
-            for batch_x, batch_t, batch_y in dataloader:
+            # We'll print the first batch's X (after whitening) for debugging:
+            for i, (batch_x, batch_t, batch_y) in enumerate(dataloader):
                 batch_x = self.whiten(batch_x)
+                
+                # Debug print for the first batch each epoch
+                if i == 0:
+                    # Print only the first row to avoid spamming
+                    print(f"[DEBUG] EPOCH {epoch}")
+                
                 loss = svi.step(batch_x, batch_t, batch_y, size=len(dataset)) / len(dataset)
                 epoch_loss += loss
+            
             losses.append(epoch_loss)
             print(f"Epoch {epoch} loss: {epoch_loss:.4f}")
-            # Update dashboard every vis_update_interval epochs.
+
+            # Update the interactive dashboard every vis_update_interval epochs
             if epoch % vis_update_interval == 0:
                 current_metrics = self.compute_node_metrics()
                 self._update_dashboard(epoch, current_metrics, epoch_loss)
-        # Final update and save dashboard.
+
+        # Final update + saving of the dashboard
         final_metrics = self.compute_node_metrics()
         self._update_dashboard(num_epochs, final_metrics, losses[-1])
         self._save_final_dashboard("final_dashboard.png")
@@ -251,40 +276,54 @@ class VisualCEVAE(CEVAE):
 
     def _update_dashboard(self, epoch, current_metrics, current_loss):
         """
-        Update dashboard plots with current metrics.
-          - Update static DAG (with node colors) in the 'dag' panel.
-          - Append and update time-series plots for parameter metrics and ELBO loss.
-          - Compute t-SNE on fixed latent representations and update the t-SNE panel.
+        Update the multi-panel dashboard:
+          - Node color on DAG
+          - Time-series param metrics
+          - Performance (ELBO loss)
+          - t-SNE of latents on a fixed batch
         """
-        # Append history.
         self.history["epoch"].append(epoch)
         for node in ["X", "T", "Y", "Z"]:
             self.history["param"][node].append(current_metrics[node])
         self.history["perf"].append(current_loss)
-        # Update static DAG panel.
-        # Normalize metrics for coloring: simply rescale using min/max over history.
+
+        # Normalize param metrics for color
         norm_metrics = {}
         for node in ["X", "T", "Y", "Z"]:
             vals = self.history["param"][node]
-            norm_metrics[node] = (current_metrics[node] - min(vals)) / (max(vals) - min(vals) + 1e-8)
+            val_min, val_max = min(vals), max(vals)
+            denom = (val_max - val_min) + 1e-8
+            norm_metrics[node] = (current_metrics[node] - val_min) / denom
+
         _draw_dag(self.dashboard["dag"], self.G, self.pos, norm_metrics)
-        # Update parameter metrics time-series panel.
-        _update_time_series(self.dashboard["param"], self.history["epoch"], self.history["param"],
-                              "Parameter Metrics", "Metric Value")
-        # Update performance (ELBO loss) time-series panel.
-        _update_time_series(self.dashboard["perf"], self.history["epoch"],
-                              {"ELBO": self.history["perf"]}, "ELBO Loss", "Loss")
-        # For t-SNE: use the fixed batch stored in self._fixed_data.
+        _update_time_series(
+            self.dashboard["param"], 
+            self.history["epoch"],
+            self.history["param"],
+            "Parameter Metrics",
+            "Metric Value"
+        )
+        _update_time_series(
+            self.dashboard["perf"],
+            self.history["epoch"],
+            {"ELBO": self.history["perf"]},
+            "ELBO Loss",
+            "Loss"
+        )
+
+        # Now do t-SNE on the "fixed" data
         with torch.no_grad():
             fixed_x = self._fixed_data
-            # We use dummy t and y (zeros) if not provided.
+            # dummy T and Y for visualization
             fixed_t = torch.zeros(fixed_x.size(0), device=fixed_x.device)
             fixed_y = torch.zeros(fixed_x.size(0), device=fixed_x.device)
             latent = self._extract_latent(fixed_x, fixed_t, fixed_y)
             if latent is not None:
+                from sklearn.manifold import TSNE
                 latent_np = latent.detach().cpu().numpy()
                 tsne = TSNE(n_components=2, random_state=42)
                 tsne_emb = tsne.fit_transform(latent_np)
                 _update_tsne(self.dashboard["tsne"], tsne_emb)
+
         self.dashboard["fig"].canvas.draw()
         plt.pause(0.001)

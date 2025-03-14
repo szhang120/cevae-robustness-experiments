@@ -2,44 +2,234 @@ Directory Tree:
 cevae-robustness-experiments/
 │   ├── .DS_Store
 │   ├── models.py
+│   ├── latent_conf_ihdp.py
+│   ├── pca_shift_ihdp.py
 │   ├── train_test.py
 │   ├── cs229_poster2.png
 │   ├── README.md
-│   ├── 1_final_dashboard.png
-│   ├── final_visualization.png
+│   ├── concatenate_ihdp.py
+│   ├── pca_shift_ihdp_modified.py
 │   ├── full_code.txt
 │   ├── utils.py
+│   ├── apply_target_shift.py
 │   ├── main.py
+│   ├── contrast_versions.py
 │   ├── visual_cevae.py
 │   ├── cs229_final_report.pdf
 │   ├── analyze_shifts.py
+│   ├── shift_pca.py
 │   ├── data.py
 │   ├── final_dashboard.png
+│   ├── contrast_plots/
+│   │   ├── dmar_contrast.png
+│   │   ├── dlivord_min_contrast.png
+│   │   ├── birattnd_contrast.png
+│   │   ├── nprevistq_contrast.png
+│   │   ├── mager8_contrast.png
+│   │   ├── brstate_contrast.png
+│   │   ├── mplbir_contrast.png
+│   │   ├── bord_contrast.png
+│   │   ├── renal_contrast.png
+│   │   ├── dtotord_min_contrast.png
+│   │   ├── feduc6_contrast.png
+│   │   ├── chyper_contrast.png
+│   │   ├── tobacco_contrast.png
+│   │   ├── mpre5_contrast.png
+│   │   ├── lung_contrast.png
+│   │   ├── orfath_contrast.png
+│   │   ├── uterine_contrast.png
+│   │   ├── preterm_contrast.png
+│   │   ├── data_year_contrast.png
+│   │   ├── crace_contrast.png
+│   │   ├── phyper_contrast.png
+│   │   ├── drink5_contrast.png
+│   │   ├── hydra_contrast.png
+│   │   ├── diabetes_contrast.png
+│   │   ├── incervix_contrast.png
+│   │   ├── csex_contrast.png
+│   │   ├── cigar6_contrast.png
+│   │   ├── herpes_contrast.png
+│   │   ├── eclamp_contrast.png
+│   │   ├── ormoth_contrast.png
+│   │   ├── alcohol_contrast.png
+│   │   ├── adequacy_contrast.png
+│   │   ├── meduc6_contrast.png
+│   │   ├── anemia_contrast.png
+│   │   ├── hemo_contrast.png
+│   │   ├── birmon_contrast.png
+│   │   ├── pre4000_contrast.png
+│   │   ├── cardiac_contrast.png
+│   │   ├── dfageq_contrast.png
+│   │   ├── mrace_contrast.png
+│   │   ├── rh_contrast.png
+│   │   ├── pldel_contrast.png
+│   │   ├── stoccfipb_contrast.png
+│   ├── shift_analysis_plots/
+│   │   ├── distribution_pre4000.png
+│   │   ├── distribution_uterine.png
+│   │   ├── distribution_dtotord_min.png
+│   │   ├── distribution_lung.png
+│   │   ├── distribution_data_year.png
+│   │   ├── distribution_eclamp.png
+│   │   ├── distribution_dlivord_min.png
+│   │   ├── distribution_feduc6.png
+│   │   ├── distribution_mrace.png
+│   │   ├── distribution_csex.png
+│   │   ├── distribution_meduc6.png
+│   │   ├── distribution_x8.png
+│   │   ├── distribution_x15.png
+│   │   ├── distribution_ormoth.png
+│   │   ├── distribution_x14.png
+│   │   ├── distribution_x16.png
+│   │   ├── distribution_rh.png
+│   │   ├── distribution_preterm.png
+│   │   ├── distribution_x17.png
+│   │   ├── distribution_x13.png
+│   │   ├── distribution_x12.png
+│   │   ├── distribution_orfath.png
+│   │   ├── distribution_stoccfipb.png
+│   │   ├── distribution_renal.png
+│   │   ├── distribution_cardiac.png
+│   │   ├── distribution_x10.png
+│   │   ├── distribution_x11.png
+│   │   ├── distribution_x20.png
+│   │   ├── distribution_x21.png
+│   │   ├── distribution_adequacy.png
+│   │   ├── distribution_phyper.png
+│   │   ├── distribution_cigar6.png
+│   │   ├── distribution_birmon.png
+│   │   ├── distribution_x23.png
+│   │   ├── distribution_birattnd.png
+│   │   ├── distribution_x22.png
+│   │   ├── distribution_pldel.png
+│   │   ├── distribution_crace.png
+│   │   ├── distribution_mager8.png
+│   │   ├── distribution_anemia.png
+│   │   ├── distribution_mpre5.png
+│   │   ├── distribution_x25.png
+│   │   ├── distribution_x19.png
+│   │   ├── distribution_x18.png
+│   │   ├── distribution_x24.png
+│   │   ├── distribution_x4.png
+│   │   ├── distribution_brstate.png
+│   │   ├── distribution_x5.png
+│   │   ├── distribution_hemo.png
+│   │   ├── distribution_dmar.png
+│   │   ├── distribution_mplbir.png
+│   │   ├── distribution_dfageq.png
+│   │   ├── distribution_diabetes.png
+│   │   ├── distribution_x7.png
+│   │   ├── distribution_hydra.png
+│   │   ├── distribution_bord.png
+│   │   ├── distribution_tobacco.png
+│   │   ├── distribution_x6.png
+│   │   ├── distribution_chyper.png
+│   │   ├── distribution_herpes.png
+│   │   ├── distribution_x2.png
+│   │   ├── distribution_x3.png
+│   │   ├── distribution_nprevistq.png
+│   │   ├── distribution_alcohol.png
+│   │   ├── distribution_x1.png
+│   │   ├── distribution_incervix.png
+│   │   ├── distribution_drink5.png
+│   ├── target_shift_plots/
+│   │   ├── before_after_stoccfipb.png
 │   ├── __pycache__/ [EXCLUDED]
+│   ├── pca_shift_plots/
+│   │   ├── PC3_before_after.png
+│   │   ├── PC2_before_after.png
+│   │   ├── PC2_distribution.png
+│   │   ├── PC1_before_after.png
+│   │   ├── PC5_before_after.png
+│   │   ├── PC4_before_after.png
+│   ├── random_visuals/
+│   │   ├── 1_final_dashboard.png
+│   │   ├── final_visualization.png
+│   │   ├── final_dashboard.png
+│   │   ├── __pycache__/ [EXCLUDED]
+│   ├── all_shift_plots/
+│   │   ├── before_after_diabetes.png
+│   │   ├── before_after_herpes.png
+│   │   ├── before_after_chyper.png
+│   │   ├── before_after_dfageq.png
+│   │   ├── before_after_data_year.png
+│   │   ├── before_after_mplbir.png
+│   │   ├── before_after_incervix.png
+│   │   ├── before_after_hydra.png
+│   │   ├── before_after_drink5.png
+│   │   ├── before_after_birattnd.png
+│   │   ├── before_after_pldel.png
+│   │   ├── before_after_crace.png
+│   │   ├── before_after_bord.png
+│   │   ├── before_after_mpre5.png
+│   │   ├── before_after_alcohol.png
+│   │   ├── before_after_adequacy.png
+│   │   ├── before_after_birmon.png
+│   │   ├── before_after_cigar6.png
+│   │   ├── before_after_hemo.png
+│   │   ├── before_after_dmar.png
+│   │   ├── before_after_phyper.png
+│   │   ├── before_after_anemia.png
+│   │   ├── before_after_mager8.png
+│   │   ├── before_after_dtotord_min.png
+│   │   ├── before_after_tobacco.png
+│   │   ├── before_after_brstate.png
+│   │   ├── before_after_dlivord_min.png
+│   │   ├── before_after_stoccfipb.png
+│   │   ├── before_after_lung.png
+│   │   ├── before_after_ormoth.png
+│   │   ├── before_after_renal.png
+│   │   ├── before_after_orfath.png
+│   │   ├── before_after_rh.png
+│   │   ├── before_after_uterine.png
+│   │   ├── before_after_pre4000.png
+│   │   ├── before_after_csex.png
+│   │   ├── before_after_cardiac.png
+│   │   ├── before_after_mrace.png
+│   │   ├── before_after_eclamp.png
+│   │   ├── before_after_preterm.png
+│   │   ├── before_after_nprevistq.png
+│   │   ├── before_after_feduc6.png
+│   │   ├── before_after_meduc6.png
 │   ├── .git/ [EXCLUDED]
 │   ├── data/
 │   │   ├── .DS_Store
+│   │   ├── c
 │   │   ├── TWINS/
 │   │   │   ├── top_correlated_covariates.csv
 │   │   │   ├── processed_y.csv
 │   │   │   ├── processed_X_covariate_shifted.csv
-│   │   │   ├── twin_pairs_T_3years_samesex.csv
-│   │   │   ├── twin_pairs_Y_3years_samesex.csv
 │   │   │   ├── processed_X.csv
+│   │   │   ├── processed_X_indexed.csv
+│   │   │   ├── processed_X_stoccfipb.csv
 │   │   │   ├── processed_X_44.csv
 │   │   │   ├── processed_t.csv
-│   │   │   ├── twin_pairs_X_3years_samesex.csv
-│   │   │   ├── processed_z_p0.3.csv
-│   │   │   ├── processed_z_p0.2.csv
 │   │   │   ├── processed_z_p0.0.csv
-│   │   │   ├── processed_z_p0.1.csv
-│   │   │   ├── processed_z_p0.5.csv
-│   │   │   ├── processed_z_p0.4.csv
+│   │   │   ├── processed_X_allshifted.csv
+│   │   │   ├── processed_X_pca_shifted.csv
+│   │   │   ├── processed_z_V5/
+│   │   │   ├── processed_z_V2/
+│   │   │   ├── processed_z_V3/
+│   │   │   ├── processed_z_V4/
+│   │   │   ├── processed_z_V1/
+│   │   │   │   ├── processed_z_p0.3.csv
+│   │   │   │   ├── processed_z_p0.2.csv
+│   │   │   │   ├── processed_z_p0.1.csv
+│   │   │   │   ├── processed_z_p0.5.csv
+│   │   │   │   ├── processed_z_p0.4.csv
 │   │   ├── IHDP/
 │   │   │   ├── .DS_Store
 │   │   │   ├── columns.txt
-│   │   │   ├── concatenated_ihdp.csv
+│   │   │   ├── processed_X_ihdp_modified.csv
+│   │   │   ├── processed_Z_pca.csv
+│   │   │   ├── processed_Z_ihdp_p0.1.csv
+│   │   │   ├── processed_Z_ihdp_p0.3.csv
+│   │   │   ├── processed_Z_ihdp_p0.2.csv
+│   │   │   ├── processed_X_pca_shifted.csv
+│   │   │   ├── processed_Z_ihdp_p0.5.csv
+│   │   │   ├── processed_Z_ihdp_p0.4.csv
 │   │   │   ├── csv/
+│   │   │   │   ├── concatenated_ihdp.csv
 │   │   │   │   ├── ihdp_npci_5.csv
 │   │   │   │   ├── ihdp_npci_4.csv
 │   │   │   │   ├── ihdp_npci_6.csv
@@ -50,6 +240,31 @@ cevae-robustness-experiments/
 │   │   │   │   ├── ihdp_npci_10.csv
 │   │   │   │   ├── ihdp_npci_9.csv
 │   │   │   │   ├── ihdp_npci_8.csv
+│   ├── contrast_ihdp_plots/
+│   │   ├── x18_contrast.png
+│   │   ├── x19_contrast.png
+│   │   ├── x6_contrast.png
+│   │   ├── x1_contrast.png
+│   │   ├── x22_contrast.png
+│   │   ├── x25_contrast.png
+│   │   ├── x13_contrast.png
+│   │   ├── x14_contrast.png
+│   │   ├── x24_contrast.png
+│   │   ├── x23_contrast.png
+│   │   ├── x7_contrast.png
+│   │   ├── x15_contrast.png
+│   │   ├── x12_contrast.png
+│   │   ├── x21_contrast.png
+│   │   ├── x5_contrast.png
+│   │   ├── x2_contrast.png
+│   │   ├── x10_contrast.png
+│   │   ├── x17_contrast.png
+│   │   ├── x3_contrast.png
+│   │   ├── x4_contrast.png
+│   │   ├── x20_contrast.png
+│   │   ├── x16_contrast.png
+│   │   ├── x11_contrast.png
+│   │   ├── x8_contrast.png
 
 
 
@@ -76,13 +291,263 @@ class CEVAEWithZ(VisualCEVAE):
 
 
 # ======================
+# File: latent_conf_ihdp.py
+# ======================
+
+#!/usr/bin/env python3
+"""
+latent_conf_ihdp.py
+
+This script processes the IHDP concatenated CSV (with 25 covariates) to extract a latent confounder.
+It performs the following:
+  1. Identifies the ordinal covariate (among x1 ... x25) that is most correlated with the continuous outcome y_factual.
+  2. One–hot encodes that covariate.
+  3. Replicates the one–hot encoding three times and pads/trims to create a 30-dimensional vector.
+  4. For each flipping probability p in {0.1, 0.2, 0.3, 0.4, 0.5}, flips each bit with probability p
+     to create five noisy versions of the latent confounder Z.
+  5. Removes the selected covariate from the original set, saving a modified covariate dataset with 24 columns.
+"""
+
+import os
+import argparse
+import pandas as pd
+import numpy as np
+from scipy.stats import pearsonr
+
+def is_ordinal(values, tol=1e-5):
+    """Return True if all values are nearly integers."""
+    return np.allclose(values, np.round(values), atol=tol)
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Extract the most correlated ordinal covariate as a latent confounder Z and remove it from X."
+    )
+    parser.add_argument("--input-file", type=str, default="data/IHDP/csv/concatenated_ihdp.csv",
+                        help="Path to the IHDP concatenated CSV file.")
+    parser.add_argument("--output-x", type=str, default="data/IHDP/processed_X_ihdp_modified.csv",
+                        help="Path to save modified IHDP covariates (24 columns).")
+    parser.add_argument("--output-z-prefix", type=str, default="data/IHDP/processed_Z_ihdp",
+                        help="Output prefix for latent confounder Z datasets. (Suffix will include flip probability.)")
+    args = parser.parse_args()
+
+    # Load the concatenated IHDP CSV.
+    df = pd.read_csv(args.input_file)
+    expected_cols = ["treatment", "y_factual", "y_cfactual", "mu0", "mu1"] + [f"x{i}" for i in range(1,26)]
+    for col in expected_cols:
+        if col not in df.columns:
+            raise ValueError(f"Missing expected column: {col}")
+
+    # Outcome is y_factual.
+    outcome = df["y_factual"].values.astype(float)
+
+    # Identify ordinal covariates among x1...x25.
+    ordinal_corr = {}
+    for i in range(1,26):
+        col = f"x{i}"
+        values = df[col].values.astype(float)
+        if is_ordinal(values):
+            corr, _ = pearsonr(values, outcome)
+            ordinal_corr[col] = abs(corr)
+    if not ordinal_corr:
+        raise ValueError("No ordinal covariate found among x1...x25.")
+    # Select the ordinal covariate with highest absolute correlation.
+    selected_cov = max(ordinal_corr, key=ordinal_corr.get)
+    print("Selected ordinal covariate:", selected_cov, "with absolute correlation:", ordinal_corr[selected_cov])
+
+    # One-hot encode the selected covariate.
+    selected_values = df[selected_cov].values.astype(int)
+    categories = np.unique(selected_values)
+    one_hot = np.zeros((len(selected_values), len(categories)), dtype=int)
+    for idx, cat in enumerate(categories):
+        one_hot[:, idx] = (selected_values == cat).astype(int)
+    
+    # Replicate the one-hot encoding three times.
+    replicated = np.tile(one_hot, (1, 3))
+    d = replicated.shape[1]
+    # Trim or pad to 30 dimensions.
+    if d > 30:
+        replicated = replicated[:, :30]
+    elif d < 30:
+        pad_width = 30 - d
+        replicated = np.hstack([replicated, np.zeros((replicated.shape[0], pad_width), dtype=int)])
+    
+    # Generate five versions of Z by flipping bits with probability p.
+    flip_ps = [0.1, 0.2, 0.3, 0.4, 0.5]
+    for p in flip_ps:
+        noisy_Z = replicated.copy()
+        flip_mask = np.random.rand(*noisy_Z.shape) < p
+        noisy_Z[flip_mask] = 1 - noisy_Z[flip_mask]
+        out_file = f"{args.output_z_prefix}_p{p}.csv"
+        pd.DataFrame(noisy_Z, columns=[f"z{i+1}" for i in range(noisy_Z.shape[1])]).to_csv(out_file, index=False)
+        print(f"Noisy latent confounder Z with p={p} saved to: {out_file}")
+
+    # Remove the selected covariate from X.
+    covariate_cols = [f"x{i}" for i in range(1,26)]
+    remaining_covs = [col for col in covariate_cols if col != selected_cov]
+    modified_X = df[remaining_covs]
+    modified_X.to_csv(args.output_x, index=False)
+    print(f"Modified IHDP covariate dataset (24 covariates) saved to: {args.output_x}")
+
+if __name__ == "__main__":
+    main()
+
+
+# ======================
+# File: pca_shift_ihdp.py
+# ======================
+
+#!/usr/bin/env python3
+"""
+pca_shift_ihdp.py
+
+This script performs PCA on the IHDP covariates (columns x1 to x25 from the concatenated IHDP CSV),
+then (a) induces a maximal covariate shift on the largest principal component (PC1) by flipping its values,
+and (b) extracts a “latent confounder” from a smaller (but not the smallest) principal component (PC2).
+
+The outputs are:
+  - A new covariate dataset with the maximal shift applied (saved as processed_X_pca_shifted_max.csv),
+    which retains the same header (x1,...,x25) as the original IHDP covariate file.
+  - A latent confounder dataset (a single-column CSV, saved as processed_Z_pca.csv) with the PC2 values.
+
+These files are created in the data/IHDP/ directory so that the IHDP data‐loader can use them for training/evaluation.
+"""
+
+import os
+import argparse
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+def flip_values(arr):
+    """
+    Given a 1D numpy array, return a flipped version:
+    new_value = max + min - original.
+    """
+    min_val = np.min(arr)
+    max_val = np.max(arr)
+    return max_val + min_val - arr
+
+def plot_pc_distribution(before, after, pc_index, plot_file):
+    """
+    Plot overlay histograms for a given principal component (pc_index)
+    before and after shifting.
+    """
+    plt.figure(figsize=(8, 6))
+    plt.hist(before, bins=50, alpha=0.5, density=True, label="Before Shift")
+    plt.hist(after, bins=50, alpha=0.5, density=True, label="After Shift")
+    plt.title(f"PC{pc_index+1} Distribution Before vs. After Shift")
+    plt.xlabel(f"PC{pc_index+1} Score")
+    plt.ylabel("Density")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(plot_file)
+    plt.close()
+    print(f"Plot saved to {plot_file}")
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Perform PCA on IHDP covariates, induce maximal shift on PC1, and extract PC2 as latent confounder Z."
+    )
+    parser.add_argument("--input-file", type=str, default="data/IHDP/csv/concatenated_ihdp.csv",
+                        help="Path to the IHDP concatenated CSV file (default: data/IHDP/csv/concatenated_ihdp.csv)")
+    parser.add_argument("--n-components", type=int, default=25,
+                        help="Number of PCA components to compute (default: 25, equal to number of covariates)")
+    parser.add_argument("--plot-dir", type=str, default="pca_shift_plots",
+                        help="Directory to save the PC before/after plots (default: pca_shift_plots)")
+    args = parser.parse_args()
+
+    # Load the IHDP concatenated CSV.
+    if not os.path.exists(args.input_file):
+        print(f"Error: Input file '{args.input_file}' does not exist.")
+        return
+
+    df_full = pd.read_csv(args.input_file)
+    # Expect these columns:
+    expected_cols = ["treatment", "y_factual", "y_cfactual", "mu0", "mu1"] + [f"x{i}" for i in range(1,26)]
+    if not all(col in df_full.columns for col in expected_cols):
+        raise ValueError("The IHDP CSV file does not contain the expected columns.")
+
+    # Extract covariates (assumed to be x1,...,x25)
+    covariate_cols = [f"x{i}" for i in range(1,26)]
+    X_orig = df_full[covariate_cols].values  # shape (n_samples, 25)
+
+    # Standardize the covariates.
+    scaler = StandardScaler()
+    X_std = scaler.fit_transform(X_orig)
+
+    # Perform PCA.
+    pca = PCA(n_components=args.n_components)
+    PCs = pca.fit_transform(X_std)
+    print("Explained variance ratios for computed components:")
+    for i, ratio in enumerate(pca.explained_variance_ratio_):
+        print(f"PC{i+1}: {ratio:.4f}")
+
+    # ---- Dataset 1: Maximal shift on the largest PC (PC1) ----
+    # Copy the PCA scores and flip the first principal component.
+    PCs_shifted = np.copy(PCs)
+    original_pc1 = PCs[:, 0]
+    flipped_pc1 = flip_values(original_pc1)
+    PCs_shifted[:, 0] = flipped_pc1
+
+    # (Optional) Plot PC1 distribution before and after shifting.
+    if not os.path.exists(args.plot_dir):
+        os.makedirs(args.plot_dir, exist_ok=True)
+    plot_file_pc1 = os.path.join(args.plot_dir, "PC1_before_after.png")
+    plot_pc_distribution(original_pc1, flipped_pc1, 0, plot_file_pc1)
+
+    # Reconstruct the shifted covariates.
+    X_shifted_std = pca.inverse_transform(PCs_shifted)
+    X_shifted = scaler.inverse_transform(X_shifted_std)
+    # Create a DataFrame with the same covariate column names.
+    df_X_shifted = pd.DataFrame(X_shifted, columns=covariate_cols)
+    # Save the new covariate dataset.
+    output_X_file = os.path.join("data", "IHDP", "processed_X_pca_shifted_max.csv")
+    df_X_shifted.to_csv(output_X_file, index=False)
+    print(f"New IHDP covariate dataset with maximal shift on PC1 saved to: {output_X_file}")
+
+    # ---- Dataset 2: Encode a smaller-but-not-the-smallest PC (choose PC2) as latent confounder Z ----
+    # Here we take PC2 (index 1) from the original PCA (from standardized data).
+    latent_conf = PCs[:, 1]  # shape (n_samples,)
+    # Optionally, plot PC2 distribution.
+    plot_file_pc2 = os.path.join(args.plot_dir, "PC2_distribution.png")
+    plt.figure(figsize=(8,6))
+    plt.hist(latent_conf, bins=50, alpha=0.7, density=True)
+    plt.title("PC2 Distribution (Used as Latent Confounder Z)")
+    plt.xlabel("PC2 Score")
+    plt.ylabel("Density")
+    plt.tight_layout()
+    plt.savefig(plot_file_pc2)
+    plt.close()
+    print(f"PC2 distribution plot saved to: {plot_file_pc2}")
+
+    # Save the latent confounder as a one-column CSV.
+    df_Z = pd.DataFrame(latent_conf, columns=["latent_conf"])
+    output_Z_file = os.path.join("data", "IHDP", "processed_Z_pca.csv")
+    df_Z.to_csv(output_Z_file, index=False)
+    print(f"Latent confounder Z (from PC2) saved to: {output_Z_file}")
+
+if __name__ == "__main__":
+    main()
+
+
+# ======================
 # File: train_test.py
 # ======================
+
+"""
+train_test.py
+
+This module implements training, cross-validation, and evaluation pipelines for causal effect estimation
+using both CEVAE (with latent confounder Z) and several baseline models.
+It contains functions for K-fold cross-validation on both Twins and IHDP datasets.
+"""
 
 import numpy as np
 import torch
 import pyro
-
+from sklearn.model_selection import KFold
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.svm import SVR
 from xgboost import XGBRegressor
@@ -92,21 +557,36 @@ from utils import (
     estimate_ite_dml,
     estimate_ite_xlearner,
     evaluate_ite,
-    estimate_ite_direct
+    estimate_ite_direct,
 )
 from models import CEVAEWithZ
 
+# --- Cross-validation functions for Twins ---
 
-def cross_validate_models(XZ, t, y, y_true, K=5, seed=0):
+def cross_validate_models_twins(
+    XZ: np.ndarray,
+    t: np.ndarray,
+    y: np.ndarray,
+    true_ite: np.ndarray,
+    K: int = 5,
+    seed: int = 0,
+) -> dict:
     """
-    Perform K-fold CV
+    Performs K-fold cross-validation for non-CEVAE models on the Twins dataset.
+    
+    Args:
+        XZ: Concatenated covariate and Z features.
+        t, y: Treatment and outcome arrays.
+        true_ite: True individual treatment effects.
+        K: Number of folds.
+        seed: Random seed.
+    
+    Returns:
+        Dictionary with average performance metrics per model.
     """
-    from sklearn.model_selection import KFold
-
     N = XZ.shape[0]
     N_pairs = N // 2
     pair_indices = np.arange(N_pairs)
-
     kf = KFold(n_splits=K, shuffle=True, random_state=seed)
 
     results_cv = {
@@ -119,24 +599,26 @@ def cross_validate_models(XZ, t, y, y_true, K=5, seed=0):
     }
 
     for train_pairs, val_pairs in kf.split(pair_indices):
+        # Map pair indices to twin indices
         train_twin0 = 2 * train_pairs
         train_twin1 = 2 * train_pairs + 1
         val_twin0 = 2 * val_pairs
         val_twin1 = 2 * val_pairs + 1
 
-        # for direct-ITE regressions
         XZ_train_pairs = XZ[train_twin0]
         y_train_ite = (y[train_twin1] - y[train_twin0]).ravel()
 
         XZ_val_pairs = XZ[val_twin0]
         y_true_val = (y[val_twin1] - y[val_twin0]).ravel()
 
+        # XGBoost baseline
         est_ite_xgb = estimate_ite_direct(
             XGBRegressor, XZ_train_pairs, y_train_ite, XZ_val_pairs
         )
         ate_xgb, pehe_xgb, ate_abs_error_xgb = evaluate_ite(y_true_val, est_ite_xgb)
         results_cv["XGBoost"].append((ate_xgb, pehe_xgb, ate_abs_error_xgb))
 
+        # SVM baseline
         est_ite_svm = estimate_ite_direct(
             SVR, XZ_train_pairs, y_train_ite, XZ_val_pairs,
             kernel='rbf', C=1.0
@@ -144,6 +626,7 @@ def cross_validate_models(XZ, t, y, y_true, K=5, seed=0):
         ate_svm, pehe_svm, ate_abs_error_svm = evaluate_ite(y_true_val, est_ite_svm)
         results_cv["SVM"].append((ate_svm, pehe_svm, ate_abs_error_svm))
 
+        # KNN baseline
         est_ite_knn = estimate_ite_direct(
             KNeighborsRegressor, XZ_train_pairs, y_train_ite, XZ_val_pairs,
             n_neighbors=5
@@ -151,97 +634,430 @@ def cross_validate_models(XZ, t, y, y_true, K=5, seed=0):
         ate_knn, pehe_knn, ate_abs_error_knn = evaluate_ite(y_true_val, est_ite_knn)
         results_cv["KNN"].append((ate_knn, pehe_knn, ate_abs_error_knn))
 
+        # IPW estimation
         XZ_train_full = np.concatenate([XZ[train_twin0], XZ[train_twin1]], axis=0)
         t_train_full = np.concatenate([t[train_twin0], t[train_twin1]])
         y_train_full = np.concatenate([y[train_twin0], y[train_twin1]])
-
         ate_ipw = estimate_ate_ipw(XZ_train_full, t_train_full, y_train_full)
         ate_true_ipw = np.mean(y_true_val)
         ate_abs_error_ipw = np.abs(ate_ipw - ate_true_ipw)
         results_cv["IPW"].append((ate_ipw, None, ate_abs_error_ipw))
 
+        # DML estimation
         est_ite_dml_val = estimate_ite_dml(XZ_train_full, t_train_full, y_train_full, XZ_val_pairs)
         ate_dml, pehe_dml, ate_abs_error_dml = evaluate_ite(y_true_val, est_ite_dml_val)
         results_cv["DML"].append((ate_dml, pehe_dml, ate_abs_error_dml))
 
+        # X-Learner estimation
         est_ite_xl = estimate_ite_xlearner(XZ_train_full, t_train_full, y_train_full, XZ_val_pairs)
         ate_xl, pehe_xl, ate_abs_error_xl = evaluate_ite(y_true_val, est_ite_xl)
         results_cv["X-Learner"].append((ate_xl, pehe_xl, ate_abs_error_xl))
 
-    # collect results
     avg_results_cv = {}
     for model, vals in results_cv.items():
         ates = [v[0] for v in vals]
         pehes = [v[1] for v in vals if v[1] is not None]
         ate_abs_errors = [v[2] for v in vals]
-
-        ate_mean = np.mean(ates)
-        ate_std = np.std(ates)
-        ate_abs_error_mean = np.mean(ate_abs_errors)
-        ate_abs_error_std = np.std(ate_abs_errors)
-
-        if len(pehes) > 0:
-            pehe_mean = np.mean(pehes)
-            pehe_std = np.std(pehes)
-        else:
-            pehe_mean = None
-            pehe_std = None
-
         avg_results_cv[model] = {
-            "ATE_mean": ate_mean,
-            "ATE_std": ate_std,
-            "ATE_Abs_Error_mean": ate_abs_error_mean,
-            "ATE_Abs_Error_std": ate_abs_error_std,
-            "PEHE_mean": pehe_mean,
-            "PEHE_std": pehe_std
+            "ATE_mean": np.mean(ates),
+            "ATE_std": np.std(ates),
+            "ATE_Abs_Error_mean": np.mean(ate_abs_errors),
+            "ATE_Abs_Error_std": np.std(ate_abs_errors),
+            "PEHE_mean": np.mean(pehes) if pehes else None,
+            "PEHE_std": np.std(pehes) if pehes else None,
         }
-
     return avg_results_cv
 
 
-def train_and_evaluate(args, 
-                       X, t, y, Z, 
-                       X_train, t_train, y_train, Z_train,
-                       X_test, t_test, y_test, Z_test,
-                       true_ite_train, true_ite_test,
-                       XZ_train, t_train_np, y_train_np,
-                       train_twin0, train_twin1,
-                       test_twin0, test_twin1):
+def cross_validate_cevae_twins(
+    X: torch.Tensor,
+    t: torch.Tensor,
+    y: torch.Tensor,
+    Z: torch.Tensor,
+    true_ite: np.ndarray,
+    num_epochs: int,
+    batch_size: int,
+    learning_rate: float,
+    learning_rate_decay: float,
+    weight_decay: float,
+    latent_dim: int,
+    hidden_dim: int,
+    num_layers: int,
+    cv_folds: int = 5,
+    seed: int = 0,
+) -> dict:
     """
-    Execute the entire training, validation (via CV), and testing pipeline.
+    Performs K-fold cross-validation for the CEVAE model on the Twins dataset.
+    Splitting is done at the pair level to respect the paired structure.
+    
+    Args:
+        X, t, y, Z: Full dataset tensors.
+        true_ite: True ITE values computed from twin differences.
+        Other parameters: training hyperparameters.
+    
+    Returns:
+        Dictionary with averaged ATE, PEHE, and absolute ATE error.
+    """
+    total_samples = X.shape[0]
+    N_pairs = total_samples // 2
+    pair_indices = np.arange(N_pairs)
+    kf = KFold(n_splits=cv_folds, shuffle=True, random_state=seed)
+    results = []
+
+    for train_pairs, val_pairs in kf.split(pair_indices):
+        train_twin0 = 2 * train_pairs
+        train_twin1 = 2 * train_pairs + 1
+        val_twin0 = 2 * val_pairs
+        val_twin1 = 2 * val_pairs + 1
+
+        X_train = torch.cat([X[train_twin0], X[train_twin1]], dim=0)
+        t_train = torch.cat([t[train_twin0], t[train_twin1]], dim=0)
+        y_train = torch.cat([y[train_twin0], y[train_twin1]], dim=0)
+        Z_train = torch.cat([Z[train_twin0], Z[train_twin1]], dim=0)
+
+        X_val = X[val_twin0]  # use one twin from each pair for validation
+        Z_val = Z[val_twin0]
+        # True ITE for validation: difference of paired outcomes
+        true_ite_val = (y[val_twin1] - y[val_twin0]).numpy()
+
+        new_feature_dim = X.shape[1] + Z.shape[1]
+
+        cevae = CEVAEWithZ(
+            feature_dim=new_feature_dim,
+            latent_dim=latent_dim,
+            hidden_dim=hidden_dim,
+            num_layers=num_layers,
+            outcome_dist="normal",
+            num_samples=10,
+        )
+
+        cevae.fit(
+            X_train, t_train, y_train, z=Z_train,
+            num_epochs=num_epochs,
+            batch_size=batch_size,
+            learning_rate=learning_rate,
+            learning_rate_decay=learning_rate_decay,
+            weight_decay=weight_decay,
+        )
+
+        est_ite_val = cevae.ite(X_val, Z_val).detach().cpu().numpy()
+        ate, pehe, ate_abs_error = evaluate_ite(true_ite_val, est_ite_val)
+        results.append((ate, pehe, ate_abs_error))
+
+    avg_results = {
+        "ATE_mean": np.mean([r[0] for r in results]),
+        "ATE_std": np.std([r[0] for r in results]),
+        "PEHE_mean": np.mean([r[1] for r in results]),
+        "PEHE_std": np.std([r[1] for r in results]),
+        "ATE_Abs_Error_mean": np.mean([r[2] for r in results]),
+        "ATE_Abs_Error_std": np.std([r[2] for r in results]),
+    }
+    return avg_results
+
+
+# --- Cross-validation functions for IHDP ---
+
+def estimate_ite_direct_ihdp(model_class, X_train, y_train, t_train, X_val, **model_kwargs):
+    """
+    Direct ITE estimation for IHDP using two separate models (one for treated, one for control).
+    """
+    treated_idx = (t_train == 1).squeeze().numpy().astype(bool)
+    control_idx = (t_train == 0).squeeze().numpy().astype(bool)
+    model_t = model_class(**model_kwargs)
+    model_c = model_class(**model_kwargs)
+    model_t.fit(X_train[treated_idx], y_train[treated_idx])
+    model_c.fit(X_train[control_idx], y_train[control_idx])
+    pred_t = model_t.predict(X_val)
+    pred_c = model_c.predict(X_val)
+    return pred_t - pred_c
+
+
+def cross_validate_models_ihdp(
+    XZ: np.ndarray,
+    t: np.ndarray,
+    y: np.ndarray,
+    y_cf: np.ndarray,
+    true_ite: np.ndarray,
+    K: int = 5,
+    seed: int = 0,
+) -> dict:
+    """
+    K-fold cross-validation for non-CEVAE models on the IHDP dataset.
+    
+    Args:
+        XZ: Combined covariate and latent confounder features.
+        t, y, y_cf: Treatment, factual outcome, and counterfactual outcome.
+        true_ite: True ITE computed as (y - y_cf) for t==1 and (y_cf - y) for t==0.
+    
+    Returns:
+        Dictionary of average performance metrics for each model.
+    """
+    total_samples = XZ.shape[0]
+    kf = KFold(n_splits=K, shuffle=True, random_state=seed)
+    results_cv = {
+        "Direct": [],
+        "XGBoost": [],
+        "SVM": [],
+        "KNN": [],
+        "IPW": [],
+        "DML": [],
+        "X-Learner": []
+    }
+
+    for train_idx, val_idx in kf.split(np.arange(total_samples)):
+        X_train = XZ[train_idx]
+        t_train = t[train_idx]
+        y_train = y[train_idx]
+        X_val = XZ[val_idx]
+        true_ite_val = true_ite[val_idx]
+
+        est_ite_direct = estimate_ite_direct_ihdp(
+            XGBRegressor, X_train, y_train, t_train, X_val
+        )
+        ate_direct, pehe_direct, ate_abs_error_direct = evaluate_ite(true_ite_val, est_ite_direct)
+        results_cv["Direct"].append((ate_direct, pehe_direct, ate_abs_error_direct))
+
+        est_ite_xgb = estimate_ite_direct_ihdp(
+            XGBRegressor, X_train, y_train, t_train, X_val
+        )
+        ate_xgb, pehe_xgb, ate_abs_error_xgb = evaluate_ite(true_ite_val, est_ite_xgb)
+        results_cv["XGBoost"].append((ate_xgb, pehe_xgb, ate_abs_error_xgb))
+
+        est_ite_svm = estimate_ite_direct_ihdp(
+            SVR, X_train, y_train, t_train, X_val, kernel='rbf', C=1.0
+        )
+        ate_svm, pehe_svm, ate_abs_error_svm = evaluate_ite(true_ite_val, est_ite_svm)
+        results_cv["SVM"].append((ate_svm, pehe_svm, ate_abs_error_svm))
+
+        est_ite_knn = estimate_ite_direct_ihdp(
+            KNeighborsRegressor, X_train, y_train, t_train, X_val, n_neighbors=5
+        )
+        ate_knn, pehe_knn, ate_abs_error_knn = evaluate_ite(true_ite_val, est_ite_knn)
+        results_cv["KNN"].append((ate_knn, pehe_knn, ate_abs_error_knn))
+
+        ate_ipw = estimate_ate_ipw(X_train, t_train, y_train)
+        ate_true_ipw = np.mean(true_ite_val)
+        ate_abs_error_ipw = np.abs(ate_ipw - ate_true_ipw)
+        results_cv["IPW"].append((ate_ipw, None, ate_abs_error_ipw))
+
+        est_ite_dml = estimate_ite_dml(X_train, t_train, y_train, X_val)
+        ate_dml, pehe_dml, ate_abs_error_dml = evaluate_ite(true_ite_val, est_ite_dml)
+        results_cv["DML"].append((ate_dml, pehe_dml, ate_abs_error_dml))
+
+        est_ite_xl = estimate_ite_xlearner(X_train, t_train, y_train, X_val)
+        ate_xl, pehe_xl, ate_abs_error_xl = evaluate_ite(true_ite_val, est_ite_xl)
+        results_cv["X-Learner"].append((ate_xl, pehe_xl, ate_abs_error_xl))
+
+    avg_results_cv = {}
+    for model, vals in results_cv.items():
+        ates = [v[0] for v in vals]
+        pehes = [v[1] for v in vals if v[1] is not None]
+        ate_abs_errors = [v[2] for v in vals]
+        avg_results_cv[model] = {
+            "ATE_mean": np.mean(ates),
+            "ATE_std": np.std(ates),
+            "ATE_Abs_Error_mean": np.mean(ate_abs_errors),
+            "ATE_Abs_Error_std": np.std(ate_abs_errors),
+            "PEHE_mean": np.mean(pehes) if pehes else None,
+            "PEHE_std": np.std(pehes) if pehes else None,
+        }
+    return avg_results_cv
+
+
+def cross_validate_cevae_ihdp(
+    X: torch.Tensor,
+    t: torch.Tensor,
+    y: torch.Tensor,
+    y_cf: torch.Tensor,
+    Z: torch.Tensor,
+    num_epochs: int,
+    batch_size: int,
+    learning_rate: float,
+    learning_rate_decay: float,
+    weight_decay: float,
+    latent_dim: int,
+    hidden_dim: int,
+    num_layers: int,
+    cv_folds: int = 5,
+    seed: int = 0,
+) -> dict:
+    """
+    Performs K-fold cross-validation for the CEVAE model on the IHDP dataset.
+    The true ITE is computed as:
+        if t == 1:  y - y_cf
+        else:       y_cf - y
+    """
+    total_samples = X.shape[0]
+    kf = KFold(n_splits=cv_folds, shuffle=True, random_state=seed)
+    results = []
+
+    for train_idx, val_idx in kf.split(np.arange(total_samples)):
+        X_train = X[train_idx]
+        t_train = t[train_idx]
+        y_train = y[train_idx]
+        Z_train = Z[train_idx]
+
+        X_val = X[val_idx]
+        Z_val = Z[val_idx]
+        y_val = y[val_idx]
+        y_cf_val = y_cf[val_idx]
+        t_val = t[val_idx]
+        true_ite_val = np.where(t_val.numpy() == 1,
+                                (y_val - y_cf_val).numpy(),
+                                (y_cf_val - y_val).numpy())
+
+        original_feature_dim = X.shape[1]
+        z_dim = Z.shape[1]
+        new_feature_dim = original_feature_dim + z_dim
+
+        cevae = CEVAEWithZ(
+            feature_dim=new_feature_dim,
+            outcome_dist="normal",
+            latent_dim=latent_dim,
+            hidden_dim=hidden_dim,
+            num_layers=num_layers,
+            num_samples=10,
+        )
+
+        cevae.fit(
+            X_train, t_train, y_train, z=Z_train,
+            num_epochs=num_epochs,
+            batch_size=batch_size,
+            learning_rate=learning_rate,
+            learning_rate_decay=learning_rate_decay,
+            weight_decay=weight_decay,
+        )
+
+        est_ite_val = cevae.ite(X_val, Z_val).detach().cpu().numpy()
+        ate, pehe, ate_abs_error = evaluate_ite(true_ite_val, est_ite_val)
+        results.append((ate, pehe, ate_abs_error))
+
+    avg_results = {
+        "ATE_mean": np.mean([r[0] for r in results]),
+        "ATE_std": np.std([r[0] for r in results]),
+        "PEHE_mean": np.mean([r[1] for r in results]),
+        "PEHE_std": np.std([r[1] for r in results]),
+        "ATE_Abs_Error_mean": np.mean([r[2] for r in results]),
+        "ATE_Abs_Error_std": np.std([r[2] for r in results]),
+    }
+    return avg_results
+
+
+def train_and_evaluate(
+    args,
+    X: torch.Tensor,
+    t: torch.Tensor,
+    y: torch.Tensor,
+    Z: torch.Tensor,
+    X_train: torch.Tensor,
+    t_train: torch.Tensor,
+    y_train: torch.Tensor,
+    Z_train: torch.Tensor,
+    X_test: torch.Tensor,
+    t_test: torch.Tensor,
+    y_test: torch.Tensor,
+    Z_test: torch.Tensor,
+    true_ite_train: np.ndarray,
+    true_ite_test: np.ndarray,
+    XZ_train: np.ndarray,
+    t_train_np: np.ndarray,
+    y_train_np: np.ndarray,
+    dataset: str,
+    **kwargs,
+) -> None:
+    """
+    Executes the training, cross-validation, and final evaluation pipeline.
+    Branches based on the dataset type ('twins' or 'ihdp').
     """
     if args.cuda:
         torch.set_default_device("cuda")
     pyro.set_rng_seed(args.seed)
     pyro.clear_param_store()
 
-    # ---------------- NEW: conditionally skip cross-validation if only-cevae ----------------
-    if not args.only_cevae:
-        cv_results = cross_validate_models(
-            XZ_train, t_train_np, y_train_np, true_ite_train,
-            K=args.cv_folds, seed=args.seed
+    if dataset == "twins":
+        cv_results_cevae = cross_validate_cevae_twins(
+            X, t, y, Z, true_ite_train,
+            num_epochs=args.num_epochs,
+            batch_size=args.batch_size,
+            learning_rate=args.learning_rate,
+            learning_rate_decay=args.learning_rate_decay,
+            weight_decay=args.weight_decay,
+            latent_dim=args.latent_dim,
+            hidden_dim=args.hidden_dim,
+            num_layers=args.num_layers,
+            cv_folds=args.cv_folds,
+            seed=args.seed,
         )
-        print("\nCross-validation results on training set:")
-        for model, res in cv_results.items():
-            print(f"{model}: ATE={res['ATE_mean']:.3f}±{res['ATE_std']:.3f}", end='')
-            print(f", ATE Abs Error={res['ATE_Abs_Error_mean']:.3f}±{res['ATE_Abs_Error_std']:.3f}", end='')
-            if res['PEHE_mean'] is not None:
-                print(f", PEHE={res['PEHE_mean']:.3f}±{res['PEHE_std']:.3f}")
-            else:
-                print(", PEHE=Not applicable")
+        print("\nCross-validation results for CEVAE on training set (Twins):")
+        print(f"CEVAE: ATE={cv_results_cevae['ATE_mean']:.3f}±{cv_results_cevae['ATE_std']:.3f}", end='')
+        print(f", ATE Abs Error={cv_results_cevae['ATE_Abs_Error_mean']:.3f}±{cv_results_cevae['ATE_Abs_Error_std']:.3f}", end='')
+        print(f", PEHE={cv_results_cevae['PEHE_mean']:.3f}±{cv_results_cevae['PEHE_std']:.3f}")
 
-    # train the CEVAE
-    original_feature_dim = X.shape[1]
-    z_dim = Z.shape[1]
-    new_feature_dim = original_feature_dim + z_dim
+        if not args.only_cevae:
+            cv_results = cross_validate_models_twins(
+                XZ_train, t_train_np, y_train_np, true_ite_train,
+                K=args.cv_folds, seed=args.seed
+            )
+            print("\nCross-validation results for non-CEVAE models on training set (Twins):")
+            for model, res in cv_results.items():
+                print(f"{model}: ATE={res['ATE_mean']:.3f}±{res['ATE_std']:.3f}", end='')
+                print(f", ATE Abs Error={res['ATE_Abs_Error_mean']:.3f}±{res['ATE_Abs_Error_std']:.3f}", end='')
+                if res['PEHE_mean'] is not None:
+                    print(f", PEHE={res['PEHE_mean']:.3f}±{res['PEHE_std']:.3f}")
+                else:
+                    print(", PEHE=Not applicable")
+    else:  # ihdp
+        cv_results_cevae = cross_validate_cevae_ihdp(
+            X, t, y, y, Z,
+            num_epochs=args.num_epochs,
+            batch_size=args.batch_size,
+            learning_rate=args.learning_rate,
+            learning_rate_decay=args.learning_rate_decay,
+            weight_decay=args.weight_decay,
+            latent_dim=args.latent_dim,
+            hidden_dim=args.hidden_dim,
+            num_layers=args.num_layers,
+            cv_folds=args.cv_folds,
+            seed=args.seed
+        )
+        print("\nCross-validation results for CEVAE on training set (IHDP):")
+        print(f"CEVAE: ATE={cv_results_cevae['ATE_mean']:.3f}±{cv_results_cevae['ATE_std']:.3f}", end='')
+        print(f", ATE Abs Error={cv_results_cevae['ATE_Abs_Error_mean']:.3f}±{cv_results_cevae['ATE_Abs_Error_std']:.3f}", end='')
+        print(f", PEHE={cv_results_cevae['PEHE_mean']:.3f}±{cv_results_cevae['PEHE_std']:.3f}")
 
-    cevae = CEVAEWithZ(
-        feature_dim=new_feature_dim,
-        latent_dim=args.latent_dim,
-        hidden_dim=args.hidden_dim,
-        num_layers=args.num_layers,
-        num_samples=10,
-    )
+        if not args.only_cevae:
+            cv_results = cross_validate_models_ihdp(
+                XZ_train, t_train_np, y_train_np, y_train_np, true_ite_train,
+                K=args.cv_folds, seed=args.seed
+            )
+            print("\nCross-validation results for non-CEVAE models on training set (IHDP):")
+            for model, res in cv_results.items():
+                print(f"{model}: ATE={res['ATE_mean']:.3f}±{res['ATE_std']:.3f}", end='')
+                print(f", ATE Abs Error={res['ATE_Abs_Error_mean']:.3f}±{res['ATE_Abs_Error_std']:.3f}", end='')
+                if res['PEHE_mean'] is not None:
+                    print(f", PEHE={res['PEHE_mean']:.3f}±{res['PEHE_std']:.3f}")
+                else:
+                    print(", PEHE=Not applicable")
+
+    # Final training on full training set and evaluation on test set.
+    new_feature_dim = X.shape[1] + Z.shape[1] if dataset == "ihdp" else X.shape[1]
+    if dataset == "ihdp":
+        cevae = CEVAEWithZ(
+            feature_dim=new_feature_dim,
+            outcome_dist="normal",
+            latent_dim=args.latent_dim,
+            hidden_dim=args.hidden_dim,
+            num_layers=args.num_layers,
+            num_samples=10,
+        )
+    else:
+        cevae = CEVAEWithZ(
+            feature_dim=new_feature_dim,
+            latent_dim=args.latent_dim,
+            hidden_dim=args.hidden_dim,
+            num_layers=args.num_layers,
+            num_samples=10,
+        )
 
     cevae.fit(
         X_train, t_train, y_train, z=Z_train,
@@ -252,66 +1068,298 @@ def train_and_evaluate(args,
         weight_decay=args.weight_decay,
     )
 
-    print("\n Test Set Evaluation:")
+    print("\nTest Set Evaluation:")
+    if dataset == "twins":
+        # For Twins, construct XZ from unshifted X and Z
+        XZ_full = np.concatenate([X.numpy(), Z.numpy()], axis=1)
+        XZ0_train_full = XZ_full[kwargs["train_twin0"]]
+        ITE_train_full = (y[kwargs["train_twin1"]] - y[kwargs["train_twin0"]]).numpy()
+        XZ0_test_full = XZ_full[kwargs["test_twin0"]]
 
-    XZ = np.concatenate([X.numpy(), Z.numpy()], axis=1)
-    XZ0_train_full = XZ[train_twin0]
-    ITE_train_full = (y[train_twin1] - y[train_twin0]).numpy()
-    XZ0_test_full = XZ[test_twin0]
+        est_ite_cevae_test = cevae.ite(X[kwargs["test_twin0"]], Z[kwargs["test_twin0"]]).detach().cpu().numpy()
+        ate_cevae_test, pehe_cevae_test, ate_abs_error_cevae_test = evaluate_ite(true_ite_test, est_ite_cevae_test)
+        print(f"CEVAE: ATE={ate_cevae_test:.3f}, ATE Abs Error={ate_abs_error_cevae_test:.3f}, PEHE={pehe_cevae_test:.3f}")
 
-    est_ite_cevae_test = cevae.ite(X[test_twin0], Z[test_twin0]).detach().cpu().numpy()
-    ate_cevae_test, pehe_cevae_test, ate_abs_error_cevae_test = evaluate_ite(true_ite_test, est_ite_cevae_test)
+        if not args.only_cevae:
+            xgb_model = XGBRegressor()
+            xgb_model.fit(XZ0_train_full, ITE_train_full)
+            est_ite_xgb_test = xgb_model.predict(XZ0_test_full)
+            ate_xgb_test, pehe_xgb_test, ate_abs_error_xgb_test = evaluate_ite(true_ite_test, est_ite_xgb_test)
+            print("\nTest Set Results (Other Models):")
+            print(f"XGBoost: ATE={ate_xgb_test:.3f}, ATE Abs Error={ate_abs_error_xgb_test:.3f}, PEHE={pehe_xgb_test:.3f}")
+            # Similar evaluations can be added for SVM, KNN, etc.
+    else:  # ihdp
+        est_ite_cevae_test = cevae.ite(X_test, Z_test).detach().cpu().numpy()
+        # after `est_ite_cevae_test = cevae.ite(X_test, Z_test)...`
+        if true_ite_test is not None:
+            ate_cevae_test, pehe_cevae_test, ate_abs_error_cevae_test = evaluate_ite(true_ite_test, est_ite_cevae_test)
+            print(f"CEVAE: ATE={ate_cevae_test:.3f}, ATE Abs Error={ate_abs_error_cevae_test:.3f}, PEHE={pehe_cevae_test:.3f}")
+        else:
+            print("CEVAE predictions on test set computed, but no true ITE available for IHDP to compare.")
 
-    # Print results for CEVAE
-    print(f"CEVAE: ATE={ate_cevae_test:.3f}, ATE Abs Error={ate_abs_error_cevae_test:.3f}, PEHE={pehe_cevae_test:.3f}")
+        if not args.only_cevae:
+            # Direct estimation baseline using XGBoost for IHDP
+            direct_model = XGBRegressor()
+            direct_model.fit(XZ_train, y_train_np)
+            est_ite_direct_test = direct_model.predict(X_test.numpy())
+            ate_direct_test, pehe_direct_test, ate_abs_error_direct_test = evaluate_ite(true_ite_test, est_ite_direct_test)
+            print("\nTest Set Results (Direct Estimation with XGB):")
+            print(f"Direct: ATE={ate_direct_test:.3f}, ATE Abs Error={ate_abs_error_direct_test:.3f}, PEHE={pehe_direct_test:.3f}")
 
-    # ---------------- NEW: conditionally skip other models if only-cevae ----------------
-    if args.only_cevae:
+    # Optionally print true causal effects.
+    print("\nTrue causal effects on the test set:")
+    print("True ATE (test):", np.mean(true_ite_test))
+    print("True ITE (test) snippet:", true_ite_test[:10])
+
+
+if __name__ == "__main__":
+    # This file is meant to be imported and called by main.py
+    pass
+
+
+# ======================
+# File: concatenate_ihdp.py
+# ======================
+
+#!/usr/bin/env python3
+import os
+import glob
+import pandas as pd
+import re
+
+def extract_number(filename):
+    """Extract the numeric part from a filename like 'ihdp_npci_1.csv'"""
+    match = re.search(r'(\d+)', filename)
+    return int(match.group(1)) if match else 0
+
+def main():
+    # Set the input directory containing the CSV files.
+    input_dir = os.path.join("data", "IHDP", "csv")
+    
+    # List all CSV files in the directory
+    all_csv_files = glob.glob(os.path.join(input_dir, "*.csv"))
+    
+    # Exclude the concatenated file (if it exists) from processing.
+    csv_files = [f for f in all_csv_files if os.path.basename(f) != "concatenated_ihdp.csv"]
+    
+    if not csv_files:
+        print(f"No CSV files found in {input_dir} (after excluding the concatenated file).")
         return
 
-    # Evaluate other methods on test set
-    xgb_model = XGBRegressor()
-    xgb_model.fit(XZ0_train_full, ITE_train_full)
-    est_ite_xgb_test = xgb_model.predict(XZ0_test_full)
-    ate_xgb_test, pehe_xgb_test, ate_abs_error_xgb_test = evaluate_ite(true_ite_test, est_ite_xgb_test)
+    # Sort files by the numeric value in their names (e.g. 1,2,...,10)
+    csv_files = sorted(csv_files, key=lambda f: extract_number(os.path.basename(f)))
+    
+    print("CSV files to be processed in order:")
+    for f in csv_files:
+        print(f" - {os.path.basename(f)}")
+    
+    # Define the expected columns (order matters)
+    expected_headers = ["treatment", "y_factual", "y_cfactual", "mu0", "mu1"] + [f"x{i}" for i in range(1, 26)]
+    expected_col_count = len(expected_headers)  # Should be 30
 
-    svm_model = SVR(kernel='rbf', C=1.0)
-    svm_model.fit(XZ0_train_full, ITE_train_full)
-    est_ite_svm_test = svm_model.predict(XZ0_test_full)
-    ate_svm_test, pehe_svm_test, ate_abs_error_svm_test = evaluate_ite(true_ite_test, est_ite_svm_test)
+    # Read each CSV file with no header and check for validity.
+    matching_files = []  # Files that have the expected number of columns.
+    violating_files = [] # Files that do not match the expected scheme.
+    valid_dataframes = []  # DataFrames from files matching the expected scheme.
+    
+    for file in csv_files:
+        basename = os.path.basename(file)
+        try:
+            # Read without header, then drop any all-NaN columns (e.g., trailing empty columns)
+            df = pd.read_csv(file, header=None)
+            df = df.dropna(axis=1, how='all')
+        except Exception as e:
+            print(f"Error reading {basename}: {e}")
+            violating_files.append(basename)
+            continue
 
-    knn_model = KNeighborsRegressor(n_neighbors=5)
-    knn_model.fit(XZ0_train_full, ITE_train_full)
-    est_ite_knn_test = knn_model.predict(XZ0_test_full)
-    ate_knn_test, pehe_knn_test, ate_abs_error_knn_test = evaluate_ite(true_ite_test, est_ite_knn_test)
-
-    ate_ipw_test = estimate_ate_ipw(XZ_train, t_train_np, y_train_np)
-    ate_true_ipw_test = np.mean(true_ite_test)
-    ate_abs_error_ipw_test = np.abs(ate_ipw_test - ate_true_ipw_test)
-
-    est_ite_dml_test = estimate_ite_dml(XZ_train, t_train_np, y_train_np, XZ0_test_full)
-    ate_dml_test, pehe_dml_test, ate_abs_error_dml_test = evaluate_ite(true_ite_test, est_ite_dml_test)
-
-    est_ite_xl_test = estimate_ite_xlearner(XZ_train, t_train_np, y_train_np, XZ0_test_full)
-    ate_xl_test, pehe_xl_test, ate_abs_error_xl_test = evaluate_ite(true_ite_test, est_ite_xl_test)
-
-    print("\nTest Set Results (Other Models):")
-    results_test = {
-        "XGBoost": (ate_xgb_test, pehe_xgb_test, ate_abs_error_xgb_test),
-        "SVM": (ate_svm_test, pehe_svm_test, ate_abs_error_svm_test),
-        "KNN": (ate_knn_test, pehe_knn_test, ate_abs_error_knn_test),
-        "IPW": (ate_ipw_test, None, ate_abs_error_ipw_test),
-        "DML": (ate_dml_test, pehe_dml_test, ate_abs_error_dml_test),
-        "X-Learner": (ate_xl_test, pehe_xl_test, ate_abs_error_xl_test)
-    }
-
-    for model, (ate_val, pehe_val, ate_abs_error_val) in results_test.items():
-        print(f"{model}: ATE={ate_val:.3f}", end='')
-        print(f", ATE Abs Error={ate_abs_error_val:.3f}", end='')
-        if pehe_val is not None:
-            print(f", PEHE={pehe_val:.3f}")
+        if df.shape[1] == expected_col_count:
+            # Assume the file is meant to have the expected scheme; assign headers.
+            df.columns = expected_headers
+            matching_files.append(basename)
+            valid_dataframes.append(df)
         else:
-            print(", PEHE=N/A")
+            # Report missing or extra columns based on count.
+            violating_files.append(basename)
+            print(f"\nFile '{basename}' does NOT have the expected number of columns ({expected_col_count}).")
+            print(f"  Columns found: {df.shape[1]}")
+    
+    # Report summary.
+    print("\nSUMMARY:")
+    if matching_files:
+        print("Files matching the expected scheme (30 columns):")
+        for f in matching_files:
+            print(f" - {f}")
+    else:
+        print("No files match the expected scheme.")
+
+    if violating_files:
+        print("\nFiles NOT matching the expected scheme:")
+        for f in violating_files:
+            print(f" - {f}")
+
+    # For concatenation, only use the files that match the expected scheme.
+    if not valid_dataframes:
+        print("\nNo valid CSV files to concatenate. Exiting.")
+        return
+
+    concatenated_df = pd.concat(valid_dataframes, ignore_index=True)
+    
+    # Define the output file path (save in the same directory)
+    output_file = os.path.join(input_dir, "concatenated_ihdp.csv")
+    
+    # Save the concatenated dataframe to CSV without the index.
+    concatenated_df.to_csv(output_file, index=False)
+    print(f"\nConcatenated CSV saved to: {output_file}")
+
+if __name__ == "__main__":
+    main()
+
+
+# ======================
+# File: pca_shift_ihdp_modified.py
+# ======================
+
+#!/usr/bin/env python3
+"""
+pca_shift_ihdp_quantile.py
+
+This script performs PCA on the modified IHDP covariates (24 covariates)
+and applies a nonlinear quantile-based shift on the **top five** principal components.
+It then reconstructs the shifted covariates for training.
+
+Rationale:
+  - A purely linear flip or scale is largely undone by standard scaling.
+  - This quantile-based shift warps the distribution in a continuous, nonlinear way,
+    so that the transformation remains detectable even after inverse whitening.
+"""
+
+import os
+import argparse
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+def nonlinear_quantile_shift(pc_values, gamma=2.0):
+    """
+    Apply a nonlinear quantile-based shift to the PC values.
+
+    Steps:
+      1. Compute the empirical CDF (quantile) for each value.
+      2. Compute a shift that is proportional to (quantile - 0.5), scaled by the data range.
+      3. Add this shift to each value.
+      4. Optionally add small random noise to further differentiate values.
+      
+    Parameters:
+      pc_values : np.array, the PC scores for one dimension.
+      gamma     : float, factor to tune the magnitude of the shift.
+      
+    Returns:
+      shifted array with a nonlinear distortion.
+    """
+    arr = pc_values.copy()
+    n = len(arr)
+    # Compute empirical CDF: rank each value uniformly between 0 and 1
+    sorted_indices = np.argsort(arr)
+    ranks = np.empty_like(sorted_indices, dtype=float)
+    ranks[sorted_indices] = np.linspace(0, 1, num=n)
+    
+    # Determine the shift amount for each value.
+    data_range = arr.max() - arr.min()
+    shift_amount = gamma * (ranks - 0.5) * data_range
+    
+    arr_shifted = arr + shift_amount
+
+    # Optionally, add small random noise to break ties
+    noise_scale = 0.05 * (data_range + 1e-8)
+    arr_shifted += np.random.normal(loc=0, scale=noise_scale, size=arr_shifted.shape)
+    return arr_shifted
+
+def plot_pc_distribution(before, after, pc_index, plot_file):
+    """
+    Plot overlay histograms for a given principal component (pc_index)
+    before and after shifting.
+    """
+    plt.figure(figsize=(8, 6))
+    plt.hist(before, bins=50, alpha=0.5, density=True, label="Before Shift")
+    plt.hist(after, bins=50, alpha=0.5, density=True, label="After Shift")
+    plt.title(f"PC{pc_index+1} Distribution Before vs. After Shift")
+    plt.xlabel(f"PC{pc_index+1} Score")
+    plt.ylabel("Density")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(plot_file)
+    plt.close()
+    print(f"Plot saved to: {plot_file}")
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Perform PCA on modified IHDP covariates (24 columns) and apply a nonlinear quantile shift on the top five PCs."
+    )
+    parser.add_argument("--input-file", type=str, default="data/IHDP/processed_X_ihdp_modified.csv",
+                        help="Modified IHDP covariate file (24 covariates).")
+    parser.add_argument("--output-file", type=str, default="data/IHDP/processed_X_pca_shifted.csv",
+                        help="Output file for the PCA-shifted IHDP covariates.")
+    parser.add_argument("--n-components", type=int, default=24,
+                        help="Number of PCA components to compute (default: 24)")
+    parser.add_argument("--plot-dir", type=str, default="pca_shift_plots",
+                        help="Directory to save the PC distribution plots.")
+    parser.add_argument("--gamma", type=float, default=2.0,
+                        help="Tuning parameter for the magnitude of the quantile shift (default: 2.0)")
+    args = parser.parse_args()
+
+    if not os.path.exists(args.input_file):
+        print(f"Error: Input file {args.input_file} does not exist.")
+        return
+
+    df = pd.read_csv(args.input_file)
+    covariate_cols = df.columns.tolist()  # Expecting 24 covariates.
+    X = df.values  # shape: (n_samples, 24)
+
+    # Standardize the covariates
+    scaler = StandardScaler()
+    X_std = scaler.fit_transform(X)
+
+    # Perform PCA
+    pca = PCA(n_components=args.n_components)
+    PCs = pca.fit_transform(X_std)
+
+    print("Explained Variance Ratios:")
+    for i, ratio in enumerate(pca.explained_variance_ratio_):
+        suffix = " (top 5)" if i < 5 else ""
+        print(f"  PC{i+1}{suffix}: {ratio:.2%}")
+
+    PCs_shifted = PCs.copy()
+    top_k = 5
+    if PCs.shape[1] < top_k:
+        raise ValueError(f"We only found {PCs.shape[1]} components, need at least {top_k}.")
+
+    # Apply nonlinear quantile shift on the top 5 PCs.
+    for i in range(top_k):
+        original_pc = PCs[:, i]
+        shifted_pc = nonlinear_quantile_shift(original_pc, gamma=args.gamma)
+        PCs_shifted[:, i] = shifted_pc
+
+    # Plot distributions for top 5 PCs
+    if not os.path.exists(args.plot_dir):
+        os.makedirs(args.plot_dir, exist_ok=True)
+    for i in range(top_k):
+        plot_file = os.path.join(args.plot_dir, f"PC{i+1}_before_after.png")
+        plot_pc_distribution(PCs[:, i], PCs_shifted[:, i], i, plot_file)
+
+    # Inverse transform back to the original feature space
+    X_shifted_std = pca.inverse_transform(PCs_shifted)
+    X_shifted = scaler.inverse_transform(X_shifted_std)
+
+    df_shifted = pd.DataFrame(X_shifted, columns=covariate_cols)
+    df_shifted.to_csv(args.output_file, index=False)
+    print(f"\nPCA-shifted IHDP covariate dataset saved to: {args.output_file}")
+    print("Top 5 PCs were transformed via a nonlinear quantile-based shift to induce a robust covariate shift.")
+
+if __name__ == "__main__":
+    main()
 
 
 # ======================
@@ -397,36 +1445,154 @@ def estimate_ite_direct(model_class, X_train_pairs, y_train_ite, X_val_pairs, **
 
 
 # ======================
+# File: apply_target_shift.py
+# ======================
+
+#!/usr/bin/env python3
+import os
+import argparse
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+def flip_column(series):
+    """
+    If the series is binary (contains only 0 and 1 or their string equivalents),
+    flip its values (0->1, 1->0). Otherwise, perform a min-max flip:
+    new_value = max + min - original.
+    """
+    unique_vals = series.dropna().unique()
+    # Check if binary: allow values 0 and 1 (or strings '0' and '1')
+    if set(unique_vals).issubset({0, 1, '0', '1'}):
+        numeric_series = pd.to_numeric(series, errors='coerce')
+        return 1 - numeric_series
+    else:
+        min_val = series.min()
+        max_val = series.max()
+        return max_val + min_val - series
+
+def plot_distributions(before, after, column, plot_file):
+    """
+    Plot overlay histograms for the given column showing before and after distributions.
+    Saves the plot to plot_file.
+    """
+    plt.figure(figsize=(8, 6))
+    plt.hist(before.dropna(), bins=50, alpha=0.5, density=True, label="Before Shift")
+    plt.hist(after.dropna(), bins=50, alpha=0.5, density=True, label="After Shift")
+    plt.title(f"Distribution of '{column}' Before vs. After Shift")
+    plt.xlabel(column)
+    plt.ylabel("Density")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(plot_file)
+    plt.close()
+    print(f"Plot saved to {plot_file}")
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Apply a shift to ALL covariates by flipping each column to its maximum."
+    )
+    parser.add_argument("--shifted-file", type=str, default="data/TWINS/processed_X_covariate_shifted.csv",
+                        help="Path to the currently shifted dataset CSV file. (Default: data/TWINS/processed_X_covariate_shifted.csv)")
+    parser.add_argument("--output-file", type=str, default="data/TWINS/processed_X_allshifted.csv",
+                        help="Path to save the modified (all columns shifted) dataset. (Default: data/TWINS/processed_X_allshifted.csv)")
+    parser.add_argument("--plot-dir", type=str, default="all_shift_plots",
+                        help="Directory to save the before/after plots for each column. (Default: all_shift_plots)")
+    args = parser.parse_args()
+
+    # Check that the input file exists.
+    if not os.path.exists(args.shifted_file):
+        print(f"Error: Shifted file '{args.shifted_file}' does not exist.")
+        return
+
+    # Load the currently shifted dataset.
+    df_shifted = pd.read_csv(args.shifted_file)
+    
+    # Create a copy of the dataset to apply the new shift.
+    df_new = df_shifted.copy()
+
+    # Ensure the plot directory exists.
+    if not os.path.exists(args.plot_dir):
+        os.makedirs(args.plot_dir, exist_ok=True)
+
+    # Iterate over every column in the dataset.
+    for col in df_new.columns:
+        before_shift = df_new[col].copy()
+        # Apply the new shift (flip the values to their max)
+        df_new[col] = flip_column(df_new[col])
+        after_shift = df_new[col]
+        
+        # Generate and save the plot.
+        plot_file = os.path.join(args.plot_dir, f"before_after_{col}.png")
+        plot_distributions(before_shift, after_shift, col, plot_file)
+        print(f"Column '{col}' has been shifted.")
+
+    # Save the newly shifted dataset.
+    output_dir = os.path.dirname(args.output_file)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
+    df_new.to_csv(args.output_file, index=False)
+    print(f"\nModified dataset with all covariates shifted saved to {args.output_file}")
+
+if __name__ == "__main__":
+    main()
+
+
+# ======================
 # File: main.py
 # ======================
 
+# ======================
+# File: main.py
+# ======================
+
+#!/usr/bin/env python3
 import argparse
 import logging
+import torch
+import pandas as pd
+import numpy as np
 
+# data-loading
+from data import load_ihdp_data, prepare_train_test_split_ihdp
 from data import load_twins_data, prepare_train_test_split
+
+# training/evaluation
 from train_test import train_and_evaluate
 
 def main():
     parser = argparse.ArgumentParser(
         description="CEVAE with Z and other model comparisons using combined XZ features."
     )
-    parser.add_argument("--num-data", default=23968, type=int)
+    parser.add_argument("--dataset", choices=["twins", "ihdp"], default="ihdp",
+                        help="Dataset to use: twins or ihdp.")
+    parser.add_argument("--num-data", default=23968, type=int,
+                        help="Only used for twins dataset.")
     parser.add_argument("--test-size", default=0.2, type=float)
-    parser.add_argument("--cv-folds", default=5, type=int)
+    parser.add_argument("--cv-folds", default=3, type=int)
+
+    # Control whether we use the PCA-shifted file for IHDP
+    parser.add_argument("--train-shifted", dest="train_shifted", action="store_true",
+                        help="Use PCA-shifted covariates for IHDP.")
+    parser.add_argument("--no-train-shifted", dest="train_shifted", action="store_false",
+                        help="Use unshifted covariates for IHDP.")
+    
+    parser.set_defaults(train_shifted=True)  # <--- default is True
+
+    parser.add_argument("--feature-dim", default=24, type=int)
+    parser.add_argument("-n", "--num-epochs", default=20, type=int)
     parser.add_argument("--latent-dim", default=30, type=int)
-    parser.add_argument("--feature-dim", default=44, type=int) 
     parser.add_argument("--hidden-dim", default=300, type=int)
     parser.add_argument("--num-layers", default=2, type=int)
-    parser.add_argument("-n", "--num-epochs", default=40, type=int)
     parser.add_argument("-b", "--batch-size", default=512, type=int)
     parser.add_argument("-lr", "--learning-rate", default=1e-3, type=float)
     parser.add_argument("-lrd", "--learning-rate-decay", default=0.95, type=float)
     parser.add_argument("--weight-decay", default=1e-4, type=float)
-    parser.add_argument("--seed", default=66, type=int)
+    parser.add_argument("--seed", default=23, type=int)
     parser.add_argument("--jit", action="store_true")
     parser.add_argument("--cuda", action="store_true")
-    # ---------------- NEW ARGUMENT ----------------
-    parser.add_argument("--only-cevae", action="store_true", default=True, help="If set, only train/evaluate CEVAE, skipping other models.")
+    parser.add_argument("--only-cevae", action="store_true", default=True,
+                        help="If set, only train/evaluate CEVAE, skipping other models.")
 
     args = parser.parse_args()
 
@@ -434,34 +1600,207 @@ def main():
     if logging.getLogger("pyro").handlers:
         logging.getLogger("pyro").handlers[0].setLevel(logging.DEBUG)
 
-    # data loading
-    X, t, y, Z = load_twins_data()
+    if args.dataset == "ihdp":
+        # -----------------------------------------
+        # IHDP case
+        # -----------------------------------------
+        # Load IHDP data (including counterfactual outcomes)
+        X_input, t, y, y_cf, Z = load_ihdp_data(train_shifted=args.train_shifted)
+        
+        # Split into train/test (the test set uses unshifted covariates)
+        (X_train, t_train, y_train, y_cf_train, Z_train,
+         X_test, t_test, y_test, y_cf_test, Z_test,
+         true_ite_train, true_ite_test,
+         XZ_train, t_train_np, y_train_np,
+         train_idx, test_idx) = prepare_train_test_split_ihdp(
+            X_input, t, y, y_cf, Z,
+            test_size=args.test_size,
+            seed=args.seed
+        )
 
-    # perform train/test dataset splits
-    (X_train, t_train, y_train, Z_train,
-     X_test,  t_test,  y_test,  Z_test,
-     true_ite_train, true_ite_test,
-     XZ_train, t_train_np, y_train_np,
-     train_twin0, train_twin1,
-     test_twin0, test_twin1) = prepare_train_test_split(
-        X, t, y, Z,
-        num_data=args.num_data,
-        test_size=args.test_size,
-        seed=args.seed
-    )
+        dataset_flag = "ihdp"
+        X_all = X_input  # for the function signature in train_and_evaluate
+        extra_args = {}  # IHDP does not require twin-pair indices
 
-    # run model training and evaluation
+    else:
+        # -----------------------------------------
+        # TWINS case
+        # -----------------------------------------
+        X, t, y, Z = load_twins_data()
+        (X_train, t_train, y_train, Z_train,
+         X_test, t_test, y_test, Z_test,
+         true_ite_train, true_ite_test,
+         XZ_train, t_train_np, y_train_np,
+         train_twin0, train_twin1,
+         test_twin0, test_twin1) = prepare_train_test_split(
+            X, t, y, Z,
+            num_data=args.num_data,
+            test_size=args.test_size,
+            seed=args.seed
+        )
+        dataset_flag = "twins"
+        X_all = X  # for the function signature
+        extra_args = {
+            "train_twin0": train_twin0,
+            "train_twin1": train_twin1,
+            "test_twin0": test_twin0,
+            "test_twin1": test_twin1
+        }
+
+    # Now call the unified train_and_evaluate function
     train_and_evaluate(
         args,
-        X, t, y, Z,
+        X_all, t, y, Z,
         X_train, t_train, y_train, Z_train,
-        X_test,  t_test,  y_test,  Z_test,
+        X_test, t_test, y_test, Z_test,
         true_ite_train, true_ite_test,
         XZ_train, t_train_np, y_train_np,
-        train_twin0, train_twin1,
-        test_twin0, test_twin1
+        dataset=dataset_flag,
+        **extra_args
     )
 
+    # Print the true causal effects on the test set
+    print("\nTrue causal effects on the test set:")
+    if true_ite_test is not None:
+        print("True ATE (test):", np.mean(true_ite_test))
+        print("True ITE (test) snippet:", true_ite_test[:10])
+    else:
+        print("No true ITE available for this dataset.")
+
+if __name__ == "__main__":
+    main()
+
+
+# ======================
+# File: contrast_versions.py
+# ======================
+
+#!/usr/bin/env python3
+"""
+contrast_ihdp.py
+
+This script contrasts two IHDP covariate datasets:
+  - The original modified IHDP covariate dataset (24 covariates), e.g.:
+      data/IHDP/processed_X_ihdp_modified.csv
+  - The PCA-shifted IHDP covariate dataset, e.g.:
+      data/IHDP/processed_X_pca_shifted.csv
+
+For each column, the script computes summary statistics (mean and standard deviation)
+and performs a Kolmogorov–Smirnov (KS) test to statistically compare the distributions.
+Overlay histograms for each column are saved to a specified output directory.
+A summary table is printed at the end.
+"""
+
+import os
+import argparse
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import ks_2samp
+
+def compare_column(col_orig, col_shifted, col_name, plot_dir):
+    """
+    Compare a column from the original and shifted datasets.
+    Computes mean, standard deviation, and KS test (statistic and p-value).
+    Also creates an overlay histogram plot saved in plot_dir.
+    """
+    mean_orig = col_orig.mean()
+    std_orig = col_orig.std()
+    mean_shift = col_shifted.mean()
+    std_shift = col_shifted.std()
+    
+    # Perform KS test on non-NaN values.
+    ks_stat, ks_pvalue = ks_2samp(col_orig.dropna(), col_shifted.dropna())
+    
+    # Plot overlay histograms.
+    plt.figure(figsize=(8, 6))
+    plt.hist(col_orig.dropna(), bins=50, alpha=0.5, density=True, label="Original")
+    plt.hist(col_shifted.dropna(), bins=50, alpha=0.5, density=True, label="Shifted")
+    plt.title(f"Distribution Comparison for '{col_name}'")
+    plt.xlabel(col_name)
+    plt.ylabel("Density")
+    plt.legend()
+    plt.tight_layout()
+    plot_file = os.path.join(plot_dir, f"{col_name}_contrast.png")
+    plt.savefig(plot_file)
+    plt.close()
+    
+    return {
+        "mean_orig": mean_orig,
+        "std_orig": std_orig,
+        "mean_shift": mean_shift,
+        "std_shift": std_shift,
+        "ks_stat": ks_stat,
+        "ks_pvalue": ks_pvalue,
+        "plot_file": plot_file
+    }
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Contrast IHDP covariate datasets (original modified vs. PCA shifted) and assess distribution differences."
+    )
+    parser.add_argument("--original", type=str, default="data/IHDP/processed_X_ihdp_modified.csv",
+                        help="Path to the original modified IHDP covariate dataset (default: data/IHDP/processed_X_ihdp_modified.csv)")
+    parser.add_argument("--shifted", type=str, default="data/IHDP/processed_X_pca_shifted.csv",
+                        help="Path to the PCA shifted IHDP covariate dataset (default: data/IHDP/processed_X_pca_shifted.csv)")
+    parser.add_argument("--plot-dir", type=str, default="contrast_ihdp_plots",
+                        help="Directory to save overlay plots (default: contrast_ihdp_plots)")
+    args = parser.parse_args()
+    
+    # Check that both files exist.
+    if not os.path.exists(args.original):
+        print(f"Error: Original file '{args.original}' not found.")
+        return
+    if not os.path.exists(args.shifted):
+        print(f"Error: Shifted file '{args.shifted}' not found.")
+        return
+    
+    # Create the plot directory if it does not exist.
+    os.makedirs(args.plot_dir, exist_ok=True)
+    
+    # Load the two datasets.
+    df_orig = pd.read_csv(args.original)
+    df_shift = pd.read_csv(args.shifted)
+    
+    # Use common columns in case the headers differ.
+    common_cols = list(set(df_orig.columns) & set(df_shift.columns))
+    common_cols.sort()  # sort alphabetically for consistency
+    if len(common_cols) == 0:
+        print("Error: No common columns found between the two datasets.")
+        return
+    df_orig = df_orig[common_cols]
+    df_shift = df_shift[common_cols]
+    
+    print("Comparing the following columns:")
+    for col in common_cols:
+        print(f"  {col}")
+    
+    # Compare each column.
+    results = {}
+    for col in common_cols:
+        stats = compare_column(df_orig[col], df_shift[col], col, args.plot_dir)
+        results[col] = stats
+        print(f"Column: {col}")
+        print(f"  Original: Mean = {stats['mean_orig']:.4f}, Std = {stats['std_orig']:.4f}")
+        print(f"  Shifted:  Mean = {stats['mean_shift']:.4f}, Std = {stats['std_shift']:.4f}")
+        print(f"  KS Statistic = {stats['ks_stat']:.4f}, p-value = {stats['ks_pvalue']:.4e}")
+        print(f"  Plot saved to: {stats['plot_file']}\n")
+    
+    # Create a summary DataFrame.
+    summary_rows = []
+    for col, stat in results.items():
+        summary_rows.append({
+            "Column": col,
+            "Mean (Original)": stat["mean_orig"],
+            "Std (Original)": stat["std_orig"],
+            "Mean (Shifted)": stat["mean_shift"],
+            "Std (Shifted)": stat["std_shift"],
+            "KS Statistic": stat["ks_stat"],
+            "KS p-value": stat["ks_pvalue"]
+        })
+    summary_df = pd.DataFrame(summary_rows)
+    print("\nSummary of IHDP Covariate Comparisons:")
+    print(summary_df.to_string(index=False, float_format="%.4f"))
 
 if __name__ == "__main__":
     main()
@@ -495,8 +1834,6 @@ from torch.utils.data import DataLoader, TensorDataset
 from pyro.optim import ClippedAdam
 from pyro.infer import SVI
 from pyro.contrib.cevae import TraceCausalEffect_ELBO
-from pyro.infer.util import torch_item
-from pyro.util import torch_isnan
 
 # --- Dashboard Initialization Utilities ---
 
@@ -525,6 +1862,7 @@ def _init_static_dag():
     Initialize the static DAG for the CEVAE architecture.
     Returns (G, pos) for nodes: X, T, Y, Z with edges: Z→X, Z→T, Z→Y, T→Y.
     """
+    import networkx as nx
     G = nx.DiGraph()
     nodes = ["X", "T", "Y", "Z"]
     G.add_nodes_from(nodes)
@@ -538,6 +1876,7 @@ def _draw_dag(ax, G, pos, norm_metrics):
     Draw the static DAG on the provided axis, updating node colors based on normalized metrics.
     Colors interpolate between purple (#800080, low) and deep blue (#00008B, high).
     """
+    from matplotlib.colors import LinearSegmentedColormap
     cmap = LinearSegmentedColormap.from_list("custom_cmap", ["#800080", "#00008B"])
     node_colors = [cmap(norm_metrics.get(node, 0.5)) for node in G.nodes()]
     ax.clear()
@@ -572,7 +1911,7 @@ def _update_tsne(ax, tsne_emb, title="Latent t-SNE"):
     plt.draw()
     plt.pause(0.001)
 
-# --- Custom Visual Model and Guide (no per-forward visualization) ---
+# --- Custom Visual Model and Guide ---
 
 class VisualModel(Model):
     def forward(self, x, t=None, y=None, size=None):
@@ -606,6 +1945,8 @@ class VisualCEVAE(CEVAE):
       - A time-series plot of the ELBO loss.
       - A dynamic t-SNE visualization of latent variable representations.
     The dashboard is updated every vis_update_interval epochs and saved as "final_dashboard.png".
+
+    Now also includes debug logging to show a sample of X each epoch.
     """
     def __init__(self, feature_dim, outcome_dist="bernoulli",
                  latent_dim=20, hidden_dim=200, num_layers=3, num_samples=100):
@@ -620,9 +1961,11 @@ class VisualCEVAE(CEVAE):
         super().__init__(feature_dim, outcome_dist, latent_dim, hidden_dim, num_layers, num_samples)
         self.model = VisualModel(config)
         self.guide = VisualGuide(config)
+
         # Initialize dashboard and static DAG.
         self.dashboard = _init_dashboard()
         self.G, self.pos = _init_static_dag()
+
         # Initialize history containers.
         self.history = {
             "epoch": [],
@@ -636,8 +1979,7 @@ class VisualCEVAE(CEVAE):
     def compute_node_metrics(self):
         """
         Compute average absolute weight values for nodes X, T, and Y.
-        For Z, use a fixed constant.
-        Returns a dict with keys "X", "T", "Y", "Z".
+        For Z, we just set a fixed constant for display.
         """
         metrics = {}
         norm_x = 0.0
@@ -668,7 +2010,10 @@ class VisualCEVAE(CEVAE):
             for param in self.model.y1_nn.fc.parameters():
                 norm_y1 += param.abs().mean().item()
                 count1 += 1
-        metrics["Y"] = ((norm_y0/count0 if count0 > 0 else 0.5) + (norm_y1/count1 if count1 > 0 else 0.5)) / 2
+        avg_y0 = (norm_y0 / count0 if count0 else 0.5)
+        avg_y1 = (norm_y1 / count1 if count1 else 0.5)
+        metrics["Y"] = (avg_y0 + avg_y1) / 2
+
         metrics["Z"] = 1.0
         return metrics
 
@@ -688,35 +2033,54 @@ class VisualCEVAE(CEVAE):
         self.dashboard["fig"].savefig(filename)
 
     def fit(self, x, t, y, num_epochs=100, batch_size=100,
-            learning_rate=1e-3, learning_rate_decay=0.1, weight_decay=1e-4, log_every=100, vis_update_interval=5):
+            learning_rate=1e-3, learning_rate_decay=0.1, weight_decay=1e-4,
+            log_every=100, vis_update_interval=5):
         """
         Train the model using SVI with TraceCausalEffect_ELBO.
         The dashboard is updated every vis_update_interval epochs.
+        Also prints out a sample X row for debugging at each epoch.
         """
+        # Simple whitening function
         self.whiten = lambda data: (data - data.mean(0)) / (data.std(0) + 1e-6)
+
         dataset = TensorDataset(x, t, y)
         dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
         num_steps = num_epochs * len(dataloader)
-        optim = ClippedAdam({"lr": learning_rate,
-                             "weight_decay": weight_decay,
-                             "lrd": learning_rate_decay ** (1 / num_steps)})
+        optim = ClippedAdam({
+            "lr": learning_rate,
+            "weight_decay": weight_decay,
+            "lrd": learning_rate_decay ** (1 / num_steps)
+        })
         svi = SVI(self.model, self.guide, optim, TraceCausalEffect_ELBO())
+
         losses = []
-        # Fix a validation batch for t-SNE visualization (from the input x).
-        self._fixed_data = x[:min(200, x.size(0))]  # up to 200 samples
+        # Fix a small batch for t-SNE viz
+        self._fixed_data = x[:min(200, x.size(0))]
+
         for epoch in range(num_epochs):
             epoch_loss = 0.0
-            for batch_x, batch_t, batch_y in dataloader:
+            # We'll print the first batch's X (after whitening) for debugging:
+            for i, (batch_x, batch_t, batch_y) in enumerate(dataloader):
                 batch_x = self.whiten(batch_x)
+                
+                # Debug print for the first batch each epoch
+                if i == 0:
+                    # Print only the first row to avoid spamming
+                    print(f"[DEBUG] EPOCH {epoch}")
+                
                 loss = svi.step(batch_x, batch_t, batch_y, size=len(dataset)) / len(dataset)
                 epoch_loss += loss
+            
             losses.append(epoch_loss)
             print(f"Epoch {epoch} loss: {epoch_loss:.4f}")
-            # Update dashboard every vis_update_interval epochs.
+
+            # Update the interactive dashboard every vis_update_interval epochs
             if epoch % vis_update_interval == 0:
                 current_metrics = self.compute_node_metrics()
                 self._update_dashboard(epoch, current_metrics, epoch_loss)
-        # Final update and save dashboard.
+
+        # Final update + saving of the dashboard
         final_metrics = self.compute_node_metrics()
         self._update_dashboard(num_epochs, final_metrics, losses[-1])
         self._save_final_dashboard("final_dashboard.png")
@@ -724,41 +2088,55 @@ class VisualCEVAE(CEVAE):
 
     def _update_dashboard(self, epoch, current_metrics, current_loss):
         """
-        Update dashboard plots with current metrics.
-          - Update static DAG (with node colors) in the 'dag' panel.
-          - Append and update time-series plots for parameter metrics and ELBO loss.
-          - Compute t-SNE on fixed latent representations and update the t-SNE panel.
+        Update the multi-panel dashboard:
+          - Node color on DAG
+          - Time-series param metrics
+          - Performance (ELBO loss)
+          - t-SNE of latents on a fixed batch
         """
-        # Append history.
         self.history["epoch"].append(epoch)
         for node in ["X", "T", "Y", "Z"]:
             self.history["param"][node].append(current_metrics[node])
         self.history["perf"].append(current_loss)
-        # Update static DAG panel.
-        # Normalize metrics for coloring: simply rescale using min/max over history.
+
+        # Normalize param metrics for color
         norm_metrics = {}
         for node in ["X", "T", "Y", "Z"]:
             vals = self.history["param"][node]
-            norm_metrics[node] = (current_metrics[node] - min(vals)) / (max(vals) - min(vals) + 1e-8)
+            val_min, val_max = min(vals), max(vals)
+            denom = (val_max - val_min) + 1e-8
+            norm_metrics[node] = (current_metrics[node] - val_min) / denom
+
         _draw_dag(self.dashboard["dag"], self.G, self.pos, norm_metrics)
-        # Update parameter metrics time-series panel.
-        _update_time_series(self.dashboard["param"], self.history["epoch"], self.history["param"],
-                              "Parameter Metrics", "Metric Value")
-        # Update performance (ELBO loss) time-series panel.
-        _update_time_series(self.dashboard["perf"], self.history["epoch"],
-                              {"ELBO": self.history["perf"]}, "ELBO Loss", "Loss")
-        # For t-SNE: use the fixed batch stored in self._fixed_data.
+        _update_time_series(
+            self.dashboard["param"], 
+            self.history["epoch"],
+            self.history["param"],
+            "Parameter Metrics",
+            "Metric Value"
+        )
+        _update_time_series(
+            self.dashboard["perf"],
+            self.history["epoch"],
+            {"ELBO": self.history["perf"]},
+            "ELBO Loss",
+            "Loss"
+        )
+
+        # Now do t-SNE on the "fixed" data
         with torch.no_grad():
             fixed_x = self._fixed_data
-            # We use dummy t and y (zeros) if not provided.
+            # dummy T and Y for visualization
             fixed_t = torch.zeros(fixed_x.size(0), device=fixed_x.device)
             fixed_y = torch.zeros(fixed_x.size(0), device=fixed_x.device)
             latent = self._extract_latent(fixed_x, fixed_t, fixed_y)
             if latent is not None:
+                from sklearn.manifold import TSNE
                 latent_np = latent.detach().cpu().numpy()
                 tsne = TSNE(n_components=2, random_state=42)
                 tsne_emb = tsne.fit_transform(latent_np)
                 _update_tsne(self.dashboard["tsne"], tsne_emb)
+
         self.dashboard["fig"].canvas.draw()
         plt.pause(0.001)
 
@@ -775,8 +2153,8 @@ import matplotlib.pyplot as plt
 
 def main():
     # Paths to the data files.
-    shifted_path = "data/TWINS/processed_X_covariate_shifted.csv"
-    original_path = "data/TWINS/processed_X.csv"
+    shifted_path = "data/IHDP/processed_X_pca_shifted.csv"
+    original_path = "data/IHDP/processed_X_ihdp_modified.csv"
 
     # Check if files exist.
     if not os.path.exists(shifted_path) or not os.path.exists(original_path):
@@ -860,6 +2238,115 @@ if __name__ == "__main__":
 
 
 # ======================
+# File: shift_pca.py
+# ======================
+
+#!/usr/bin/env python3
+"""
+shift_pca.py
+
+This script performs PCA on the Twins covariates and then shifts (flips and scales)
+the top 3 principal components. The transformation used is:
+    new_value = scale_factor * (max + min - original)
+for the top 3 components, leaving the remaining components unchanged.
+"""
+
+import os
+import argparse
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+def flip_values(arr, scale_factor=2.0):
+    """
+    Given a 1D numpy array, return a flipped and scaled version:
+    new_value = scale_factor * (max + min - original).
+    """
+    min_val = np.min(arr)
+    max_val = np.max(arr)
+    return scale_factor * (max_val + min_val - arr)
+
+def plot_pc_distributions(before, after, pc_index, plot_file):
+    """
+    Plot overlay histograms for a given principal component (pc_index)
+    before and after shifting.
+    """
+    plt.figure(figsize=(8, 6))
+    plt.hist(before, bins=50, alpha=0.5, density=True, label="Before Shift")
+    plt.hist(after, bins=50, alpha=0.5, density=True, label="After Shift")
+    plt.title(f"PC{pc_index+1} Distribution Before vs. After Shift")
+    plt.xlabel(f"PC{pc_index+1} Score")
+    plt.ylabel("Density")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(plot_file)
+    plt.close()
+    print(f"Plot saved to {plot_file}")
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Perform PCA on Twins covariates and then shift (flip and scale) the top 3 principal components."
+    )
+    parser.add_argument("--input-file", type=str, default="data/TWINS/processed_X.csv",
+                        help="Path to the input covariate CSV file (default: data/TWINS/processed_X.csv)")
+    parser.add_argument("--output-file", type=str, default="data/TWINS/processed_X_pca_shifted.csv",
+                        help="Path to save the new shifted covariate dataset (default: data/TWINS/processed_X_pca_shifted.csv)")
+    parser.add_argument("--n-components", type=int, default=10,
+                        help="Number of PCA components to compute (default: 10)")
+    parser.add_argument("--plot-dir", type=str, default="pca_shift_plots",
+                        help="Directory to save the before/after PC plots (default: pca_shift_plots)")
+    parser.add_argument("--scale-factor", type=float, default=2.0,
+                        help="Scaling factor to modify the flipped PCs (default: 2.0)")
+    args = parser.parse_args()
+
+    if not os.path.exists(args.input_file):
+        print(f"Error: Input file '{args.input_file}' does not exist.")
+        return
+
+    df = pd.read_csv(args.input_file)
+    print(f"Loaded data with shape {df.shape} from {args.input_file}")
+
+    scaler = StandardScaler()
+    X_std = scaler.fit_transform(df.values)
+
+    pca = PCA(n_components=args.n_components)
+    PCs = pca.fit_transform(X_std)
+    print("Explained variance ratios for computed components:")
+    for i, ratio in enumerate(pca.explained_variance_ratio_):
+        print(f"PC{i+1}: {ratio:.4f}")
+
+    top3_before = PCs[:, :3].copy()
+
+    # Flip and scale the top 3 principal components.
+    for i in range(3):
+        PCs[:, i] = flip_values(PCs[:, i], scale_factor=args.scale_factor)
+    
+    top3_after = PCs[:, :3]
+
+    if not os.path.exists(args.plot_dir):
+        os.makedirs(args.plot_dir, exist_ok=True)
+    for i in range(3):
+        plot_file = os.path.join(args.plot_dir, f"PC{i+1}_before_after.png")
+        plot_pc_distributions(top3_before[:, i], top3_after[:, i], i, plot_file)
+
+    X_new_std = pca.inverse_transform(PCs)
+    X_new = scaler.inverse_transform(X_new_std)
+
+    df_new = pd.DataFrame(X_new, columns=df.columns)
+
+    output_dir = os.path.dirname(args.output_file)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
+    df_new.to_csv(args.output_file, index=False)
+    print(f"New shifted dataset saved to {args.output_file}")
+
+if __name__ == "__main__":
+    main()
+
+
+# ======================
 # File: data.py
 # ======================
 
@@ -870,16 +2357,18 @@ if __name__ == "__main__":
 import torch
 import pandas as pd
 import numpy as np
+from pathlib import Path
 
-# DATALOADING: SET (1) SHIFT AND (2) P_BITFLIPPING.
-def load_twins_data(path_x="data/TWINS/processed_X_covariate_shifted.csv",  # SHIFT by default
-                    path_t="data/TWINS/processed_t.csv",
-                    path_y="data/TWINS/processed_y.csv",
-                    path_z="data/TWINS/processed_z_p0.5.csv"):
+##########################
+# Twin Data Functions
+##########################
+
+def load_twins_data(path_x: str = "data/TWINS/processed_X.csv",
+                    path_t: str = "data/TWINS/processed_t.csv",
+                    path_y: str = "data/TWINS/processed_y.csv",
+                    path_z: str = "data/TWINS/processed_z_p0.1.csv") -> tuple:
     """
     Loads the Twins dataset. Returns X, t, y, Z as torch Tensors.
-    By default, uses the shifted X for training. (If you want unshifted for training,
-    change path_x to "data/TWINS/processed_X.csv".)
     """
     X = pd.read_csv(path_x).values
     t = pd.read_csv(path_t).values.squeeze()
@@ -893,18 +2382,24 @@ def load_twins_data(path_x="data/TWINS/processed_X_covariate_shifted.csv",  # SH
 
     total_samples = X.shape[0]
     if total_samples % 2 != 0:
-        raise ValueError("Number of samples must be even.")
+        raise ValueError("Number of samples must be even for Twins data.")
 
     return X, t, y, Z
 
 
-def prepare_train_test_split(X, t, y, Z, num_data, test_size, seed):
+def prepare_train_test_split(X: torch.Tensor, t: torch.Tensor, y: torch.Tensor, Z: torch.Tensor,
+                             num_data: int, test_size: float, seed: int) -> tuple:
     """
-    Given X, t, y, Z, create a train/test split based on the argument parameters.
-    IMPORTANT CHANGE: Even if 'X' is shifted (or not) for training, we now ALWAYS test on the unshifted X.
+    Given X, t, y, Z, creates a train/test split for the Twins dataset.
+    Splitting is done at the twin-pair level to preserve pairing.
+    Returns:
+      - X_train, t_train, y_train, Z_train (training tensors)
+      - X_test, t_test, y_test, Z_test (test tensors)
+      - true_ite_train, true_ite_test (computed from observed outcomes)
+      - XZ_train, t_train_np, y_train_np (for baseline methods)
+      - train_twin0, train_twin1, test_twin0, test_twin1 (index arrays)
     """
     total_samples = X.shape[0]
-    # Each 'pair' is (twin0, twin1).
     N_pairs = total_samples // 2
     sample_size_pairs = num_data // 2
 
@@ -920,39 +2415,166 @@ def prepare_train_test_split(X, t, y, Z, num_data, test_size, seed):
     test_twin0 = 2 * test_pairs
     test_twin1 = 2 * test_pairs + 1
 
-    # ---------------------------
-    # Train set uses whichever X was passed in (shifted or unshifted).
-    # ---------------------------
     X_train = torch.cat([X[train_twin0], X[train_twin1]], dim=0)
     t_train = torch.cat([t[train_twin0], t[train_twin1]], dim=0)
     y_train = torch.cat([y[train_twin0], y[train_twin1]], dim=0)
     Z_train = torch.cat([Z[train_twin0], Z[train_twin1]], dim=0)
 
-    # ---------------------------
-    # ALWAYS load and use the unshifted X for the test set:
-    # ---------------------------
-    X_unshifted_all = pd.read_csv("data/TWINS/processed_X.csv").values
-    X_unshifted_all = torch.tensor(X_unshifted_all, dtype=torch.float)
-
-    X_test = torch.cat([X_unshifted_all[test_twin0], X_unshifted_all[test_twin1]], dim=0)
+    X_test = torch.cat([X[test_twin0], X[test_twin1]], dim=0)
     t_test = torch.cat([t[test_twin0], t[test_twin1]], dim=0)
     y_test = torch.cat([y[test_twin0], y[test_twin1]], dim=0)
     Z_test = torch.cat([Z[test_twin0], Z[test_twin1]], dim=0)
 
-    # True ITE for train and test (still uses the same Y for twin0 vs twin1)
     true_ite_train = (y[train_twin1] - y[train_twin0]).numpy()
     true_ite_test = (y[test_twin1] - y[test_twin0]).numpy()
 
-    # Combined XZ for "noncausal" methods (training portion)
     XZ_train = np.concatenate([X_train.numpy(), Z_train.numpy()], axis=1)
     t_train_np = t_train.numpy()
     y_train_np = y_train.numpy()
 
-    return (
-        X_train, t_train, y_train, Z_train,
-        X_test,  t_test,  y_test,  Z_test,
-        true_ite_train, true_ite_test,
-        XZ_train, t_train_np, y_train_np,
-        train_twin0, train_twin1,
-        test_twin0, test_twin1
-    )
+    return (X_train, t_train, y_train, Z_train,
+            X_test, t_test, y_test, Z_test,
+            true_ite_train, true_ite_test,
+            XZ_train, t_train_np, y_train_np,
+            train_twin0, train_twin1, test_twin0, test_twin1)
+
+    
+##########################
+# IHDP Data Functions
+##########################
+
+def load_ihdp_data(path: str = "data/IHDP/csv/concatenated_ihdp.csv",
+                   train_shifted: bool = False) -> tuple:
+    """
+    Loads the IHDP dataset from the concatenated CSV file.
+
+    The expected columns are: treatment, y_factual, y_cfactual, mu0, mu1, x1...x25.
+    (Both factual and counterfactual outcomes are available.)
+
+    Depending on the 'train_shifted' flag, this function loads either the PCA‐shifted
+    covariates (for training) or the modified (24-column) covariates (for testing).
+    For the latent confounder Z, it attempts to load a default file (flip probability 0.1).
+
+    Returns:
+        X: Covariate tensor.
+        t: Treatment tensor.
+        y: Factual outcome tensor (y_factual).
+        y_cf: Counterfactual outcome tensor (y_cfactual).
+        Z: Latent confounder tensor.
+    """
+    df = pd.read_csv(path)
+    expected_cols = ["treatment", "y_factual", "y_cfactual", "mu0", "mu1"] + [f"x{i}" for i in range(1, 26)]
+    for col in expected_cols:
+        if col not in df.columns:
+            raise ValueError(f"Missing expected column: {col}")
+
+    # Extract treatment and outcomes.
+    t = df["treatment"].values
+    y = df["y_factual"].values
+    y_cf = df["y_cfactual"].values
+
+    # Determine which covariate file to load
+    x_mod_file = Path("data/IHDP/processed_X_ihdp_modified.csv")
+    x_pca_file = Path("data/IHDP/processed_X_pca_shifted.csv")
+
+    if train_shifted:
+        if not x_pca_file.exists():
+            raise FileNotFoundError(f"--train-shifted=True but '{x_pca_file}' not found.")
+        X = pd.read_csv(x_pca_file).values
+        print("Loaded PCA-shifted IHDP covariates from:", x_pca_file)
+    else:
+        if x_mod_file.exists():
+            X = pd.read_csv(x_mod_file).values
+            print("Loaded modified IHDP covariates (24 columns) from:", x_mod_file)
+        else:
+            # Fallback to original 25 covariates
+            covariate_cols = [f"x{i}" for i in range(1, 26)]
+            X = df[covariate_cols].values
+            print("Using original 25-column IHDP covariates from the concatenated CSV.")
+
+    # Load latent confounder Z (default flip probability 0.1)
+    z_file = Path("data/IHDP/processed_Z_ihdp_p0.1.csv")
+    if z_file.exists():
+        Z = pd.read_csv(z_file).values
+        if Z.ndim == 1:
+            Z = Z.reshape(-1, 1)
+        print("Loaded latent confounder Z from:", z_file)
+    else:
+        Z = np.zeros((X.shape[0], 1))
+        print("No latent confounder file found; using Z=0.")
+
+    # Convert arrays to torch tensors
+    X = torch.tensor(X, dtype=torch.float)
+    t = torch.tensor(t, dtype=torch.float)
+    y = torch.tensor(y, dtype=torch.float)
+    y_cf = torch.tensor(y_cf, dtype=torch.float)
+    Z = torch.tensor(Z, dtype=torch.float)
+
+    return X, t, y, y_cf, Z
+
+
+def prepare_train_test_split_ihdp(X: torch.Tensor, t: torch.Tensor, y: torch.Tensor, y_cf: torch.Tensor, Z: torch.Tensor,
+                                  test_size: float, seed: int) -> tuple:
+    """
+    Prepares a random train/test split for IHDP.
+
+    The training set uses the (possibly shifted) covariates as loaded.
+    The test set is forced to come from the original unshifted modified covariates.
+
+    This function now computes the true ITE from the available factual and counterfactual outcomes.
+    True ITE is computed as:
+        if t == 1:  y_factual - y_cfactual
+        else:       y_cfactual - y_factual
+
+    Returns a tuple containing:
+      - X_train, t_train, y_train, y_cf_train, Z_train (training tensors)
+      - X_test, t_test, y_test, y_cf_test, Z_test (test tensors; note X_test is unshifted)
+      - true_ite_train, true_ite_test (computed true ITE arrays)
+      - XZ_train, t_train_np, y_train_np (for baseline methods)
+      - train_idx, test_idx: index arrays for training and testing splits.
+    """
+    np.random.seed(seed)
+    total_samples = X.shape[0]
+    indices = np.random.permutation(total_samples)
+    n_test = int(test_size * total_samples)
+    test_idx = indices[:n_test]
+    train_idx = indices[n_test:]
+
+    # Training set: use the current (possibly shifted) data
+    X_train = X[train_idx]
+    t_train = t[train_idx]
+    y_train = y[train_idx]
+    y_cf_train = y_cf[train_idx]
+    Z_train = Z[train_idx]
+
+    # Test set: load unshifted covariates from the modified file
+    x_unshifted_path = Path("data/IHDP/processed_X_ihdp_modified.csv")
+    if not x_unshifted_path.exists():
+        raise FileNotFoundError(f"Can't locate unshifted test file: {x_unshifted_path}")
+    X_unshifted = pd.read_csv(x_unshifted_path).values
+    X_unshifted = torch.tensor(X_unshifted, dtype=torch.float)
+
+    X_test = X_unshifted[test_idx]
+    t_test = t[test_idx]
+    y_test = y[test_idx]
+    y_cf_test = y_cf[test_idx]
+    Z_test = Z[test_idx]
+
+    # Compute true ITE: if t==1 then y - y_cf else y_cf - y
+    true_ite_train = np.where(t_train.numpy()==1, (y_train - y_cf_train).numpy(), (y_cf_train - y_train).numpy())
+    true_ite_test  = np.where(t_test.numpy()==1, (y_test - y_cf_test).numpy(), (y_cf_test - y_test).numpy())
+
+    # For baseline methods, combine X and Z for training
+    XZ_train = np.concatenate([X_train.numpy(), Z_train.numpy()], axis=1)
+    t_train_np = t_train.numpy()
+    y_train_np = y_train.numpy()
+
+    return (X_train, t_train, y_train, y_cf_train, Z_train,
+            X_test, t_test, y_test, y_cf_test, Z_test,
+            true_ite_train, true_ite_test,
+            XZ_train, t_train_np, y_train_np,
+            train_idx, test_idx)
+
+    
+if __name__ == "__main__":
+    print("Module data.py loaded successfully.")
