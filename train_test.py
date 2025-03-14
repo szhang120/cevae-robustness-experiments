@@ -134,19 +134,20 @@ def train_and_evaluate(args,
     pyro.set_rng_seed(args.seed)
     pyro.clear_param_store()
 
-    # cross validation
-    cv_results = cross_validate_models(
-        XZ_train, t_train_np, y_train_np, true_ite_train,
-        K=args.cv_folds, seed=args.seed
-    )
-    print("\nCross-validation results on training set:")
-    for model, res in cv_results.items():
-        print(f"{model}: ATE={res['ATE_mean']:.3f}±{res['ATE_std']:.3f}", end='')
-        print(f", ATE Abs Error={res['ATE_Abs_Error_mean']:.3f}±{res['ATE_Abs_Error_std']:.3f}", end='')
-        if res['PEHE_mean'] is not None:
-            print(f", PEHE={res['PEHE_mean']:.3f}±{res['PEHE_std']:.3f}")
-        else:
-            print(", PEHE=Not applicable")
+    # ---------------- NEW: conditionally skip cross-validation if only-cevae ----------------
+    if not args.only_cevae:
+        cv_results = cross_validate_models(
+            XZ_train, t_train_np, y_train_np, true_ite_train,
+            K=args.cv_folds, seed=args.seed
+        )
+        print("\nCross-validation results on training set:")
+        for model, res in cv_results.items():
+            print(f"{model}: ATE={res['ATE_mean']:.3f}±{res['ATE_std']:.3f}", end='')
+            print(f", ATE Abs Error={res['ATE_Abs_Error_mean']:.3f}±{res['ATE_Abs_Error_std']:.3f}", end='')
+            if res['PEHE_mean'] is not None:
+                print(f", PEHE={res['PEHE_mean']:.3f}±{res['PEHE_std']:.3f}")
+            else:
+                print(", PEHE=Not applicable")
 
     # train the CEVAE
     original_feature_dim = X.shape[1]
@@ -180,6 +181,14 @@ def train_and_evaluate(args,
     est_ite_cevae_test = cevae.ite(X[test_twin0], Z[test_twin0]).detach().cpu().numpy()
     ate_cevae_test, pehe_cevae_test, ate_abs_error_cevae_test = evaluate_ite(true_ite_test, est_ite_cevae_test)
 
+    # Print results for CEVAE
+    print(f"CEVAE: ATE={ate_cevae_test:.3f}, ATE Abs Error={ate_abs_error_cevae_test:.3f}, PEHE={pehe_cevae_test:.3f}")
+
+    # ---------------- NEW: conditionally skip other models if only-cevae ----------------
+    if args.only_cevae:
+        return
+
+    # Evaluate other methods on test set
     xgb_model = XGBRegressor()
     xgb_model.fit(XZ0_train_full, ITE_train_full)
     est_ite_xgb_test = xgb_model.predict(XZ0_test_full)
@@ -205,9 +214,8 @@ def train_and_evaluate(args,
     est_ite_xl_test = estimate_ite_xlearner(XZ_train, t_train_np, y_train_np, XZ0_test_full)
     ate_xl_test, pehe_xl_test, ate_abs_error_xl_test = evaluate_ite(true_ite_test, est_ite_xl_test)
 
-    print("\nTest Set Results:")
+    print("\nTest Set Results (Other Models):")
     results_test = {
-        "CEVAE": (ate_cevae_test, pehe_cevae_test, ate_abs_error_cevae_test),
         "XGBoost": (ate_xgb_test, pehe_xgb_test, ate_abs_error_xgb_test),
         "SVM": (ate_svm_test, pehe_svm_test, ate_abs_error_svm_test),
         "KNN": (ate_knn_test, pehe_knn_test, ate_abs_error_knn_test),

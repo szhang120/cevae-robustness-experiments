@@ -1,10 +1,10 @@
 import torch
 import pyro
-from pyro.contrib.cevae import CEVAE
+from visual_cevae import VisualCEVAE
 
-class CEVAEWithZ(CEVAE):
+class CEVAEWithZ(VisualCEVAE):
     """
-    Appends Z to X during training and inference.
+    Extends the visual CEVAE (VisualCEVAE) by appending Z to X during training and inference.
     """
     def fit(self, x, t, y, z, **kwargs):
         x_extended = torch.cat([x, z], dim=1)

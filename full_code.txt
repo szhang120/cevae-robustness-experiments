@@ -1,0 +1,958 @@
+Directory Tree:
+cevae-robustness-experiments/
+│   ├── .DS_Store
+│   ├── models.py
+│   ├── train_test.py
+│   ├── cs229_poster2.png
+│   ├── README.md
+│   ├── 1_final_dashboard.png
+│   ├── final_visualization.png
+│   ├── full_code.txt
+│   ├── utils.py
+│   ├── main.py
+│   ├── visual_cevae.py
+│   ├── cs229_final_report.pdf
+│   ├── analyze_shifts.py
+│   ├── data.py
+│   ├── final_dashboard.png
+│   ├── __pycache__/ [EXCLUDED]
+│   ├── .git/ [EXCLUDED]
+│   ├── data/
+│   │   ├── .DS_Store
+│   │   ├── TWINS/
+│   │   │   ├── top_correlated_covariates.csv
+│   │   │   ├── processed_y.csv
+│   │   │   ├── processed_X_covariate_shifted.csv
+│   │   │   ├── twin_pairs_T_3years_samesex.csv
+│   │   │   ├── twin_pairs_Y_3years_samesex.csv
+│   │   │   ├── processed_X.csv
+│   │   │   ├── processed_X_44.csv
+│   │   │   ├── processed_t.csv
+│   │   │   ├── twin_pairs_X_3years_samesex.csv
+│   │   │   ├── processed_z_p0.3.csv
+│   │   │   ├── processed_z_p0.2.csv
+│   │   │   ├── processed_z_p0.0.csv
+│   │   │   ├── processed_z_p0.1.csv
+│   │   │   ├── processed_z_p0.5.csv
+│   │   │   ├── processed_z_p0.4.csv
+│   │   ├── IHDP/
+│   │   │   ├── .DS_Store
+│   │   │   ├── columns.txt
+│   │   │   ├── concatenated_ihdp.csv
+│   │   │   ├── csv/
+│   │   │   │   ├── ihdp_npci_5.csv
+│   │   │   │   ├── ihdp_npci_4.csv
+│   │   │   │   ├── ihdp_npci_6.csv
+│   │   │   │   ├── ihdp_npci_7.csv
+│   │   │   │   ├── ihdp_npci_3.csv
+│   │   │   │   ├── ihdp_npci_2.csv
+│   │   │   │   ├── ihdp_npci_1.csv
+│   │   │   │   ├── ihdp_npci_10.csv
+│   │   │   │   ├── ihdp_npci_9.csv
+│   │   │   │   ├── ihdp_npci_8.csv
+
+
+
+
+# ======================
+# File: models.py
+# ======================
+
+import torch
+import pyro
+from visual_cevae import VisualCEVAE
+
+class CEVAEWithZ(VisualCEVAE):
+    """
+    Extends the visual CEVAE (VisualCEVAE) by appending Z to X during training and inference.
+    """
+    def fit(self, x, t, y, z, **kwargs):
+        x_extended = torch.cat([x, z], dim=1)
+        return super().fit(x_extended, t, y, **kwargs)
+
+    def ite(self, x, z):
+        x_extended = torch.cat([x, z], dim=1)
+        return super().ite(x_extended)
+
+
+# ======================
+# File: train_test.py
+# ======================
+
+import numpy as np
+import torch
+import pyro
+
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.svm import SVR
+from xgboost import XGBRegressor
+
+from utils import (
+    estimate_ate_ipw,
+    estimate_ite_dml,
+    estimate_ite_xlearner,
+    evaluate_ite,
+    estimate_ite_direct
+)
+from models import CEVAEWithZ
+
+
+def cross_validate_models(XZ, t, y, y_true, K=5, seed=0):
+    """
+    Perform K-fold CV
+    """
+    from sklearn.model_selection import KFold
+
+    N = XZ.shape[0]
+    N_pairs = N // 2
+    pair_indices = np.arange(N_pairs)
+
+    kf = KFold(n_splits=K, shuffle=True, random_state=seed)
+
+    results_cv = {
+        "XGBoost": [],
+        "SVM": [],
+        "KNN": [],
+        "IPW": [],
+        "DML": [],
+        "X-Learner": []
+    }
+
+    for train_pairs, val_pairs in kf.split(pair_indices):
+        train_twin0 = 2 * train_pairs
+        train_twin1 = 2 * train_pairs + 1
+        val_twin0 = 2 * val_pairs
+        val_twin1 = 2 * val_pairs + 1
+
+        # for direct-ITE regressions
+        XZ_train_pairs = XZ[train_twin0]
+        y_train_ite = (y[train_twin1] - y[train_twin0]).ravel()
+
+        XZ_val_pairs = XZ[val_twin0]
+        y_true_val = (y[val_twin1] - y[val_twin0]).ravel()
+
+        est_ite_xgb = estimate_ite_direct(
+            XGBRegressor, XZ_train_pairs, y_train_ite, XZ_val_pairs
+        )
+        ate_xgb, pehe_xgb, ate_abs_error_xgb = evaluate_ite(y_true_val, est_ite_xgb)
+        results_cv["XGBoost"].append((ate_xgb, pehe_xgb, ate_abs_error_xgb))
+
+        est_ite_svm = estimate_ite_direct(
+            SVR, XZ_train_pairs, y_train_ite, XZ_val_pairs,
+            kernel='rbf', C=1.0
+        )
+        ate_svm, pehe_svm, ate_abs_error_svm = evaluate_ite(y_true_val, est_ite_svm)
+        results_cv["SVM"].append((ate_svm, pehe_svm, ate_abs_error_svm))
+
+        est_ite_knn = estimate_ite_direct(
+            KNeighborsRegressor, XZ_train_pairs, y_train_ite, XZ_val_pairs,
+            n_neighbors=5
+        )
+        ate_knn, pehe_knn, ate_abs_error_knn = evaluate_ite(y_true_val, est_ite_knn)
+        results_cv["KNN"].append((ate_knn, pehe_knn, ate_abs_error_knn))
+
+        XZ_train_full = np.concatenate([XZ[train_twin0], XZ[train_twin1]], axis=0)
+        t_train_full = np.concatenate([t[train_twin0], t[train_twin1]])
+        y_train_full = np.concatenate([y[train_twin0], y[train_twin1]])
+
+        ate_ipw = estimate_ate_ipw(XZ_train_full, t_train_full, y_train_full)
+        ate_true_ipw = np.mean(y_true_val)
+        ate_abs_error_ipw = np.abs(ate_ipw - ate_true_ipw)
+        results_cv["IPW"].append((ate_ipw, None, ate_abs_error_ipw))
+
+        est_ite_dml_val = estimate_ite_dml(XZ_train_full, t_train_full, y_train_full, XZ_val_pairs)
+        ate_dml, pehe_dml, ate_abs_error_dml = evaluate_ite(y_true_val, est_ite_dml_val)
+        results_cv["DML"].append((ate_dml, pehe_dml, ate_abs_error_dml))
+
+        est_ite_xl = estimate_ite_xlearner(XZ_train_full, t_train_full, y_train_full, XZ_val_pairs)
+        ate_xl, pehe_xl, ate_abs_error_xl = evaluate_ite(y_true_val, est_ite_xl)
+        results_cv["X-Learner"].append((ate_xl, pehe_xl, ate_abs_error_xl))
+
+    # collect results
+    avg_results_cv = {}
+    for model, vals in results_cv.items():
+        ates = [v[0] for v in vals]
+        pehes = [v[1] for v in vals if v[1] is not None]
+        ate_abs_errors = [v[2] for v in vals]
+
+        ate_mean = np.mean(ates)
+        ate_std = np.std(ates)
+        ate_abs_error_mean = np.mean(ate_abs_errors)
+        ate_abs_error_std = np.std(ate_abs_errors)
+
+        if len(pehes) > 0:
+            pehe_mean = np.mean(pehes)
+            pehe_std = np.std(pehes)
+        else:
+            pehe_mean = None
+            pehe_std = None
+
+        avg_results_cv[model] = {
+            "ATE_mean": ate_mean,
+            "ATE_std": ate_std,
+            "ATE_Abs_Error_mean": ate_abs_error_mean,
+            "ATE_Abs_Error_std": ate_abs_error_std,
+            "PEHE_mean": pehe_mean,
+            "PEHE_std": pehe_std
+        }
+
+    return avg_results_cv
+
+
+def train_and_evaluate(args, 
+                       X, t, y, Z, 
+                       X_train, t_train, y_train, Z_train,
+                       X_test, t_test, y_test, Z_test,
+                       true_ite_train, true_ite_test,
+                       XZ_train, t_train_np, y_train_np,
+                       train_twin0, train_twin1,
+                       test_twin0, test_twin1):
+    """
+    Execute the entire training, validation (via CV), and testing pipeline.
+    """
+    if args.cuda:
+        torch.set_default_device("cuda")
+    pyro.set_rng_seed(args.seed)
+    pyro.clear_param_store()
+
+    # ---------------- NEW: conditionally skip cross-validation if only-cevae ----------------
+    if not args.only_cevae:
+        cv_results = cross_validate_models(
+            XZ_train, t_train_np, y_train_np, true_ite_train,
+            K=args.cv_folds, seed=args.seed
+        )
+        print("\nCross-validation results on training set:")
+        for model, res in cv_results.items():
+            print(f"{model}: ATE={res['ATE_mean']:.3f}±{res['ATE_std']:.3f}", end='')
+            print(f", ATE Abs Error={res['ATE_Abs_Error_mean']:.3f}±{res['ATE_Abs_Error_std']:.3f}", end='')
+            if res['PEHE_mean'] is not None:
+                print(f", PEHE={res['PEHE_mean']:.3f}±{res['PEHE_std']:.3f}")
+            else:
+                print(", PEHE=Not applicable")
+
+    # train the CEVAE
+    original_feature_dim = X.shape[1]
+    z_dim = Z.shape[1]
+    new_feature_dim = original_feature_dim + z_dim
+
+    cevae = CEVAEWithZ(
+        feature_dim=new_feature_dim,
+        latent_dim=args.latent_dim,
+        hidden_dim=args.hidden_dim,
+        num_layers=args.num_layers,
+        num_samples=10,
+    )
+
+    cevae.fit(
+        X_train, t_train, y_train, z=Z_train,
+        num_epochs=args.num_epochs,
+        batch_size=args.batch_size,
+        learning_rate=args.learning_rate,
+        learning_rate_decay=args.learning_rate_decay,
+        weight_decay=args.weight_decay,
+    )
+
+    print("\n Test Set Evaluation:")
+
+    XZ = np.concatenate([X.numpy(), Z.numpy()], axis=1)
+    XZ0_train_full = XZ[train_twin0]
+    ITE_train_full = (y[train_twin1] - y[train_twin0]).numpy()
+    XZ0_test_full = XZ[test_twin0]
+
+    est_ite_cevae_test = cevae.ite(X[test_twin0], Z[test_twin0]).detach().cpu().numpy()
+    ate_cevae_test, pehe_cevae_test, ate_abs_error_cevae_test = evaluate_ite(true_ite_test, est_ite_cevae_test)
+
+    # Print results for CEVAE
+    print(f"CEVAE: ATE={ate_cevae_test:.3f}, ATE Abs Error={ate_abs_error_cevae_test:.3f}, PEHE={pehe_cevae_test:.3f}")
+
+    # ---------------- NEW: conditionally skip other models if only-cevae ----------------
+    if args.only_cevae:
+        return
+
+    # Evaluate other methods on test set
+    xgb_model = XGBRegressor()
+    xgb_model.fit(XZ0_train_full, ITE_train_full)
+    est_ite_xgb_test = xgb_model.predict(XZ0_test_full)
+    ate_xgb_test, pehe_xgb_test, ate_abs_error_xgb_test = evaluate_ite(true_ite_test, est_ite_xgb_test)
+
+    svm_model = SVR(kernel='rbf', C=1.0)
+    svm_model.fit(XZ0_train_full, ITE_train_full)
+    est_ite_svm_test = svm_model.predict(XZ0_test_full)
+    ate_svm_test, pehe_svm_test, ate_abs_error_svm_test = evaluate_ite(true_ite_test, est_ite_svm_test)
+
+    knn_model = KNeighborsRegressor(n_neighbors=5)
+    knn_model.fit(XZ0_train_full, ITE_train_full)
+    est_ite_knn_test = knn_model.predict(XZ0_test_full)
+    ate_knn_test, pehe_knn_test, ate_abs_error_knn_test = evaluate_ite(true_ite_test, est_ite_knn_test)
+
+    ate_ipw_test = estimate_ate_ipw(XZ_train, t_train_np, y_train_np)
+    ate_true_ipw_test = np.mean(true_ite_test)
+    ate_abs_error_ipw_test = np.abs(ate_ipw_test - ate_true_ipw_test)
+
+    est_ite_dml_test = estimate_ite_dml(XZ_train, t_train_np, y_train_np, XZ0_test_full)
+    ate_dml_test, pehe_dml_test, ate_abs_error_dml_test = evaluate_ite(true_ite_test, est_ite_dml_test)
+
+    est_ite_xl_test = estimate_ite_xlearner(XZ_train, t_train_np, y_train_np, XZ0_test_full)
+    ate_xl_test, pehe_xl_test, ate_abs_error_xl_test = evaluate_ite(true_ite_test, est_ite_xl_test)
+
+    print("\nTest Set Results (Other Models):")
+    results_test = {
+        "XGBoost": (ate_xgb_test, pehe_xgb_test, ate_abs_error_xgb_test),
+        "SVM": (ate_svm_test, pehe_svm_test, ate_abs_error_svm_test),
+        "KNN": (ate_knn_test, pehe_knn_test, ate_abs_error_knn_test),
+        "IPW": (ate_ipw_test, None, ate_abs_error_ipw_test),
+        "DML": (ate_dml_test, pehe_dml_test, ate_abs_error_dml_test),
+        "X-Learner": (ate_xl_test, pehe_xl_test, ate_abs_error_xl_test)
+    }
+
+    for model, (ate_val, pehe_val, ate_abs_error_val) in results_test.items():
+        print(f"{model}: ATE={ate_val:.3f}", end='')
+        print(f", ATE Abs Error={ate_abs_error_val:.3f}", end='')
+        if pehe_val is not None:
+            print(f", PEHE={pehe_val:.3f}")
+        else:
+            print(", PEHE=N/A")
+
+
+# ======================
+# File: utils.py
+# ======================
+
+import numpy as np
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_squared_error
+from xgboost import XGBRegressor
+
+from econml.dml import DML
+from econml.metalearners import XLearner
+from econml.sklearn_extensions.linear_model import StatsModelsLinearRegression
+
+
+def estimate_ate_ipw(XZ, t, y):
+    """
+    ATE estimation via IPW
+    """
+    scaler = StandardScaler()
+    XZ_scaled = scaler.fit_transform(XZ)
+
+    lr = LogisticRegression(max_iter=10000)
+    lr.fit(XZ_scaled, t)
+    p = lr.predict_proba(XZ_scaled)[:, 1]
+    p = np.clip(p, 1e-5, 1 - 1e-5)
+
+    ate_ipw = np.mean(y[t == 1] / p[t == 1]) - np.mean(y[t == 0] / (1 - p[t == 0]))
+    return ate_ipw
+
+
+def estimate_ite_dml(XZ, t, y, XZ_eval):
+    """
+    ITE estimation via DML
+    """
+    dml = DML(
+        model_y=RandomForestRegressor(random_state=0),
+        model_t=RandomForestClassifier(random_state=0),
+        model_final=StatsModelsLinearRegression(fit_intercept=False),
+        discrete_treatment=True
+    )
+    dml.fit(y, t, X=XZ)
+    ite_est = dml.effect(XZ_eval, T0=0, T1=1)
+    return ite_est
+
+
+def estimate_ite_xlearner(XZ, t, y, XZ_eval):
+    """
+    ITE estimation via X-Learner
+    """
+    base_learner = RandomForestRegressor(random_state=0)
+    xlearner = XLearner(models=base_learner)
+    xlearner.fit(y, t, X=XZ)
+    ite_est = xlearner.effect(XZ_eval)
+    return ite_est
+
+
+def evaluate_ite(y_true, ite_est):
+    """
+    Model evaluation
+    """
+    ate_est = np.mean(ite_est)
+    ate_true = np.mean(y_true)
+    ate_abs_error = np.abs(ate_est - ate_true)
+    pehe = np.sqrt(mean_squared_error(y_true, ite_est))
+    return ate_est, pehe, ate_abs_error
+
+
+def estimate_ite_direct(model_class, X_train_pairs, y_train_ite, X_val_pairs, **model_kwargs):
+    """
+    Noncausal fitting and ITE estimation
+    """
+    model = model_class(**model_kwargs)
+    model.fit(X_train_pairs, y_train_ite)
+    ite_est_val = model.predict(X_val_pairs)
+    return ite_est_val
+
+
+# ======================
+# File: main.py
+# ======================
+
+import argparse
+import logging
+
+from data import load_twins_data, prepare_train_test_split
+from train_test import train_and_evaluate
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="CEVAE with Z and other model comparisons using combined XZ features."
+    )
+    parser.add_argument("--num-data", default=23968, type=int)
+    parser.add_argument("--test-size", default=0.2, type=float)
+    parser.add_argument("--cv-folds", default=5, type=int)
+    parser.add_argument("--latent-dim", default=30, type=int)
+    parser.add_argument("--feature-dim", default=44, type=int) 
+    parser.add_argument("--hidden-dim", default=300, type=int)
+    parser.add_argument("--num-layers", default=2, type=int)
+    parser.add_argument("-n", "--num-epochs", default=40, type=int)
+    parser.add_argument("-b", "--batch-size", default=512, type=int)
+    parser.add_argument("-lr", "--learning-rate", default=1e-3, type=float)
+    parser.add_argument("-lrd", "--learning-rate-decay", default=0.95, type=float)
+    parser.add_argument("--weight-decay", default=1e-4, type=float)
+    parser.add_argument("--seed", default=66, type=int)
+    parser.add_argument("--jit", action="store_true")
+    parser.add_argument("--cuda", action="store_true")
+    # ---------------- NEW ARGUMENT ----------------
+    parser.add_argument("--only-cevae", action="store_true", default=True, help="If set, only train/evaluate CEVAE, skipping other models.")
+
+    args = parser.parse_args()
+
+    logging.getLogger("pyro").setLevel(logging.DEBUG)
+    if logging.getLogger("pyro").handlers:
+        logging.getLogger("pyro").handlers[0].setLevel(logging.DEBUG)
+
+    # data loading
+    X, t, y, Z = load_twins_data()
+
+    # perform train/test dataset splits
+    (X_train, t_train, y_train, Z_train,
+     X_test,  t_test,  y_test,  Z_test,
+     true_ite_train, true_ite_test,
+     XZ_train, t_train_np, y_train_np,
+     train_twin0, train_twin1,
+     test_twin0, test_twin1) = prepare_train_test_split(
+        X, t, y, Z,
+        num_data=args.num_data,
+        test_size=args.test_size,
+        seed=args.seed
+    )
+
+    # run model training and evaluation
+    train_and_evaluate(
+        args,
+        X, t, y, Z,
+        X_train, t_train, y_train, Z_train,
+        X_test,  t_test,  y_test,  Z_test,
+        true_ite_train, true_ite_test,
+        XZ_train, t_train_np, y_train_np,
+        train_twin0, train_twin1,
+        test_twin0, test_twin1
+    )
+
+
+if __name__ == "__main__":
+    main()
+
+
+# ======================
+# File: visual_cevae.py
+# ======================
+
+"""
+visual_cevae.py
+
+This module implements a multi-panel interactive dashboard for the CEVAE.
+A fixed DAG representing the CEVAE architecture (nodes: X, T, Y, Z with edges: Z→X, Z→T, Z→Y, T→Y)
+is shown alongside time-series plots tracking key parameter statistics (e.g., average absolute weights)
+and performance metrics (ELBO loss) over training epochs. In addition, an animated t-SNE visualization of
+the latent variable distributions is displayed to illustrate convergence and representation shifts.
+The dashboard is updated efficiently with non-blocking rendering, and the final dashboard is saved as an image.
+"""
+
+import matplotlib.pyplot as plt
+import networkx as nx
+import torch
+import pyro
+from pyro import poutine
+from pyro.contrib.cevae import CEVAE, Model, Guide
+import numpy as np
+from matplotlib.colors import LinearSegmentedColormap
+from sklearn.manifold import TSNE
+from torch.utils.data import DataLoader, TensorDataset
+from pyro.optim import ClippedAdam
+from pyro.infer import SVI
+from pyro.contrib.cevae import TraceCausalEffect_ELBO
+from pyro.infer.util import torch_item
+from pyro.util import torch_isnan
+
+# --- Dashboard Initialization Utilities ---
+
+def _init_dashboard():
+    """
+    Create a dashboard figure with 4 subplots arranged in a 2x2 grid:
+        - Top-left: Static DAG (architecture)
+        - Top-right: Parameter metrics time-series
+        - Bottom-left: Performance (ELBO loss) time-series
+        - Bottom-right: t-SNE of latent representations
+    Returns a dictionary of axes and the figure.
+    """
+    fig, axs = plt.subplots(2, 2, figsize=(12, 8))
+    dashboard = {
+        "dag": axs[0, 0],
+        "param": axs[0, 1],
+        "perf": axs[1, 0],
+        "tsne": axs[1, 1],
+        "fig": fig
+    }
+    plt.ion()  # Enable interactive mode.
+    return dashboard
+
+def _init_static_dag():
+    """
+    Initialize the static DAG for the CEVAE architecture.
+    Returns (G, pos) for nodes: X, T, Y, Z with edges: Z→X, Z→T, Z→Y, T→Y.
+    """
+    G = nx.DiGraph()
+    nodes = ["X", "T", "Y", "Z"]
+    G.add_nodes_from(nodes)
+    edges = [("Z", "X"), ("Z", "T"), ("Z", "Y"), ("T", "Y")]
+    G.add_edges_from(edges)
+    pos = nx.spring_layout(G, seed=42)
+    return G, pos
+
+def _draw_dag(ax, G, pos, norm_metrics):
+    """
+    Draw the static DAG on the provided axis, updating node colors based on normalized metrics.
+    Colors interpolate between purple (#800080, low) and deep blue (#00008B, high).
+    """
+    cmap = LinearSegmentedColormap.from_list("custom_cmap", ["#800080", "#00008B"])
+    node_colors = [cmap(norm_metrics.get(node, 0.5)) for node in G.nodes()]
+    ax.clear()
+    nx.draw(G, pos, ax=ax, with_labels=True, node_color=node_colors,
+            arrows=True, arrowstyle='->', arrowsize=20)
+    ax.set_title("CEVAE Architecture")
+    
+def _update_time_series(ax, epochs, series, title, ylabel):
+    """
+    Update a time-series plot on the given axis.
+    epochs: list of epoch numbers.
+    series: dict mapping series label to list of values.
+    """
+    ax.clear()
+    for label, values in series.items():
+        ax.plot(epochs, values, label=label)
+    ax.set_title(title)
+    ax.set_xlabel("Epoch")
+    ax.set_ylabel(ylabel)
+    ax.legend()
+
+def _update_tsne(ax, tsne_emb, title="Latent t-SNE"):
+    """
+    Update the t-SNE scatter plot on the given axis.
+    tsne_emb: array of shape (n_samples, 2)
+    """
+    ax.clear()
+    ax.scatter(tsne_emb[:, 0], tsne_emb[:, 1], c='green', alpha=0.7)
+    ax.set_title(title)
+    ax.set_xlabel("Dim 1")
+    ax.set_ylabel("Dim 2")
+    plt.draw()
+    plt.pause(0.001)
+
+# --- Custom Visual Model and Guide (no per-forward visualization) ---
+
+class VisualModel(Model):
+    def forward(self, x, t=None, y=None, size=None):
+        if size is None:
+            size = x.size(0)
+        with pyro.plate("data", size, subsample=x):
+            z = pyro.sample("z", self.z_dist())
+            x_val = pyro.sample("x", self.x_dist(z), obs=x)
+            t_val = pyro.sample("t", self.t_dist(z), obs=t)
+            y_val = pyro.sample("y", self.y_dist(t, z), obs=y)
+        return y_val
+
+class VisualGuide(Guide):
+    def forward(self, x, t=None, y=None, size=None):
+        if size is None:
+            size = x.size(0)
+        with pyro.plate("data", size, subsample=x):
+            t = pyro.sample("t", self.t_dist(x), obs=t, infer={"is_auxiliary": True})
+            y = pyro.sample("y", self.y_dist(t, x), obs=y, infer={"is_auxiliary": True})
+            pyro.sample("z", self.z_dist(y, t, x))
+        return None
+
+# --- Visual CEVAE with Interactive Dashboard and Training History ---
+
+class VisualCEVAE(CEVAE):
+    """
+    A version of CEVAE that displays an interactive, multi-panel dashboard.
+    The dashboard includes:
+      - A fixed DAG of the model architecture.
+      - Time-series plots of parameter metrics (average absolute weights) for nodes.
+      - A time-series plot of the ELBO loss.
+      - A dynamic t-SNE visualization of latent variable representations.
+    The dashboard is updated every vis_update_interval epochs and saved as "final_dashboard.png".
+    """
+    def __init__(self, feature_dim, outcome_dist="bernoulli",
+                 latent_dim=20, hidden_dim=200, num_layers=3, num_samples=100):
+        config = dict(feature_dim=feature_dim,
+                      latent_dim=latent_dim,
+                      hidden_dim=hidden_dim,
+                      num_layers=num_layers,
+                      num_samples=num_samples)
+        config["outcome_dist"] = outcome_dist
+        self.feature_dim = feature_dim
+        self.num_samples = num_samples
+        super().__init__(feature_dim, outcome_dist, latent_dim, hidden_dim, num_layers, num_samples)
+        self.model = VisualModel(config)
+        self.guide = VisualGuide(config)
+        # Initialize dashboard and static DAG.
+        self.dashboard = _init_dashboard()
+        self.G, self.pos = _init_static_dag()
+        # Initialize history containers.
+        self.history = {
+            "epoch": [],
+            "param": {"X": [], "T": [], "Y": [], "Z": []},
+            "perf": [],  # ELBO loss per epoch.
+            "tsne": []   # Store latent representations for t-SNE.
+        }
+        # Fix a validation batch for t-SNE visualization.
+        self._fixed_data = None
+
+    def compute_node_metrics(self):
+        """
+        Compute average absolute weight values for nodes X, T, and Y.
+        For Z, use a fixed constant.
+        Returns a dict with keys "X", "T", "Y", "Z".
+        """
+        metrics = {}
+        norm_x = 0.0
+        count = 0
+        if hasattr(self.model, 'x_nn'):
+            for param in self.model.x_nn.fc.parameters():
+                norm_x += param.abs().mean().item()
+                count += 1
+        metrics["X"] = norm_x / count if count > 0 else 0.5
+
+        norm_t = 0.0
+        count = 0
+        if hasattr(self.model, 't_nn'):
+            for param in self.model.t_nn.fc.parameters():
+                norm_t += param.abs().mean().item()
+                count += 1
+        metrics["T"] = norm_t / count if count > 0 else 0.5
+
+        norm_y0 = 0.0
+        count0 = 0
+        if hasattr(self.model, 'y0_nn'):
+            for param in self.model.y0_nn.fc.parameters():
+                norm_y0 += param.abs().mean().item()
+                count0 += 1
+        norm_y1 = 0.0
+        count1 = 0
+        if hasattr(self.model, 'y1_nn'):
+            for param in self.model.y1_nn.fc.parameters():
+                norm_y1 += param.abs().mean().item()
+                count1 += 1
+        metrics["Y"] = ((norm_y0/count0 if count0 > 0 else 0.5) + (norm_y1/count1 if count1 > 0 else 0.5)) / 2
+        metrics["Z"] = 1.0
+        return metrics
+
+    def _extract_latent(self, x, t, y):
+        """
+        Extract latent variable "z" from the guide using poutine.trace.
+        Returns a tensor of shape (n_samples, latent_dim).
+        """
+        with poutine.trace() as tracer:
+            self.guide(x, t, y)
+        for name, site in tracer.trace.nodes.items():
+            if name == "z":
+                return site["value"]
+        return None
+
+    def _save_final_dashboard(self, filename):
+        self.dashboard["fig"].savefig(filename)
+
+    def fit(self, x, t, y, num_epochs=100, batch_size=100,
+            learning_rate=1e-3, learning_rate_decay=0.1, weight_decay=1e-4, log_every=100, vis_update_interval=5):
+        """
+        Train the model using SVI with TraceCausalEffect_ELBO.
+        The dashboard is updated every vis_update_interval epochs.
+        """
+        self.whiten = lambda data: (data - data.mean(0)) / (data.std(0) + 1e-6)
+        dataset = TensorDataset(x, t, y)
+        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+        num_steps = num_epochs * len(dataloader)
+        optim = ClippedAdam({"lr": learning_rate,
+                             "weight_decay": weight_decay,
+                             "lrd": learning_rate_decay ** (1 / num_steps)})
+        svi = SVI(self.model, self.guide, optim, TraceCausalEffect_ELBO())
+        losses = []
+        # Fix a validation batch for t-SNE visualization (from the input x).
+        self._fixed_data = x[:min(200, x.size(0))]  # up to 200 samples
+        for epoch in range(num_epochs):
+            epoch_loss = 0.0
+            for batch_x, batch_t, batch_y in dataloader:
+                batch_x = self.whiten(batch_x)
+                loss = svi.step(batch_x, batch_t, batch_y, size=len(dataset)) / len(dataset)
+                epoch_loss += loss
+            losses.append(epoch_loss)
+            print(f"Epoch {epoch} loss: {epoch_loss:.4f}")
+            # Update dashboard every vis_update_interval epochs.
+            if epoch % vis_update_interval == 0:
+                current_metrics = self.compute_node_metrics()
+                self._update_dashboard(epoch, current_metrics, epoch_loss)
+        # Final update and save dashboard.
+        final_metrics = self.compute_node_metrics()
+        self._update_dashboard(num_epochs, final_metrics, losses[-1])
+        self._save_final_dashboard("final_dashboard.png")
+        return losses
+
+    def _update_dashboard(self, epoch, current_metrics, current_loss):
+        """
+        Update dashboard plots with current metrics.
+          - Update static DAG (with node colors) in the 'dag' panel.
+          - Append and update time-series plots for parameter metrics and ELBO loss.
+          - Compute t-SNE on fixed latent representations and update the t-SNE panel.
+        """
+        # Append history.
+        self.history["epoch"].append(epoch)
+        for node in ["X", "T", "Y", "Z"]:
+            self.history["param"][node].append(current_metrics[node])
+        self.history["perf"].append(current_loss)
+        # Update static DAG panel.
+        # Normalize metrics for coloring: simply rescale using min/max over history.
+        norm_metrics = {}
+        for node in ["X", "T", "Y", "Z"]:
+            vals = self.history["param"][node]
+            norm_metrics[node] = (current_metrics[node] - min(vals)) / (max(vals) - min(vals) + 1e-8)
+        _draw_dag(self.dashboard["dag"], self.G, self.pos, norm_metrics)
+        # Update parameter metrics time-series panel.
+        _update_time_series(self.dashboard["param"], self.history["epoch"], self.history["param"],
+                              "Parameter Metrics", "Metric Value")
+        # Update performance (ELBO loss) time-series panel.
+        _update_time_series(self.dashboard["perf"], self.history["epoch"],
+                              {"ELBO": self.history["perf"]}, "ELBO Loss", "Loss")
+        # For t-SNE: use the fixed batch stored in self._fixed_data.
+        with torch.no_grad():
+            fixed_x = self._fixed_data
+            # We use dummy t and y (zeros) if not provided.
+            fixed_t = torch.zeros(fixed_x.size(0), device=fixed_x.device)
+            fixed_y = torch.zeros(fixed_x.size(0), device=fixed_x.device)
+            latent = self._extract_latent(fixed_x, fixed_t, fixed_y)
+            if latent is not None:
+                latent_np = latent.detach().cpu().numpy()
+                tsne = TSNE(n_components=2, random_state=42)
+                tsne_emb = tsne.fit_transform(latent_np)
+                _update_tsne(self.dashboard["tsne"], tsne_emb)
+        self.dashboard["fig"].canvas.draw()
+        plt.pause(0.001)
+
+
+# ======================
+# File: analyze_shifts.py
+# ======================
+
+#!/usr/bin/env python3
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+def main():
+    # Paths to the data files.
+    shifted_path = "data/TWINS/processed_X_covariate_shifted.csv"
+    original_path = "data/TWINS/processed_X.csv"
+
+    # Check if files exist.
+    if not os.path.exists(shifted_path) or not os.path.exists(original_path):
+        print("Required data files not found. Please ensure that both files exist in 'data/TWINS/'.")
+        return
+
+    # Load data as DataFrames.
+    df_shifted = pd.read_csv(shifted_path)
+    df_original = pd.read_csv(original_path)
+
+    # Check that the data have the same columns.
+    if not all(df_original.columns == df_shifted.columns):
+        print("Column mismatch between original and shifted data.")
+        return
+
+    columns = df_original.columns
+    shifted_vars = []
+    diff_summary = []
+
+    # Create a directory to save the distribution plots.
+    plots_dir = "shift_analysis_plots"
+    os.makedirs(plots_dir, exist_ok=True)
+
+    # Loop over each variable (column) and compare distributions.
+    for col in columns:
+        orig = df_original[col]
+        shft = df_shifted[col]
+
+        # Calculate summary statistics.
+        orig_mean = orig.mean()
+        shft_mean = shft.mean()
+        mean_diff = shft_mean - orig_mean
+        orig_std = orig.std()
+        shft_std = shft.std()
+        std_diff = shft_std - orig_std
+
+        # Determine if the variable is shifted.
+        # Here we use a threshold: if the absolute mean difference is larger than 10% of the original standard deviation.
+        threshold = 0.1 * orig_std if orig_std != 0 else 0
+        if abs(mean_diff) > threshold:
+            shifted_vars.append(col)
+
+        diff_summary.append({
+            "column": col,
+            "original_mean": orig_mean,
+            "shifted_mean": shft_mean,
+            "mean_diff": mean_diff,
+            "original_std": orig_std,
+            "shifted_std": shft_std,
+            "std_diff": std_diff
+        })
+
+        # Plot histogram overlay for the variable.
+        plt.figure(figsize=(8, 4))
+        plt.hist(orig, bins=50, alpha=0.5, density=True, label="Original")
+        plt.hist(shft, bins=50, alpha=0.5, density=True, label="Shifted")
+        plt.title(f"Distribution Comparison for {col}")
+        plt.xlabel(col)
+        plt.ylabel("Density")
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(os.path.join(plots_dir, f"distribution_{col}.png"))
+        plt.close()
+
+    # Print summary.
+    print("Variables detected as shifted:")
+    if shifted_vars:
+        for var in shifted_vars:
+            print(f"  {var}")
+    else:
+        print("  None")
+
+    print("\nDetailed Summary (per variable):")
+    for entry in diff_summary:
+        print(f"{entry['column']}: original_mean={entry['original_mean']:.4f}, shifted_mean={entry['shifted_mean']:.4f}, "
+              f"mean_diff={entry['mean_diff']:.4f}, original_std={entry['original_std']:.4f}, shifted_std={entry['shifted_std']:.4f}, "
+              f"std_diff={entry['std_diff']:.4f}")
+
+if __name__ == "__main__":
+    main()
+
+
+# ======================
+# File: data.py
+# ======================
+
+# ======================
+# File: data.py
+# ======================
+
+import torch
+import pandas as pd
+import numpy as np
+
+# DATALOADING: SET (1) SHIFT AND (2) P_BITFLIPPING.
+def load_twins_data(path_x="data/TWINS/processed_X_covariate_shifted.csv",  # SHIFT by default
+                    path_t="data/TWINS/processed_t.csv",
+                    path_y="data/TWINS/processed_y.csv",
+                    path_z="data/TWINS/processed_z_p0.5.csv"):
+    """
+    Loads the Twins dataset. Returns X, t, y, Z as torch Tensors.
+    By default, uses the shifted X for training. (If you want unshifted for training,
+    change path_x to "data/TWINS/processed_X.csv".)
+    """
+    X = pd.read_csv(path_x).values
+    t = pd.read_csv(path_t).values.squeeze()
+    y = pd.read_csv(path_y).values.squeeze()
+    Z = pd.read_csv(path_z).values
+
+    X = torch.tensor(X, dtype=torch.float)
+    t = torch.tensor(t, dtype=torch.float)
+    y = torch.tensor(y, dtype=torch.float)
+    Z = torch.tensor(Z, dtype=torch.float)
+
+    total_samples = X.shape[0]
+    if total_samples % 2 != 0:
+        raise ValueError("Number of samples must be even.")
+
+    return X, t, y, Z
+
+
+def prepare_train_test_split(X, t, y, Z, num_data, test_size, seed):
+    """
+    Given X, t, y, Z, create a train/test split based on the argument parameters.
+    IMPORTANT CHANGE: Even if 'X' is shifted (or not) for training, we now ALWAYS test on the unshifted X.
+    """
+    total_samples = X.shape[0]
+    # Each 'pair' is (twin0, twin1).
+    N_pairs = total_samples // 2
+    sample_size_pairs = num_data // 2
+
+    torch.manual_seed(seed)
+    selected_pairs = torch.randperm(N_pairs)[:sample_size_pairs]
+
+    n_test = int(test_size * sample_size_pairs)
+    test_pairs = selected_pairs[:n_test]
+    train_pairs = selected_pairs[n_test:]
+
+    train_twin0 = 2 * train_pairs
+    train_twin1 = 2 * train_pairs + 1
+    test_twin0 = 2 * test_pairs
+    test_twin1 = 2 * test_pairs + 1
+
+    # ---------------------------
+    # Train set uses whichever X was passed in (shifted or unshifted).
+    # ---------------------------
+    X_train = torch.cat([X[train_twin0], X[train_twin1]], dim=0)
+    t_train = torch.cat([t[train_twin0], t[train_twin1]], dim=0)
+    y_train = torch.cat([y[train_twin0], y[train_twin1]], dim=0)
+    Z_train = torch.cat([Z[train_twin0], Z[train_twin1]], dim=0)
+
+    # ---------------------------
+    # ALWAYS load and use the unshifted X for the test set:
+    # ---------------------------
+    X_unshifted_all = pd.read_csv("data/TWINS/processed_X.csv").values
+    X_unshifted_all = torch.tensor(X_unshifted_all, dtype=torch.float)
+
+    X_test = torch.cat([X_unshifted_all[test_twin0], X_unshifted_all[test_twin1]], dim=0)
+    t_test = torch.cat([t[test_twin0], t[test_twin1]], dim=0)
+    y_test = torch.cat([y[test_twin0], y[test_twin1]], dim=0)
+    Z_test = torch.cat([Z[test_twin0], Z[test_twin1]], dim=0)
+
+    # True ITE for train and test (still uses the same Y for twin0 vs twin1)
+    true_ite_train = (y[train_twin1] - y[train_twin0]).numpy()
+    true_ite_test = (y[test_twin1] - y[test_twin0]).numpy()
+
+    # Combined XZ for "noncausal" methods (training portion)
+    XZ_train = np.concatenate([X_train.numpy(), Z_train.numpy()], axis=1)
+    t_train_np = t_train.numpy()
+    y_train_np = y_train.numpy()
+
+    return (
+        X_train, t_train, y_train, Z_train,
+        X_test,  t_test,  y_test,  Z_test,
+        true_ite_train, true_ite_test,
+        XZ_train, t_train_np, y_train_np,
+        train_twin0, train_twin1,
+        test_twin0, test_twin1
+    )

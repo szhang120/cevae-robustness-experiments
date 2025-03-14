@@ -23,9 +23,10 @@ def main():
     parser.add_argument("--seed", default=66, type=int)
     parser.add_argument("--jit", action="store_true")
     parser.add_argument("--cuda", action="store_true")
+    # ---------------- NEW ARGUMENT ----------------
+    parser.add_argument("--only-cevae", action="store_true", default=True, help="If set, only train/evaluate CEVAE, skipping other models.")
 
     args = parser.parse_args()
-
 
     logging.getLogger("pyro").setLevel(logging.DEBUG)
     if logging.getLogger("pyro").handlers:
