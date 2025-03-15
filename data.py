@@ -1,7 +1,3 @@
-# ======================
-# File: data.py
-# ======================
-
 import torch
 import pandas as pd
 import numpy as np
@@ -11,13 +7,21 @@ from pathlib import Path
 # Twin Data Functions
 ##########################
 
-def load_twins_data(path_x: str = "data/TWINS/processed_X.csv",
+def load_twins_data(train_shifted: bool = False,
+                    path_x: str = None,
                     path_t: str = "data/TWINS/processed_t.csv",
                     path_y: str = "data/TWINS/processed_y.csv",
                     path_z: str = "data/TWINS/processed_z_p0.1.csv") -> tuple:
     """
     Loads the Twins dataset. Returns X, t, y, Z as torch Tensors.
+    If train_shifted is True, loads the shifted covariate file.
     """
+    if path_x is None:
+        if train_shifted:
+            path_x = "data/TWINS/processed_X_pca_shifted.csv"
+        else:
+            path_x = "data/TWINS/processed_X.csv"
+    # Read data from CSV files.
     X = pd.read_csv(path_x).values
     t = pd.read_csv(path_t).values.squeeze()
     y = pd.read_csv(path_y).values.squeeze()
@@ -32,6 +36,7 @@ def load_twins_data(path_x: str = "data/TWINS/processed_X.csv",
     if total_samples % 2 != 0:
         raise ValueError("Number of samples must be even for Twins data.")
 
+    print(f"Loaded Twins covariates from: {path_x}")
     return X, t, y, Z
 
 
@@ -116,12 +121,10 @@ def load_ihdp_data(path: str = "data/IHDP/csv/concatenated_ihdp.csv",
         if col not in df.columns:
             raise ValueError(f"Missing expected column: {col}")
 
-    # Extract treatment and outcomes.
     t = df["treatment"].values
     y = df["y_factual"].values
     y_cf = df["y_cfactual"].values
 
-    # Determine which covariate file to load
     x_mod_file = Path("data/IHDP/processed_X_ihdp_modified.csv")
     x_pca_file = Path("data/IHDP/processed_X_pca_shifted.csv")
 
@@ -135,12 +138,10 @@ def load_ihdp_data(path: str = "data/IHDP/csv/concatenated_ihdp.csv",
             X = pd.read_csv(x_mod_file).values
             print("Loaded modified IHDP covariates (24 columns) from:", x_mod_file)
         else:
-            # Fallback to original 25 covariates
             covariate_cols = [f"x{i}" for i in range(1, 26)]
             X = df[covariate_cols].values
             print("Using original 25-column IHDP covariates from the concatenated CSV.")
 
-    # Load latent confounder Z (default flip probability 0.1)
     z_file = Path("data/IHDP/processed_Z_ihdp_p0.1.csv")
     if z_file.exists():
         Z = pd.read_csv(z_file).values
@@ -151,7 +152,6 @@ def load_ihdp_data(path: str = "data/IHDP/csv/concatenated_ihdp.csv",
         Z = np.zeros((X.shape[0], 1))
         print("No latent confounder file found; using Z=0.")
 
-    # Convert arrays to torch tensors
     X = torch.tensor(X, dtype=torch.float)
     t = torch.tensor(t, dtype=torch.float)
     y = torch.tensor(y, dtype=torch.float)
@@ -159,7 +159,6 @@ def load_ihdp_data(path: str = "data/IHDP/csv/concatenated_ihdp.csv",
     Z = torch.tensor(Z, dtype=torch.float)
 
     return X, t, y, y_cf, Z
-
 
 def prepare_train_test_split_ihdp(X: torch.Tensor, t: torch.Tensor, y: torch.Tensor, y_cf: torch.Tensor, Z: torch.Tensor,
                                   test_size: float, seed: int) -> tuple:
@@ -188,31 +187,21 @@ def prepare_train_test_split_ihdp(X: torch.Tensor, t: torch.Tensor, y: torch.Ten
     test_idx = indices[:n_test]
     train_idx = indices[n_test:]
 
-    # Training set: use the current (possibly shifted) data
     X_train = X[train_idx]
     t_train = t[train_idx]
     y_train = y[train_idx]
     y_cf_train = y_cf[train_idx]
     Z_train = Z[train_idx]
 
-    # Test set: load unshifted covariates from the modified file
-    x_unshifted_path = Path("data/IHDP/processed_X_ihdp_modified.csv")
-    if not x_unshifted_path.exists():
-        raise FileNotFoundError(f"Can't locate unshifted test file: {x_unshifted_path}")
-    X_unshifted = pd.read_csv(x_unshifted_path).values
-    X_unshifted = torch.tensor(X_unshifted, dtype=torch.float)
-
-    X_test = X_unshifted[test_idx]
+    X_test = X[test_idx]
     t_test = t[test_idx]
     y_test = y[test_idx]
     y_cf_test = y_cf[test_idx]
     Z_test = Z[test_idx]
 
-    # Compute true ITE: if t==1 then y - y_cf else y_cf - y
     true_ite_train = np.where(t_train.numpy()==1, (y_train - y_cf_train).numpy(), (y_cf_train - y_train).numpy())
     true_ite_test  = np.where(t_test.numpy()==1, (y_test - y_cf_test).numpy(), (y_cf_test - y_test).numpy())
 
-    # For baseline methods, combine X and Z for training
     XZ_train = np.concatenate([X_train.numpy(), Z_train.numpy()], axis=1)
     t_train_np = t_train.numpy()
     y_train_np = y_train.numpy()
@@ -223,6 +212,5 @@ def prepare_train_test_split_ihdp(X: torch.Tensor, t: torch.Tensor, y: torch.Ten
             XZ_train, t_train_np, y_train_np,
             train_idx, test_idx)
 
-    
 if __name__ == "__main__":
     print("Module data.py loaded successfully.")

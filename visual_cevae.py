@@ -50,7 +50,6 @@ def _init_static_dag():
     Initialize the static DAG for the CEVAE architecture.
     Returns (G, pos) for nodes: X, T, Y, Z with edges: Z→X, Z→T, Z→Y, T→Y.
     """
-    import networkx as nx
     G = nx.DiGraph()
     nodes = ["X", "T", "Y", "Z"]
     G.add_nodes_from(nodes)
@@ -150,6 +149,9 @@ class VisualCEVAE(CEVAE):
         self.model = VisualModel(config)
         self.guide = VisualGuide(config)
 
+        # Define a default whitening function to be used in ite even if fit was not called.
+        self.whiten = lambda data: (data - data.mean(0)) / (data.std(0) + 1e-6)
+
         # Initialize dashboard and static DAG.
         self.dashboard = _init_dashboard()
         self.G, self.pos = _init_static_dag()
@@ -248,56 +250,36 @@ class VisualCEVAE(CEVAE):
 
         for epoch in range(num_epochs):
             epoch_loss = 0.0
-            # We'll print the first batch's X (after whitening) for debugging:
             for i, (batch_x, batch_t, batch_y) in enumerate(dataloader):
                 batch_x = self.whiten(batch_x)
-                
-                # Debug print for the first batch each epoch
                 if i == 0:
-                    # Print only the first row to avoid spamming
                     print(f"[DEBUG] EPOCH {epoch}")
-                
                 loss = svi.step(batch_x, batch_t, batch_y, size=len(dataset)) / len(dataset)
                 epoch_loss += loss
-            
             losses.append(epoch_loss)
             print(f"Epoch {epoch} loss: {epoch_loss:.4f}")
-
-            # Update the interactive dashboard every vis_update_interval epochs
             if epoch % vis_update_interval == 0:
                 current_metrics = self.compute_node_metrics()
                 self._update_dashboard(epoch, current_metrics, epoch_loss)
-
-        # Final update + saving of the dashboard
         final_metrics = self.compute_node_metrics()
         self._update_dashboard(num_epochs, final_metrics, losses[-1])
         self._save_final_dashboard("final_dashboard.png")
         return losses
 
     def _update_dashboard(self, epoch, current_metrics, current_loss):
-        """
-        Update the multi-panel dashboard:
-          - Node color on DAG
-          - Time-series param metrics
-          - Performance (ELBO loss)
-          - t-SNE of latents on a fixed batch
-        """
         self.history["epoch"].append(epoch)
         for node in ["X", "T", "Y", "Z"]:
             self.history["param"][node].append(current_metrics[node])
         self.history["perf"].append(current_loss)
-
-        # Normalize param metrics for color
         norm_metrics = {}
         for node in ["X", "T", "Y", "Z"]:
             vals = self.history["param"][node]
             val_min, val_max = min(vals), max(vals)
             denom = (val_max - val_min) + 1e-8
             norm_metrics[node] = (current_metrics[node] - val_min) / denom
-
         _draw_dag(self.dashboard["dag"], self.G, self.pos, norm_metrics)
         _update_time_series(
-            self.dashboard["param"], 
+            self.dashboard["param"],
             self.history["epoch"],
             self.history["param"],
             "Parameter Metrics",
@@ -310,20 +292,15 @@ class VisualCEVAE(CEVAE):
             "ELBO Loss",
             "Loss"
         )
-
-        # Now do t-SNE on the "fixed" data
         with torch.no_grad():
             fixed_x = self._fixed_data
-            # dummy T and Y for visualization
             fixed_t = torch.zeros(fixed_x.size(0), device=fixed_x.device)
             fixed_y = torch.zeros(fixed_x.size(0), device=fixed_x.device)
             latent = self._extract_latent(fixed_x, fixed_t, fixed_y)
             if latent is not None:
-                from sklearn.manifold import TSNE
                 latent_np = latent.detach().cpu().numpy()
                 tsne = TSNE(n_components=2, random_state=42)
                 tsne_emb = tsne.fit_transform(latent_np)
                 _update_tsne(self.dashboard["tsne"], tsne_emb)
-
         self.dashboard["fig"].canvas.draw()
         plt.pause(0.001)

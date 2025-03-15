@@ -1,0 +1,483 @@
+=== Comprehensive Evaluation for dataset: ihdp ===
+
+--- Train shifted = True ---
+
+*** Experiment: flipping probability p = 0.0 ***
+Error loading IHDP Z from data/IHDP/processed_Z_ihdp_p0.0.csv: [Errno 2] No such file or directory: 'data/IHDP/processed_Z_ihdp_p0.0.csv'
+[DEBUG] EPOCH 0
+Epoch 0 loss: 5089.0630
+[DEBUG] EPOCH 1
+Epoch 1 loss: 3289.4167
+[DEBUG] EPOCH 2
+Epoch 2 loss: 2471.3751
+[DEBUG] EPOCH 3
+Epoch 3 loss: 1951.7636
+[DEBUG] EPOCH 4
+Epoch 4 loss: 1578.5687
+[DEBUG] EPOCH 5
+Epoch 5 loss: 1324.4598
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1146.4571
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1028.7046
+[DEBUG] EPOCH 8
+Epoch 8 loss: 947.7111
+[DEBUG] EPOCH 9
+Epoch 9 loss: 893.1639
+[DEBUG] EPOCH 10
+Epoch 10 loss: 949.3723
+[DEBUG] EPOCH 11
+Epoch 11 loss: 813.2312
+[DEBUG] EPOCH 12
+Epoch 12 loss: 788.1800
+[DEBUG] EPOCH 13
+Epoch 13 loss: 764.9428
+[DEBUG] EPOCH 14
+Epoch 14 loss: 751.8553
+[DEBUG] EPOCH 15
+Epoch 15 loss: 739.6071
+[DEBUG] EPOCH 16
+Epoch 16 loss: 733.6153
+[DEBUG] EPOCH 17
+Epoch 17 loss: 760.6423
+[DEBUG] EPOCH 18
+Epoch 18 loss: 716.1762
+[DEBUG] EPOCH 19
+Epoch 19 loss: 707.1574
+[DEBUG] EPOCH 20
+Epoch 20 loss: 709.1977
+[DEBUG] EPOCH 21
+Epoch 21 loss: 699.8481
+[DEBUG] EPOCH 22
+Epoch 22 loss: 718.5232
+[DEBUG] EPOCH 23
+Epoch 23 loss: 691.0387
+[DEBUG] EPOCH 24
+Epoch 24 loss: 677.1888
+[DEBUG] EPOCH 25
+Epoch 25 loss: 678.3268
+[DEBUG] EPOCH 26
+Epoch 26 loss: 675.0498
+[DEBUG] EPOCH 27
+Epoch 27 loss: 666.8207
+[DEBUG] EPOCH 28
+Epoch 28 loss: 660.5432
+[DEBUG] EPOCH 29
+Epoch 29 loss: 659.5446
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (IHDP): {'ATE_mean': 0.011661359, 'ATE_std': 0.03266505, 'PEHE_mean': 10.610122, 'PEHE_std': 0.39257917, 'ATE_Abs_Error_mean': 4.9231553, 'ATE_Abs_Error_std': 0.32775894}
+
+True causal effects on the test set:
+True ATE (test): 4.934817
+True ITE (test) snippet: [3.932952  2.0094292 5.7270284 4.2422094 1.67833   6.606176  7.1259747
+ 2.6969175 2.5390759 2.487885 ]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (ATE) for IHDP: 67.1813
+DML CV (IHDP): ATE=5.2600, PEHE=10.6312, ATE_Abs_Error=0.5590
+X-Learner CV (IHDP): ATE=4.9207, PEHE=10.1550, ATE_Abs_Error=0.2197
+SVM CV (IHDP): ATE=2.8977, PEHE=9.6953, ATE_Abs_Error=1.8033
+KNN CV (IHDP): ATE=0.6878, PEHE=10.9407, ATE_Abs_Error=4.0132
+Interacted LR CV (IHDP): ATE=5.2561, PEHE=32.2873, ATE_Abs_Error=0.5551
+XGBoost CV (IHDP): ATE=4.5409, PEHE=10.5976, ATE_Abs_Error=0.1601
+
+*** Experiment: flipping probability p = 0.1 ***
+Loaded IHDP Z from data/IHDP/processed_Z_ihdp_p0.1.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 5089.0630
+[DEBUG] EPOCH 1
+Epoch 1 loss: 3289.4167
+[DEBUG] EPOCH 2
+Epoch 2 loss: 2471.3751
+[DEBUG] EPOCH 3
+Epoch 3 loss: 1951.7636
+[DEBUG] EPOCH 4
+Epoch 4 loss: 1578.5687
+[DEBUG] EPOCH 5
+Epoch 5 loss: 1324.4598
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1146.4571
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1028.7046
+[DEBUG] EPOCH 8
+Epoch 8 loss: 947.7111
+[DEBUG] EPOCH 9
+Epoch 9 loss: 893.1639
+[DEBUG] EPOCH 10
+Epoch 10 loss: 949.3723
+[DEBUG] EPOCH 11
+Epoch 11 loss: 813.2312
+[DEBUG] EPOCH 12
+Epoch 12 loss: 788.1800
+[DEBUG] EPOCH 13
+Epoch 13 loss: 764.9428
+[DEBUG] EPOCH 14
+Epoch 14 loss: 751.8553
+[DEBUG] EPOCH 15
+Epoch 15 loss: 739.6071
+[DEBUG] EPOCH 16
+Epoch 16 loss: 733.6153
+[DEBUG] EPOCH 17
+Epoch 17 loss: 760.6423
+[DEBUG] EPOCH 18
+Epoch 18 loss: 716.1762
+[DEBUG] EPOCH 19
+Epoch 19 loss: 707.1574
+[DEBUG] EPOCH 20
+Epoch 20 loss: 709.1977
+[DEBUG] EPOCH 21
+Epoch 21 loss: 699.8481
+[DEBUG] EPOCH 22
+Epoch 22 loss: 718.5232
+[DEBUG] EPOCH 23
+Epoch 23 loss: 691.0387
+[DEBUG] EPOCH 24
+Epoch 24 loss: 677.1888
+[DEBUG] EPOCH 25
+Epoch 25 loss: 678.3268
+[DEBUG] EPOCH 26
+Epoch 26 loss: 675.0498
+[DEBUG] EPOCH 27
+Epoch 27 loss: 666.8207
+[DEBUG] EPOCH 28
+Epoch 28 loss: 660.5432
+[DEBUG] EPOCH 29
+Epoch 29 loss: 659.5446
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (IHDP): {'ATE_mean': 0.011661359, 'ATE_std': 0.03266505, 'PEHE_mean': 10.610122, 'PEHE_std': 0.39257917, 'ATE_Abs_Error_mean': 4.9231553, 'ATE_Abs_Error_std': 0.32775894}
+
+True causal effects on the test set:
+True ATE (test): 4.934817
+True ITE (test) snippet: [3.932952  2.0094292 5.7270284 4.2422094 1.67833   6.606176  7.1259747
+ 2.6969175 2.5390759 2.487885 ]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (ATE) for IHDP: 67.1813
+DML CV (IHDP): ATE=5.2600, PEHE=10.6312, ATE_Abs_Error=0.5590
+X-Learner CV (IHDP): ATE=4.9207, PEHE=10.1550, ATE_Abs_Error=0.2197
+SVM CV (IHDP): ATE=2.8977, PEHE=9.6953, ATE_Abs_Error=1.8033
+KNN CV (IHDP): ATE=0.6878, PEHE=10.9407, ATE_Abs_Error=4.0132
+Interacted LR CV (IHDP): ATE=5.2561, PEHE=32.2873, ATE_Abs_Error=0.5551
+XGBoost CV (IHDP): ATE=4.5409, PEHE=10.5976, ATE_Abs_Error=0.1601
+
+*** Experiment: flipping probability p = 0.2 ***
+Loaded IHDP Z from data/IHDP/processed_Z_ihdp_p0.2.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 5110.8718
+[DEBUG] EPOCH 1
+Epoch 1 loss: 3333.6573
+[DEBUG] EPOCH 2
+Epoch 2 loss: 2506.9962
+[DEBUG] EPOCH 3
+Epoch 3 loss: 1990.3825
+[DEBUG] EPOCH 4
+Epoch 4 loss: 1635.5927
+[DEBUG] EPOCH 5
+Epoch 5 loss: 1403.9175
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1251.5390
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1152.9063
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1090.5321
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1050.5688
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1023.5549
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1004.7245
+[DEBUG] EPOCH 12
+Epoch 12 loss: 985.0380
+[DEBUG] EPOCH 13
+Epoch 13 loss: 970.6010
+[DEBUG] EPOCH 14
+Epoch 14 loss: 957.4165
+[DEBUG] EPOCH 15
+Epoch 15 loss: 953.0115
+[DEBUG] EPOCH 16
+Epoch 16 loss: 941.3847
+[DEBUG] EPOCH 17
+Epoch 17 loss: 933.4240
+[DEBUG] EPOCH 18
+Epoch 18 loss: 923.6642
+[DEBUG] EPOCH 19
+Epoch 19 loss: 912.8369
+[DEBUG] EPOCH 20
+Epoch 20 loss: 907.7045
+[DEBUG] EPOCH 21
+Epoch 21 loss: 906.1621
+[DEBUG] EPOCH 22
+Epoch 22 loss: 893.8582
+[DEBUG] EPOCH 23
+Epoch 23 loss: 886.2344
+[DEBUG] EPOCH 24
+Epoch 24 loss: 874.1196
+[DEBUG] EPOCH 25
+Epoch 25 loss: 867.6983
+[DEBUG] EPOCH 26
+Epoch 26 loss: 865.6441
+[DEBUG] EPOCH 27
+Epoch 27 loss: 861.7497
+[DEBUG] EPOCH 28
+Epoch 28 loss: 855.2014
+[DEBUG] EPOCH 29
+Epoch 29 loss: 850.5489
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (IHDP): {'ATE_mean': 0.013756506, 'ATE_std': 0.032753553, 'PEHE_mean': 10.611159, 'PEHE_std': 0.3926744, 'ATE_Abs_Error_mean': 4.92106, 'ATE_Abs_Error_std': 0.32765338}
+
+True causal effects on the test set:
+True ATE (test): 4.934817
+True ITE (test) snippet: [3.932952  2.0094292 5.7270284 4.2422094 1.67833   6.606176  7.1259747
+ 2.6969175 2.5390759 2.487885 ]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (ATE) for IHDP: 68.3679
+DML CV (IHDP): ATE=5.5002, PEHE=10.5661, ATE_Abs_Error=0.7992
+X-Learner CV (IHDP): ATE=5.2202, PEHE=10.2015, ATE_Abs_Error=0.5192
+SVM CV (IHDP): ATE=2.8252, PEHE=9.6997, ATE_Abs_Error=1.8758
+KNN CV (IHDP): ATE=0.7866, PEHE=10.9317, ATE_Abs_Error=3.9144
+Interacted LR CV (IHDP): ATE=5.5882, PEHE=26.6030, ATE_Abs_Error=0.8872
+XGBoost CV (IHDP): ATE=4.6887, PEHE=10.4746, ATE_Abs_Error=0.0123
+
+*** Experiment: flipping probability p = 0.3 ***
+Loaded IHDP Z from data/IHDP/processed_Z_ihdp_p0.3.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 5107.6556
+[DEBUG] EPOCH 1
+Epoch 1 loss: 3318.7293
+[DEBUG] EPOCH 2
+Epoch 2 loss: 2594.6284
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2082.3549
+[DEBUG] EPOCH 4
+Epoch 4 loss: 1666.9451
+[DEBUG] EPOCH 5
+Epoch 5 loss: 1425.6965
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1272.6383
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1176.0451
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1116.5932
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1079.5301
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1056.7745
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1043.4914
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1033.0187
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1028.0922
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1023.2874
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1020.4190
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1018.2875
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1016.4025
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1014.7171
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1012.6177
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1011.2995
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1009.1137
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1006.9740
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1005.0432
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1003.8574
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1002.1337
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1000.9169
+[DEBUG] EPOCH 27
+Epoch 27 loss: 999.1683
+[DEBUG] EPOCH 28
+Epoch 28 loss: 997.7430
+[DEBUG] EPOCH 29
+Epoch 29 loss: 996.4496
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (IHDP): {'ATE_mean': 0.013822907, 'ATE_std': 0.033278313, 'PEHE_mean': 10.608072, 'PEHE_std': 0.39717138, 'ATE_Abs_Error_mean': 4.9209933, 'ATE_Abs_Error_std': 0.32703832}
+
+True causal effects on the test set:
+True ATE (test): 4.934817
+True ITE (test) snippet: [3.932952  2.0094292 5.7270284 4.2422094 1.67833   6.606176  7.1259747
+ 2.6969175 2.5390759 2.487885 ]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (ATE) for IHDP: 69.8310
+DML CV (IHDP): ATE=5.8382, PEHE=10.5213, ATE_Abs_Error=1.1372
+X-Learner CV (IHDP): ATE=5.0671, PEHE=10.1811, ATE_Abs_Error=0.3661
+SVM CV (IHDP): ATE=2.7909, PEHE=9.7034, ATE_Abs_Error=1.9101
+KNN CV (IHDP): ATE=0.9328, PEHE=10.9903, ATE_Abs_Error=3.7682
+Interacted LR CV (IHDP): ATE=4.5442, PEHE=25.7797, ATE_Abs_Error=0.1568
+XGBoost CV (IHDP): ATE=5.0248, PEHE=10.8122, ATE_Abs_Error=0.3238
+
+*** Experiment: flipping probability p = 0.4 ***
+Loaded IHDP Z from data/IHDP/processed_Z_ihdp_p0.4.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 5083.2445
+[DEBUG] EPOCH 1
+Epoch 1 loss: 3309.2660
+[DEBUG] EPOCH 2
+Epoch 2 loss: 3296.7353
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2023.6586
+[DEBUG] EPOCH 4
+Epoch 4 loss: 1657.3366
+[DEBUG] EPOCH 5
+Epoch 5 loss: 1425.4570
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1288.9316
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1176.6714
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1118.4889
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1081.8044
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1059.9969
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1046.1140
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1036.7927
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1031.8488
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1028.2099
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1025.8415
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1024.7171
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1022.8719
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1021.1572
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1019.6412
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1018.5331
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1017.0916
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1016.1583
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1014.5759
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1014.4486
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1013.4251
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1013.1940
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1012.5422
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1012.3681
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1011.5890
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (IHDP): {'ATE_mean': 0.012651819, 'ATE_std': 0.034658253, 'PEHE_mean': 10.612793, 'PEHE_std': 0.3949559, 'ATE_Abs_Error_mean': 4.922165, 'ATE_Abs_Error_std': 0.3257307}
+
+True causal effects on the test set:
+True ATE (test): 4.934817
+True ITE (test) snippet: [3.932952  2.0094292 5.7270284 4.2422094 1.67833   6.606176  7.1259747
+ 2.6969175 2.5390759 2.487885 ]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (ATE) for IHDP: 67.0108
+DML CV (IHDP): ATE=5.3707, PEHE=10.6503, ATE_Abs_Error=0.6697
+X-Learner CV (IHDP): ATE=5.0860, PEHE=10.2051, ATE_Abs_Error=0.3850
+SVM CV (IHDP): ATE=2.8088, PEHE=9.7018, ATE_Abs_Error=1.8923
+KNN CV (IHDP): ATE=0.9148, PEHE=11.0974, ATE_Abs_Error=3.7862
+Interacted LR CV (IHDP): ATE=5.0348, PEHE=26.0720, ATE_Abs_Error=0.3338
+XGBoost CV (IHDP): ATE=4.9119, PEHE=10.8781, ATE_Abs_Error=0.2109
+
+*** Experiment: flipping probability p = 0.5 ***
+Loaded IHDP Z from data/IHDP/processed_Z_ihdp_p0.5.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 5103.2423
+[DEBUG] EPOCH 1
+Epoch 1 loss: 3332.2481
+[DEBUG] EPOCH 2
+Epoch 2 loss: 2522.6296
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2068.3727
+[DEBUG] EPOCH 4
+Epoch 4 loss: 1663.5594
+[DEBUG] EPOCH 5
+Epoch 5 loss: 1426.9095
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1291.0860
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1177.7173
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1118.6136
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1083.3491
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1060.5054
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1047.5000
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1037.7873
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1033.2092
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1029.0696
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1026.5641
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1025.4142
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1023.1512
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1021.8357
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1020.1113
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1018.5360
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1017.6332
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1016.7074
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1014.9805
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1014.7174
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1014.1652
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1013.7900
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1012.7993
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1014.2433
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1012.0430
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (IHDP): {'ATE_mean': 0.012369928, 'ATE_std': 0.03203985, 'PEHE_mean': 10.611372, 'PEHE_std': 0.39218768, 'ATE_Abs_Error_mean': 4.9224467, 'ATE_Abs_Error_std': 0.32840112}
+
+True causal effects on the test set:
+True ATE (test): 4.934817
+True ITE (test) snippet: [3.932952  2.0094292 5.7270284 4.2422094 1.67833   6.606176  7.1259747
+ 2.6969175 2.5390759 2.487885 ]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (ATE) for IHDP: 67.4871
+DML CV (IHDP): ATE=5.3588, PEHE=10.6788, ATE_Abs_Error=0.6578
+X-Learner CV (IHDP): ATE=5.0205, PEHE=10.1833, ATE_Abs_Error=0.3195
+SVM CV (IHDP): ATE=2.8405, PEHE=9.6951, ATE_Abs_Error=1.8605
+KNN CV (IHDP): ATE=1.0344, PEHE=10.9795, ATE_Abs_Error=3.6666
+Interacted LR CV (IHDP): ATE=5.1758, PEHE=24.8672, ATE_Abs_Error=0.4748
+XGBoost CV (IHDP): ATE=5.2271, PEHE=10.8012, ATE_Abs_Error=0.5260

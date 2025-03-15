@@ -1,0 +1,953 @@
+=== Comprehensive Evaluation for dataset: twins ===
+
+--- Train shifted = False ---
+
+*** Experiment: flipping probability p = 0.0 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.0.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 14881.5327
+[DEBUG] EPOCH 1
+Epoch 1 loss: 1013.7906
+[DEBUG] EPOCH 2
+Epoch 2 loss: 20825.6825
+[DEBUG] EPOCH 3
+Epoch 3 loss: 84.3775
+[DEBUG] EPOCH 4
+Epoch 4 loss: -246.4791
+[DEBUG] EPOCH 5
+Epoch 5 loss: 979.0283
+[DEBUG] EPOCH 6
+Epoch 6 loss: -615.3346
+[DEBUG] EPOCH 7
+Epoch 7 loss: -660.4353
+[DEBUG] EPOCH 8
+Epoch 8 loss: -671.8725
+[DEBUG] EPOCH 9
+Epoch 9 loss: -854.2827
+[DEBUG] EPOCH 10
+Epoch 10 loss: -895.5348
+[DEBUG] EPOCH 11
+Epoch 11 loss: -975.3483
+[DEBUG] EPOCH 12
+Epoch 12 loss: -1068.2029
+[DEBUG] EPOCH 13
+Epoch 13 loss: -1015.1946
+[DEBUG] EPOCH 14
+Epoch 14 loss: -1050.5377
+[DEBUG] EPOCH 15
+Epoch 15 loss: -1123.8876
+[DEBUG] EPOCH 16
+Epoch 16 loss: -1149.4475
+[DEBUG] EPOCH 17
+Epoch 17 loss: -1294.8327
+[DEBUG] EPOCH 18
+Epoch 18 loss: -1215.7156
+[DEBUG] EPOCH 19
+Epoch 19 loss: -1266.0618
+[DEBUG] EPOCH 20
+Epoch 20 loss: -1245.0965
+[DEBUG] EPOCH 21
+Epoch 21 loss: -1352.1818
+[DEBUG] EPOCH 22
+Epoch 22 loss: -1324.0479
+[DEBUG] EPOCH 23
+Epoch 23 loss: -1383.7358
+[DEBUG] EPOCH 24
+Epoch 24 loss: -1420.1406
+[DEBUG] EPOCH 25
+Epoch 25 loss: -1260.3864
+[DEBUG] EPOCH 26
+Epoch 26 loss: -1430.7761
+[DEBUG] EPOCH 27
+Epoch 27 loss: -1403.2326
+[DEBUG] EPOCH 28
+Epoch 28 loss: -1361.8677
+[DEBUG] EPOCH 29
+Epoch 29 loss: -1424.8321
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.0021141844, 'ATE_std': 0.0031912758, 'PEHE_mean': 0.554667, 'PEHE_std': 0.007526595, 'ATE_Abs_Error_mean': 0.015048586, 'ATE_Abs_Error_std': 0.005798056}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0509, ATE_Abs_Error=0.0254
+DML CV (Twins): ATE=0.0003, PEHE=0.3237, ATE_Abs_Error=0.0254
+X-Learner CV (Twins): ATE=0.0046, PEHE=0.3411, ATE_Abs_Error=0.0297
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=-0.0000, PEHE=0.3385, ATE_Abs_Error=0.0251
+Interacted LR CV (Twins): ATE=0.0059, PEHE=0.7833, ATE_Abs_Error=0.0311
+XGBoost CV (Twins): ATE=0.0014, PEHE=0.3255, ATE_Abs_Error=0.0265
+
+*** Experiment: flipping probability p = 0.1 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.1.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 40629.6779
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2622.1476
+[DEBUG] EPOCH 2
+Epoch 2 loss: 14401.2740
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2048.0716
+[DEBUG] EPOCH 4
+Epoch 4 loss: 1769.2792
+[DEBUG] EPOCH 5
+Epoch 5 loss: 1805.1246
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1288.6348
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1286.9647
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1147.5683
+[DEBUG] EPOCH 9
+Epoch 9 loss: 986.9314
+[DEBUG] EPOCH 10
+Epoch 10 loss: 978.8684
+[DEBUG] EPOCH 11
+Epoch 11 loss: 880.7719
+[DEBUG] EPOCH 12
+Epoch 12 loss: 809.9670
+[DEBUG] EPOCH 13
+Epoch 13 loss: 769.4126
+[DEBUG] EPOCH 14
+Epoch 14 loss: 669.9704
+[DEBUG] EPOCH 15
+Epoch 15 loss: 646.4500
+[DEBUG] EPOCH 16
+Epoch 16 loss: 600.5627
+[DEBUG] EPOCH 17
+Epoch 17 loss: 507.7084
+[DEBUG] EPOCH 18
+Epoch 18 loss: 555.4789
+[DEBUG] EPOCH 19
+Epoch 19 loss: 531.5988
+[DEBUG] EPOCH 20
+Epoch 20 loss: 467.6518
+[DEBUG] EPOCH 21
+Epoch 21 loss: 478.4704
+[DEBUG] EPOCH 22
+Epoch 22 loss: 478.8021
+[DEBUG] EPOCH 23
+Epoch 23 loss: 445.6371
+[DEBUG] EPOCH 24
+Epoch 24 loss: 390.6958
+[DEBUG] EPOCH 25
+Epoch 25 loss: 444.6048
+[DEBUG] EPOCH 26
+Epoch 26 loss: 345.3203
+[DEBUG] EPOCH 27
+Epoch 27 loss: 347.5114
+[DEBUG] EPOCH 28
+Epoch 28 loss: 338.9047
+[DEBUG] EPOCH 29
+Epoch 29 loss: 332.0717
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.0015979925, 'ATE_std': 0.0024046097, 'PEHE_mean': 0.5559829, 'PEHE_std': 0.008465109, 'ATE_Abs_Error_mean': 0.014532392, 'ATE_Abs_Error_std': 0.0070721153}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0512, ATE_Abs_Error=0.0257
+DML CV (Twins): ATE=0.0005, PEHE=0.3246, ATE_Abs_Error=0.0256
+X-Learner CV (Twins): ATE=0.0057, PEHE=0.3423, ATE_Abs_Error=0.0308
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=-0.0005, PEHE=0.3389, ATE_Abs_Error=0.0247
+Interacted LR CV (Twins): ATE=-0.0012, PEHE=1.1117, ATE_Abs_Error=0.0240
+XGBoost CV (Twins): ATE=0.0003, PEHE=0.3245, ATE_Abs_Error=0.0254
+
+*** Experiment: flipping probability p = 0.2 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.2.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 58987.9170
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2731.1883
+[DEBUG] EPOCH 2
+Epoch 2 loss: 12656.5897
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2309.0359
+[DEBUG] EPOCH 4
+Epoch 4 loss: 2112.4375
+[DEBUG] EPOCH 5
+Epoch 5 loss: 3206.2183
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1895.3184
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1852.5835
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1852.7389
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1742.2709
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1704.5233
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1643.0146
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1602.0693
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1549.0242
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1444.8430
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1360.9647
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1300.3207
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1196.9868
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1223.1518
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1170.5160
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1131.5413
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1131.0880
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1078.5722
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1088.3098
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1003.4249
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1049.2322
+[DEBUG] EPOCH 26
+Epoch 26 loss: 983.2633
+[DEBUG] EPOCH 27
+Epoch 27 loss: 964.7509
+[DEBUG] EPOCH 28
+Epoch 28 loss: 954.9524
+[DEBUG] EPOCH 29
+Epoch 29 loss: 954.4240
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.00022484596, 'ATE_std': 0.00019684933, 'PEHE_mean': 0.55674535, 'PEHE_std': 0.009625354, 'ATE_Abs_Error_mean': 0.013159248, 'ATE_Abs_Error_std': 0.008936108}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0513, ATE_Abs_Error=0.0258
+DML CV (Twins): ATE=0.0002, PEHE=0.3248, ATE_Abs_Error=0.0254
+X-Learner CV (Twins): ATE=0.0086, PEHE=0.3457, ATE_Abs_Error=0.0337
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=-0.0004, PEHE=0.3404, ATE_Abs_Error=0.0247
+Interacted LR CV (Twins): ATE=-0.0020, PEHE=1.3928, ATE_Abs_Error=0.0232
+XGBoost CV (Twins): ATE=0.0008, PEHE=0.3241, ATE_Abs_Error=0.0260
+
+*** Experiment: flipping probability p = 0.3 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.3.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 60539.6311
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2758.6097
+[DEBUG] EPOCH 2
+Epoch 2 loss: 25697.3196
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2341.5166
+[DEBUG] EPOCH 4
+Epoch 4 loss: 2157.1763
+[DEBUG] EPOCH 5
+Epoch 5 loss: 2660.6897
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1971.8469
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1941.7612
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1949.7597
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1859.2707
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1849.5105
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1792.9625
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1772.8638
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1767.7451
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1718.2572
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1663.4710
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1659.9986
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1613.2404
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1642.6569
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1591.8586
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1565.1652
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1595.1381
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1544.9154
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1563.0850
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1497.3198
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1544.6178
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1482.2543
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1472.2074
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1480.1224
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1470.5156
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.000117898104, 'ATE_std': 0.0020591056, 'PEHE_mean': 0.55714244, 'PEHE_std': 0.0076712393, 'ATE_Abs_Error_mean': 0.0130523, 'ATE_Abs_Error_std': 0.006896298}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0515, ATE_Abs_Error=0.0260
+DML CV (Twins): ATE=0.0006, PEHE=0.3248, ATE_Abs_Error=0.0257
+X-Learner CV (Twins): ATE=0.0087, PEHE=0.3482, ATE_Abs_Error=0.0338
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=0.0007, PEHE=0.3388, ATE_Abs_Error=0.0258
+Interacted LR CV (Twins): ATE=0.0061, PEHE=1.0265, ATE_Abs_Error=0.0313
+XGBoost CV (Twins): ATE=-0.0001, PEHE=0.3242, ATE_Abs_Error=0.0250
+
+*** Experiment: flipping probability p = 0.4 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.4.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 54276.6115
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2813.6843
+[DEBUG] EPOCH 2
+Epoch 2 loss: 10164.7836
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2368.4817
+[DEBUG] EPOCH 4
+Epoch 4 loss: 2175.1372
+[DEBUG] EPOCH 5
+Epoch 5 loss: 3004.7491
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1971.0587
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1936.6230
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1949.7727
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1859.0053
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1871.0307
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1810.3564
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1800.4096
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1786.2524
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1764.8812
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1703.8703
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1696.9552
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1649.4292
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1675.4810
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1621.9230
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1600.4464
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1623.5234
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1593.0565
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1590.2979
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1532.4028
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1593.0164
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1531.4278
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1532.6284
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1535.7691
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1512.4048
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': 0.0008556464, 'ATE_std': 0.0018146207, 'PEHE_mean': 0.5576634, 'PEHE_std': 0.00940503, 'ATE_Abs_Error_mean': 0.012078755, 'ATE_Abs_Error_std': 0.007185246}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0510, ATE_Abs_Error=0.0255
+DML CV (Twins): ATE=0.0006, PEHE=0.3253, ATE_Abs_Error=0.0257
+X-Learner CV (Twins): ATE=0.0110, PEHE=0.3512, ATE_Abs_Error=0.0361
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=-0.0006, PEHE=0.3395, ATE_Abs_Error=0.0245
+Interacted LR CV (Twins): ATE=0.0138, PEHE=0.9217, ATE_Abs_Error=0.0389
+XGBoost CV (Twins): ATE=0.0019, PEHE=0.3253, ATE_Abs_Error=0.0270
+
+*** Experiment: flipping probability p = 0.5 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.5.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 71913.2583
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2798.4781
+[DEBUG] EPOCH 2
+Epoch 2 loss: 11969.4622
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2303.0233
+[DEBUG] EPOCH 4
+Epoch 4 loss: 2152.4031
+[DEBUG] EPOCH 5
+Epoch 5 loss: 2380.3723
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1960.8058
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1922.6649
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1946.9996
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1852.4981
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1877.2406
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1804.0152
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1792.6314
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1771.7028
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1728.3599
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1684.3615
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1680.4664
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1638.9919
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1674.0198
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1622.8275
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1590.0563
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1621.4297
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1568.9486
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1590.3488
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1529.0711
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1585.1742
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1535.3633
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1533.0242
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1528.9496
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1509.2835
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.00067831646, 'ATE_std': 0.0009312117, 'PEHE_mean': 0.5563727, 'PEHE_std': 0.008329841, 'ATE_Abs_Error_mean': 0.013612717, 'ATE_Abs_Error_std': 0.007995437}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0511, ATE_Abs_Error=0.0256
+DML CV (Twins): ATE=0.0002, PEHE=0.3252, ATE_Abs_Error=0.0253
+X-Learner CV (Twins): ATE=0.0110, PEHE=0.3526, ATE_Abs_Error=0.0362
+SVM CV (Twins): ATE=-0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=0.0008, PEHE=0.3403, ATE_Abs_Error=0.0259
+Interacted LR CV (Twins): ATE=-0.0015, PEHE=1.0525, ATE_Abs_Error=0.0236
+XGBoost CV (Twins): ATE=0.0012, PEHE=0.3267, ATE_Abs_Error=0.0264
+
+--- Train shifted = True ---
+
+*** Experiment: flipping probability p = 0.0 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.0.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 20210.7784
+[DEBUG] EPOCH 1
+Epoch 1 loss: 1134.9248
+[DEBUG] EPOCH 2
+Epoch 2 loss: 37980.3774
+[DEBUG] EPOCH 3
+Epoch 3 loss: 226.1507
+[DEBUG] EPOCH 4
+Epoch 4 loss: -81.8683
+[DEBUG] EPOCH 5
+Epoch 5 loss: 837.1055
+[DEBUG] EPOCH 6
+Epoch 6 loss: -388.9205
+[DEBUG] EPOCH 7
+Epoch 7 loss: -413.4488
+[DEBUG] EPOCH 8
+Epoch 8 loss: -465.9124
+[DEBUG] EPOCH 9
+Epoch 9 loss: -611.1368
+[DEBUG] EPOCH 10
+Epoch 10 loss: -652.5281
+[DEBUG] EPOCH 11
+Epoch 11 loss: -751.4188
+[DEBUG] EPOCH 12
+Epoch 12 loss: -891.1882
+[DEBUG] EPOCH 13
+Epoch 13 loss: -822.8813
+[DEBUG] EPOCH 14
+Epoch 14 loss: -873.3216
+[DEBUG] EPOCH 15
+Epoch 15 loss: -990.2871
+[DEBUG] EPOCH 16
+Epoch 16 loss: -962.5234
+[DEBUG] EPOCH 17
+Epoch 17 loss: -1088.2424
+[DEBUG] EPOCH 18
+Epoch 18 loss: -1049.6216
+[DEBUG] EPOCH 19
+Epoch 19 loss: -1064.2702
+[DEBUG] EPOCH 20
+Epoch 20 loss: -1071.8485
+[DEBUG] EPOCH 21
+Epoch 21 loss: -1153.6869
+[DEBUG] EPOCH 22
+Epoch 22 loss: -1127.6772
+[DEBUG] EPOCH 23
+Epoch 23 loss: -1181.5655
+[DEBUG] EPOCH 24
+Epoch 24 loss: -1266.9231
+[DEBUG] EPOCH 25
+Epoch 25 loss: -1070.1058
+[DEBUG] EPOCH 26
+Epoch 26 loss: -1272.2862
+[DEBUG] EPOCH 27
+Epoch 27 loss: -1252.0760
+[DEBUG] EPOCH 28
+Epoch 28 loss: -1184.5243
+[DEBUG] EPOCH 29
+Epoch 29 loss: -1195.9540
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.002376708, 'ATE_std': 0.001515926, 'PEHE_mean': 0.5577355, 'PEHE_std': 0.0061384863, 'ATE_Abs_Error_mean': 0.015311108, 'ATE_Abs_Error_std': 0.007410888}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0508, ATE_Abs_Error=0.0253
+DML CV (Twins): ATE=0.0005, PEHE=0.3237, ATE_Abs_Error=0.0257
+X-Learner CV (Twins): ATE=0.0039, PEHE=0.3302, ATE_Abs_Error=0.0290
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=-0.0000, PEHE=0.3373, ATE_Abs_Error=0.0251
+Interacted LR CV (Twins): ATE=0.0214, PEHE=1.3440, ATE_Abs_Error=0.0466
+XGBoost CV (Twins): ATE=0.0011, PEHE=0.3260, ATE_Abs_Error=0.0263
+
+*** Experiment: flipping probability p = 0.1 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.1.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 59149.1679
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2752.6755
+[DEBUG] EPOCH 2
+Epoch 2 loss: 8055.5211
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2165.8916
+[DEBUG] EPOCH 4
+Epoch 4 loss: 1890.7725
+[DEBUG] EPOCH 5
+Epoch 5 loss: 1766.6381
+[DEBUG] EPOCH 6
+Epoch 6 loss: 1491.8570
+[DEBUG] EPOCH 7
+Epoch 7 loss: 1364.3248
+[DEBUG] EPOCH 8
+Epoch 8 loss: 1250.1947
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1148.3435
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1147.8541
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1029.9216
+[DEBUG] EPOCH 12
+Epoch 12 loss: 983.2944
+[DEBUG] EPOCH 13
+Epoch 13 loss: 940.7931
+[DEBUG] EPOCH 14
+Epoch 14 loss: 870.4916
+[DEBUG] EPOCH 15
+Epoch 15 loss: 798.5630
+[DEBUG] EPOCH 16
+Epoch 16 loss: 770.5155
+[DEBUG] EPOCH 17
+Epoch 17 loss: 697.6435
+[DEBUG] EPOCH 18
+Epoch 18 loss: 719.4702
+[DEBUG] EPOCH 19
+Epoch 19 loss: 725.4074
+[DEBUG] EPOCH 20
+Epoch 20 loss: 673.4039
+[DEBUG] EPOCH 21
+Epoch 21 loss: 662.0127
+[DEBUG] EPOCH 22
+Epoch 22 loss: 628.4777
+[DEBUG] EPOCH 23
+Epoch 23 loss: 584.9399
+[DEBUG] EPOCH 24
+Epoch 24 loss: 537.9056
+[DEBUG] EPOCH 25
+Epoch 25 loss: 555.0120
+[DEBUG] EPOCH 26
+Epoch 26 loss: 494.3381
+[DEBUG] EPOCH 27
+Epoch 27 loss: 480.5445
+[DEBUG] EPOCH 28
+Epoch 28 loss: 468.9653
+[DEBUG] EPOCH 29
+Epoch 29 loss: 451.5586
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.0016965274, 'ATE_std': 0.0008790567, 'PEHE_mean': 0.55790514, 'PEHE_std': 0.0072691515, 'ATE_Abs_Error_mean': 0.014630929, 'ATE_Abs_Error_std': 0.008303158}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0509, ATE_Abs_Error=0.0254
+DML CV (Twins): ATE=0.0007, PEHE=0.3249, ATE_Abs_Error=0.0258
+X-Learner CV (Twins): ATE=0.0050, PEHE=0.3316, ATE_Abs_Error=0.0301
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=0.0013, PEHE=0.3377, ATE_Abs_Error=0.0265
+Interacted LR CV (Twins): ATE=-0.0046, PEHE=0.8691, ATE_Abs_Error=0.0205
+XGBoost CV (Twins): ATE=0.0008, PEHE=0.3263, ATE_Abs_Error=0.0259
+
+*** Experiment: flipping probability p = 0.2 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.2.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 101363.2649
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2867.9620
+[DEBUG] EPOCH 2
+Epoch 2 loss: 28735.7439
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2462.0277
+[DEBUG] EPOCH 4
+Epoch 4 loss: 2297.9956
+[DEBUG] EPOCH 5
+Epoch 5 loss: 2460.4685
+[DEBUG] EPOCH 6
+Epoch 6 loss: 2128.0764
+[DEBUG] EPOCH 7
+Epoch 7 loss: 2074.0457
+[DEBUG] EPOCH 8
+Epoch 8 loss: 2054.9437
+[DEBUG] EPOCH 9
+Epoch 9 loss: 1945.7631
+[DEBUG] EPOCH 10
+Epoch 10 loss: 1937.0814
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1848.3145
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1789.3338
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1717.8470
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1598.3487
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1517.7058
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1456.2954
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1388.8788
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1381.0977
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1336.6577
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1279.9241
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1266.3696
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1233.0214
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1223.0018
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1155.6406
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1167.5376
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1127.4858
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1120.7409
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1076.1883
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1077.9178
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.0007921061, 'ATE_std': 0.0014113762, 'PEHE_mean': 0.5589245, 'PEHE_std': 0.0072490782, 'ATE_Abs_Error_mean': 0.013726506, 'ATE_Abs_Error_std': 0.01008943}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0512, ATE_Abs_Error=0.0257
+DML CV (Twins): ATE=0.0004, PEHE=0.3247, ATE_Abs_Error=0.0255
+X-Learner CV (Twins): ATE=0.0070, PEHE=0.3361, ATE_Abs_Error=0.0321
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=-0.0001, PEHE=0.3370, ATE_Abs_Error=0.0250
+Interacted LR CV (Twins): ATE=0.0111, PEHE=1.0559, ATE_Abs_Error=0.0362
+XGBoost CV (Twins): ATE=-0.0005, PEHE=0.3254, ATE_Abs_Error=0.0246
+
+*** Experiment: flipping probability p = 0.3 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.3.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 106356.8201
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2903.8427
+[DEBUG] EPOCH 2
+Epoch 2 loss: 15463.4043
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2525.6420
+[DEBUG] EPOCH 4
+Epoch 4 loss: 2352.4053
+[DEBUG] EPOCH 5
+Epoch 5 loss: 2448.6846
+[DEBUG] EPOCH 6
+Epoch 6 loss: 2198.7171
+[DEBUG] EPOCH 7
+Epoch 7 loss: 2151.7502
+[DEBUG] EPOCH 8
+Epoch 8 loss: 2132.0040
+[DEBUG] EPOCH 9
+Epoch 9 loss: 2069.8036
+[DEBUG] EPOCH 10
+Epoch 10 loss: 2070.8211
+[DEBUG] EPOCH 11
+Epoch 11 loss: 1991.7075
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1956.7861
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1922.5228
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1873.9362
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1818.1459
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1797.1893
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1766.2398
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1777.8935
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1738.3231
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1721.5179
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1750.5647
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1698.4392
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1714.2875
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1654.9524
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1693.6091
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1640.9845
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1647.3216
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1623.4722
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1619.9452
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.00018623543, 'ATE_std': 0.0011300861, 'PEHE_mean': 0.55987924, 'PEHE_std': 0.006650626, 'ATE_Abs_Error_mean': 0.013120636, 'ATE_Abs_Error_std': 0.007990306}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0514, ATE_Abs_Error=0.0259
+DML CV (Twins): ATE=0.0009, PEHE=0.3251, ATE_Abs_Error=0.0260
+X-Learner CV (Twins): ATE=0.0069, PEHE=0.3388, ATE_Abs_Error=0.0321
+SVM CV (Twins): ATE=-0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=-0.0015, PEHE=0.3396, ATE_Abs_Error=0.0236
+Interacted LR CV (Twins): ATE=0.0012, PEHE=0.8678, ATE_Abs_Error=0.0263
+XGBoost CV (Twins): ATE=0.0011, PEHE=0.3263, ATE_Abs_Error=0.0262
+
+*** Experiment: flipping probability p = 0.4 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.4.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 90755.0359
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2915.2385
+[DEBUG] EPOCH 2
+Epoch 2 loss: 22980.7694
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2532.5775
+[DEBUG] EPOCH 4
+Epoch 4 loss: 2372.4385
+[DEBUG] EPOCH 5
+Epoch 5 loss: 2471.2266
+[DEBUG] EPOCH 6
+Epoch 6 loss: 2197.9079
+[DEBUG] EPOCH 7
+Epoch 7 loss: 2173.1693
+[DEBUG] EPOCH 8
+Epoch 8 loss: 2142.0017
+[DEBUG] EPOCH 9
+Epoch 9 loss: 2082.7847
+[DEBUG] EPOCH 10
+Epoch 10 loss: 2091.6660
+[DEBUG] EPOCH 11
+Epoch 11 loss: 2010.0884
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1982.9278
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1954.6061
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1910.5445
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1848.0461
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1830.9643
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1807.4662
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1812.7596
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1787.4388
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1767.8854
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1774.0485
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1734.6369
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1748.8851
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1692.2887
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1722.0337
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1683.0925
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1680.3847
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1681.4649
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1676.9339
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': 0.00052208576, 'ATE_std': 0.0011621607, 'PEHE_mean': 0.559545, 'PEHE_std': 0.008568626, 'ATE_Abs_Error_mean': 0.012412316, 'ATE_Abs_Error_std': 0.009300646}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0510, ATE_Abs_Error=0.0255
+DML CV (Twins): ATE=0.0010, PEHE=0.3255, ATE_Abs_Error=0.0262
+X-Learner CV (Twins): ATE=0.0091, PEHE=0.3385, ATE_Abs_Error=0.0343
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=0.0001, PEHE=0.3387, ATE_Abs_Error=0.0253
+Interacted LR CV (Twins): ATE=0.0123, PEHE=0.9365, ATE_Abs_Error=0.0375
+XGBoost CV (Twins): ATE=0.0008, PEHE=0.3261, ATE_Abs_Error=0.0259
+
+*** Experiment: flipping probability p = 0.5 ***
+Loaded Twins Z from data/TWINS/processed_z_p0.5.csv
+[DEBUG] EPOCH 0
+Epoch 0 loss: 160289.8241
+[DEBUG] EPOCH 1
+Epoch 1 loss: 2934.0101
+[DEBUG] EPOCH 2
+Epoch 2 loss: 14059.2178
+[DEBUG] EPOCH 3
+Epoch 3 loss: 2509.8311
+[DEBUG] EPOCH 4
+Epoch 4 loss: 2360.4824
+[DEBUG] EPOCH 5
+Epoch 5 loss: 2484.3737
+[DEBUG] EPOCH 6
+Epoch 6 loss: 2204.3764
+[DEBUG] EPOCH 7
+Epoch 7 loss: 2172.4992
+[DEBUG] EPOCH 8
+Epoch 8 loss: 2159.0282
+[DEBUG] EPOCH 9
+Epoch 9 loss: 2091.1769
+[DEBUG] EPOCH 10
+Epoch 10 loss: 2087.8565
+[DEBUG] EPOCH 11
+Epoch 11 loss: 2016.6823
+[DEBUG] EPOCH 12
+Epoch 12 loss: 1985.5663
+[DEBUG] EPOCH 13
+Epoch 13 loss: 1950.0670
+[DEBUG] EPOCH 14
+Epoch 14 loss: 1933.1646
+[DEBUG] EPOCH 15
+Epoch 15 loss: 1861.5785
+[DEBUG] EPOCH 16
+Epoch 16 loss: 1851.9172
+[DEBUG] EPOCH 17
+Epoch 17 loss: 1817.7810
+[DEBUG] EPOCH 18
+Epoch 18 loss: 1813.4139
+[DEBUG] EPOCH 19
+Epoch 19 loss: 1791.3972
+[DEBUG] EPOCH 20
+Epoch 20 loss: 1770.9136
+[DEBUG] EPOCH 21
+Epoch 21 loss: 1792.6235
+[DEBUG] EPOCH 22
+Epoch 22 loss: 1744.7582
+[DEBUG] EPOCH 23
+Epoch 23 loss: 1765.4254
+[DEBUG] EPOCH 24
+Epoch 24 loss: 1709.1542
+[DEBUG] EPOCH 25
+Epoch 25 loss: 1739.7580
+[DEBUG] EPOCH 26
+Epoch 26 loss: 1702.3682
+[DEBUG] EPOCH 27
+Epoch 27 loss: 1711.4991
+[DEBUG] EPOCH 28
+Epoch 28 loss: 1691.9214
+[DEBUG] EPOCH 29
+Epoch 29 loss: 1678.4545
+
+Cross-validation on Test Set Evaluation:
+CEVAE Test CV (Twins): {'ATE_mean': -0.0009082248, 'ATE_std': 0.0012033483, 'PEHE_mean': 0.5586579, 'PEHE_std': 0.007132699, 'ATE_Abs_Error_mean': 0.013842627, 'ATE_Abs_Error_std': 0.009567552}
+
+True causal effects on the test set:
+True ATE (test): -0.025459098
+True ITE (test) snippet: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Running baseline evaluations using utility models via 3-fold CV...
+IPW CV (Twins): ATE=-0.0510, ATE_Abs_Error=0.0255
+DML CV (Twins): ATE=0.0007, PEHE=0.3256, ATE_Abs_Error=0.0258
+X-Learner CV (Twins): ATE=0.0089, PEHE=0.3381, ATE_Abs_Error=0.0340
+SVM CV (Twins): ATE=0.0000, PEHE=0.3218, ATE_Abs_Error=0.0251
+KNN CV (Twins): ATE=0.0000, PEHE=0.3374, ATE_Abs_Error=0.0252
+Interacted LR CV (Twins): ATE=0.0040, PEHE=1.0154, ATE_Abs_Error=0.0292
+XGBoost CV (Twins): ATE=0.0012, PEHE=0.3267, ATE_Abs_Error=0.0264
